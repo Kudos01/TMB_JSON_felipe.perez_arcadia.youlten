@@ -69,7 +69,7 @@ public class Menu {
     }
     public boolean validOption2() {
 
-        return option >= MIN2 && option <= MAX2;
+        return (option == 'a' || option =='b' || option =='c'|| option =='d'|| option =='e'|| option =='f');
     }
 
     public int getOption() {
