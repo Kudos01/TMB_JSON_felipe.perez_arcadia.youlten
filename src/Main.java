@@ -3,6 +3,7 @@
 import DataModel.*;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.sun.source.tree.ArrayAccessTree;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -53,15 +54,51 @@ public class Main {
         Gson gson = new Gson();
         try(Reader reader = new FileReader("resources/localizations.json")) {
 
-            int i=0;
             //make a new type token of type teams, so that we can parse all the teams from the json to an arraylist of type Team
             //Type monumentListType = new TypeToken<ArrayList<Monument>>(){}.getType();
             //Type hotelListType = new TypeToken<ArrayList<Hotel>>(){}.getType();
             //Type restaurantListType = new TypeToken<ArrayList<Restaurant>>(){}.getType();
             //Type locationListType = new TypeToken<ArrayList<Location>>(){}.getType();
 
+            ArrayList<Location> locations = new ArrayList<>();
+            ArrayList<Hotel> hotels = new ArrayList<>();
+            ArrayList<Restaurant> restaurants = new ArrayList<>();
+            ArrayList<Monument> monuments = new ArrayList<>();
+
             Type genericListType = new TypeToken<ArrayList<temp>>(){}.getType();
             ArrayList<temp> generics = gson.fromJson(reader, genericListType);
+
+            for(int i=0; i<generics.size(); i++){
+            /*
+
+            This section is commented as it's more of a guideline than what will actually be implemented
+            I'm not sure 100% how to make it work, but the generics array should be full so
+
+
+                if(){
+                    //if stars is not null
+                    //hotels.add(generics.get(i));
+                }
+                else if(){
+
+                    //if architect is not null
+                    ////monuments.add(generics.get(i));
+
+                }
+                else if(){
+
+                    //if characteristics is not null
+                    //restaurants.add(generics.get(i));
+
+                }
+                else{
+                    //add to location
+                    //locations.add(generics.get(i));
+                }
+
+             */
+
+            }
 
 
 
