@@ -11,7 +11,7 @@ public class FavLocation {
 
     public Date getDate() { return date; }
 
-    public void setType(String type) {//f
+    public void setType(String type) {
         this.type = type;
     }
 
