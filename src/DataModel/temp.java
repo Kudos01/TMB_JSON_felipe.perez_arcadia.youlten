@@ -1,5 +1,7 @@
 package DataModel;
 
+import com.google.gson.JsonArray;
+
 public class temp {
 
     private String name;
@@ -8,6 +10,13 @@ public class temp {
     private String architect;
     private Integer inauguration;
     private Integer stars;
+    private JsonArray characteristics;
+
+    public JsonArray getCharacteristics() { return characteristics; }
+
+    public void setCharacteristics(JsonArray characteristics) {
+        this.characteristics = characteristics;
+    }
 
     public Integer getStars() {
         return stars;

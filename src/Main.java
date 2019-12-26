@@ -2,6 +2,7 @@
 
 import DataModel.*;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.sun.source.tree.ArrayAccessTree;
 
@@ -43,8 +44,6 @@ public class Main {
 
             //System.out.println(ml);
 
-
-
         }catch (IOException e){
             e.printStackTrace();
         }
@@ -66,38 +65,45 @@ public class Main {
             ArrayList<Monument> monuments = new ArrayList<>();
 
             Type genericListType = new TypeToken<ArrayList<temp>>(){}.getType();
+            //TODO: Insta-crash here, not sure why --> maybe json file is messed up?
             ArrayList<temp> generics = gson.fromJson(reader, genericListType);
 
+            //System.out.println(generics);
+
+
             for(int i=0; i<generics.size(); i++){
-            /*
 
-            This section is commented as it's more of a guideline than what will actually be implemented
-            I'm not sure 100% how to make it work, but the generics array should be full so
+                JsonObject tempH = new JsonObject();
+                JsonObject tempM = new JsonObject();
+                JsonObject tempR = new JsonObject();
+                JsonObject tempL = new JsonObject();
 
 
-                if(){
-                    //if stars is not null
-                    //hotels.add(generics.get(i));
+
+                //This section is commented as it's more of a guideline than what will actually be implemented
+            //I'm not sure 100% how to make it work, but the generics array should be full so
+            //TODO: put the information of the location in position i into a json object piece by piece -> then add that json object to the json array
+                // i'm not quite sure how this should work, i'm right about to leave the house and i don't have time to debug sorry bab :(
+
+                if(generics.get(i).getStars() != null){
+                    hotels.add(generics.get(i));
                 }
-                else if(){
+                else if(generics.get(i).getArchitect() != null){
 
                     //if architect is not null
-                    ////monuments.add(generics.get(i));
+                    monuments.add(generics.get(i));
 
                 }
-                else if(){
+                else if(generics.get(i).getCharacteristics() != null){
 
                     //if characteristics is not null
-                    //restaurants.add(generics.get(i));
+                    restaurants.add(generics.get(i));
 
                 }
                 else{
                     //add to location
-                    //locations.add(generics.get(i));
+                    locations.add(generics.get(i));
                 }
-
-             */
-
             }
 
 
