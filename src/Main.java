@@ -49,7 +49,6 @@ public class Main {
         }
         */
 
-
         Gson gson = new Gson();
         try(Reader reader = new FileReader("resources/localizations.json")) {
 
@@ -59,43 +58,89 @@ public class Main {
             //Type restaurantListType = new TypeToken<ArrayList<Restaurant>>(){}.getType();
             //Type locationListType = new TypeToken<ArrayList<Location>>(){}.getType();
 
+            LocationObj locOb = new LocationObj();
             ArrayList<Location> locations = new ArrayList<>();
             ArrayList<Hotel> hotels = new ArrayList<>();
             ArrayList<Restaurant> restaurants = new ArrayList<>();
             ArrayList<Monument> monuments = new ArrayList<>();
+            //Type tempListType = new TypeToken<ArrayList<temp>>(){}.getType();
+            //temp temps = new temp();
+            ArrayList<temp> temps = new ArrayList<>();
 
-            Type genericListType = new TypeToken<ArrayList<temp>>(){}.getType();
-            ArrayList<temp> generics = gson.fromJson(reader, genericListType);
+            //get the json object
+            locOb = gson.fromJson(reader, LocationObj.class);
+            //if you run locOb.getLocations() you get the json list of locations
+
+            //get the json objects of the json array
+            for (int i = 0; i < locOb.getLocations().size(); i++) {
+                temp sub= new temp();
+                sub.setName(locOb.getLocations().get(i).);
+              temps.add(sub);
+
+            }
+
+            System.out.println(temps);
 
             //System.out.println(generics);
 
 
-            for(int i=0; i<generics.size(); i++){
+            //the idea of this part is once you get here, there should be an arraylist of generics (see temp)
+            for(int i=0; i<; i++){
 
                 Hotel tempH = new Hotel();
                 Monument tempM = new Monument();
                 Restaurant tempR = new Restaurant();
-                Location tempL = new Location();
+                Place tempP = new Place();
 
-                if(generics.get(i).getStars() != null){
-                    hotels.add(generics.get(i));
+                if(temps.get(i).getStars() != null){
+
+                    tempH.setName(temps.get(i).getName());
+                    tempH.setCoordinates(temps.get(i).getCoordinates());
+                    tempH.setDescription(temps.get(i).getDescription());
+                    tempH.setStars(temps.get(i).getStars());
+
+                    hotels.add(tempH);
+                    System.out.println(hotels);
                 }
-                else if(generics.get(i).getArchitect() != null){
+                else if(temps.get(i).getArchitect() != null){
+                    /*
 
-                    //if architect is not null
-                    monuments.add(generics.get(i));
+                    tempM.setName(generics.get(i).getName());
+                    tempM.setCoordinates(generics.get(i).getCoordinates());
+                    tempM.setDescription(generics.get(i).getDescription());
+
+                    monuments.add(tempM);
+
+                     */
 
                 }
-                else if(generics.get(i).getCharacteristics() != null){
+                else if(temps.get(i).getCharacteristics() != null){
 
                     //if characteristics is not null
-                    restaurants.add(generics.get(i));
+                    /*
+                    tempR.setName(temps.get(i).getName());
+                    tempR.setCoordinates(temps.get(i).getCoordinates());
+                    tempR.setDescription(temps.get(i).getDescription());
+
+                     restaurants.add(tempR);
+
+                     */
 
                 }
                 else{
                     //add to location
-                    locations.add(generics.get(i));
+                    /*
+                    tempP.setName(temps.get(i).getName());
+                    tempP.setCoordinates(temps.get(i).getCoordinates());
+                    tempP.setDescription(temps.get(i).getDescription());
+
+                    locations.add(tempP);
+                     */
+
                 }
+
+
+
             }
 
 
