@@ -65,7 +65,6 @@ public class Main {
             ArrayList<Monument> monuments = new ArrayList<>();
 
             Type genericListType = new TypeToken<ArrayList<temp>>(){}.getType();
-            //TODO: Insta-crash here, not sure why --> maybe json file is messed up?
             ArrayList<temp> generics = gson.fromJson(reader, genericListType);
 
             //System.out.println(generics);
@@ -73,17 +72,10 @@ public class Main {
 
             for(int i=0; i<generics.size(); i++){
 
-                JsonObject tempH = new JsonObject();
-                JsonObject tempM = new JsonObject();
-                JsonObject tempR = new JsonObject();
-                JsonObject tempL = new JsonObject();
-
-
-
-                //This section is commented as it's more of a guideline than what will actually be implemented
-            //I'm not sure 100% how to make it work, but the generics array should be full so
-            //TODO: put the information of the location in position i into a json object piece by piece -> then add that json object to the json array
-                // i'm not quite sure how this should work, i'm right about to leave the house and i don't have time to debug sorry bab :(
+                Hotel tempH = new Hotel();
+                Monument tempM = new Monument();
+                Restaurant tempR = new Restaurant();
+                Location tempL = new Location();
 
                 if(generics.get(i).getStars() != null){
                     hotels.add(generics.get(i));

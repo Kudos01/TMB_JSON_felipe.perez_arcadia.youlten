@@ -5,12 +5,24 @@ import com.google.gson.JsonArray;
 public class temp {
 
     private String name;
-    private Double[] coords;
+    private Double[] coordinates;
     private String description;
-    private String architect;
-    private Integer inauguration;
     private Integer stars;
     private JsonArray characteristics;
+    private String architect;
+    private Integer inauguration;
+
+    public String getArchitect() { return architect; }
+
+    public Integer getInauguration() { return inauguration; }
+
+    public void setArchitect(String architect) {
+        this.architect = architect;
+    }
+
+    public void setInauguration(Integer inauguration) {
+        this.inauguration = inauguration;
+    }
 
     public JsonArray getCharacteristics() { return characteristics; }
 
@@ -26,19 +38,6 @@ public class temp {
         this.stars = stars;
     }
 
-    public String getArchitect() { return architect; }
-
-    public Integer getInauguration() { return inauguration; }
-
-    public void setArchitect(String architect) {
-        this.architect = architect;
-    }
-
-    public void setInauguration(Integer inauguration) {
-        this.inauguration = inauguration;
-    }
-
-
     public String getName() {
         return name;
     }
@@ -47,12 +46,12 @@ public class temp {
         this.name = name;
     }
 
-    public Double[] getCoords() {
-        return coords;
+    public Double[] getCoordinates() {
+        return coordinates;
     }
 
-    public void setCoords(Double[] coords) {
-        this.coords = coords;
+    public void setCoordinates(Double[] coordinates) {
+        this.coordinates = coordinates;
     }
 
     public String getDescription() {
@@ -62,7 +61,6 @@ public class temp {
     public void setDescription(String description) {
         this.description = description;
     }
-
 
 
 }

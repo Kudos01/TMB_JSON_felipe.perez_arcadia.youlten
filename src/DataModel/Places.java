@@ -1,6 +1,6 @@
 package DataModel;
 
-public abstract class Location {
+public class Places {
 
     private String name;
     private Double[] coordinates;
@@ -29,4 +29,5 @@ public abstract class Location {
     public void setDescription(String description) {
         this.description = description;
     }
+
 }
