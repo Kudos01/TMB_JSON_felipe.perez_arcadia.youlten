@@ -73,9 +73,56 @@ public class Main {
             temps = gson.fromJson(locOb.getLocations(),tempListType);
 
             //System.out.println(temps);
+            //System.out.println(generics);
+
+            //the idea of this part is once you get here, there should be an arraylist of generics (see temp)
+            for(int i=0; i< temps.size(); i++){
+
+                Hotel tempH = new Hotel();
+                Monument tempM = new Monument();
+                Restaurant tempR = new Restaurant();
+                Place tempP = new Place();
+
+                if(temps.get(i).getStars() != null){
+
+                    tempH.setName(temps.get(i).getName());
+                    tempH.setCoordinates(temps.get(i).getCoordinates());
+                    tempH.setDescription(temps.get(i).getDescription());
+                    tempH.setStars(temps.get(i).getStars());
+
+                    hotels.add(tempH);
+                }
+                else if(temps.get(i).getArchitect() != null){
+
+                    tempM.setName(temps.get(i).getName());
+                    tempM.setCoordinates(temps.get(i).getCoordinates());
+                    tempM.setDescription(temps.get(i).getDescription());
+
+                    monuments.add(tempM);
 
 
+                }
+                else if(temps.get(i).getCharacteristics() != null){
 
+                    //if characteristics is not null
+                    tempR.setName(temps.get(i).getName());
+                    tempR.setCoordinates(temps.get(i).getCoordinates());
+                    tempR.setDescription(temps.get(i).getDescription());
+
+                     restaurants.add(tempR);
+
+                }
+                else{
+                    //add to location
+                    tempP.setName(temps.get(i).getName());
+                    tempP.setCoordinates(temps.get(i).getCoordinates());
+                    tempP.setDescription(temps.get(i).getDescription());
+
+                    locations.add(tempP);
+
+                }
+
+            }
 
         }catch (IOException e) {
             e.printStackTrace();
