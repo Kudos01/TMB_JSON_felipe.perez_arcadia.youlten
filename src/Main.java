@@ -118,7 +118,7 @@ public class Main {
                     tempP.setCoordinates(temps.get(i).getCoordinates());
                     tempP.setDescription(temps.get(i).getDescription());
 
-                    locations.add(tempP);
+                    locations.add(tempP); //te
 
                 }
 
