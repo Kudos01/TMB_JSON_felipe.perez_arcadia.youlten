@@ -15,6 +15,7 @@ public class Parser {
     public void parseLocation() {
 
         Gson gson = new Gson();
+        //TODO: check if this is sufficient for checking and exiting program with error message
         try (Reader reader = new FileReader("resources/localizations.json")) {
 
             //make a new type token of type teams, so that we can parse all the teams from the json to an arraylist of type Team

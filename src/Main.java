@@ -19,8 +19,15 @@ import java.util.ArrayList;
 public class Main {
     public static void main(String[] args) throws IOException {
 
+
         Parser parse = new Parser();
+        //parse the json file localizations
         parse.parseLocation();
+        Menu menu = new Menu();
+
+        menu.printIntro();
+        menu.printMenu1();
+
 
         /*
         //https://www.vogella.com/tutorials/JavaLibrary-OkHttp/article.html

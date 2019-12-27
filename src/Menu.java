@@ -1,11 +1,25 @@
+import DataModel.User;
+
+import java.util.Date;
 import java.util.Scanner;
 
 public class Menu {
 
+    //TODO: error handling with nextint --> the program cannot crash!!!
+    //TODO: default string value for option2????
+
     private static final int MIN1 = 1;
-    private static final char MIN2 = 'a';
+    private static final String MIN2 = "a";
     private static final int MAX1 = 5;
-    private static final char MAX2 = 'f';
+    private static final String MAX2 = "f";
+
+    private static final String select = "Select an option: ";
+
+    private static final String intro = "Welcome to the TMBJson application! Please enter the requested information.";
+    private static final String userinfo1 = "Username: ";
+    private static final String userinfo2 = "E-mail: ";
+    private static final String userinfo3 = "Birth Year: ";
+    private static final String flagvalid = "The information has been successfully registered! ";
 
     private static final String option1menu1 = "1. User Management";
     private static final String option2menu1 = "2. Search Location";
@@ -24,16 +38,42 @@ public class Menu {
     private static final String ask = "Select an option: ";
 
 
-    private int option;
+    private int option1;
+    private String option2;
     private Scanner scanner;
+    private Logic logic = new Logic();
 
     public Menu() {
         scanner = new Scanner(System.in);
-        option = -1;
+        option1 = -1;
+    }
+
+
+    public void printIntro(){
+
+        User user = new User();
+        String username;
+        String email;
+        Integer birthday;
+
+        System.out.println("");
+        System.out.println(intro);
+        System.out.println(userinfo1);
+        username = scanner.nextLine();
+        user.setUsername(username);
+        System.out.println(userinfo2);
+        email = scanner.nextLine();
+        user.setEmail(email);
+        System.out.println(userinfo3);
+        birthday = scanner.nextInt();
+        user.setBirthday(birthday);
+        System.out.println(flagvalid);
+        System.out.println("");
+
     }
 
     //prints all of the information related to menu2
-    public void printMenu2() {
+    public void printMenu1() {
         System.out.println("");
         System.out.println(option1menu1);
         System.out.println(option2menu1);
@@ -41,11 +81,14 @@ public class Menu {
         System.out.println(option4menu1);
         System.out.println(exitmenu1);
         System.out.println("");
+        System.out.println(select);
+        option1 = scanner.nextInt();
+        logic.whichOption(option1);
 
     }
 
     //prints all of the info related to menu1
-    public void printMenu1() {
+    public void printMenu2() {
         System.out.println("");
         System.out.println(optionamenu2);
         System.out.println(optionbmenu2);
@@ -54,26 +97,34 @@ public class Menu {
         System.out.println(optionemenu2);
         System.out.println(exitmenu2);
         System.out.println("");
+        System.out.println(select);
+        option2 = scanner.nextLine();
     }
 
-    public boolean exitMenu1() { return option == MAX1; }
-    public boolean exitMenu2() { return option == MAX2; }
+    public boolean exitMenu1() { return option1 == MAX1; }
+    public boolean exitMenu2() { return option2.equalsIgnoreCase(MAX2); }
 
+    /*
     public void askForOption() {
         System.out.println(ask);
         option = scanner.nextInt();
     }
 
+     */
+
     public boolean validOption1() {
-        return option >= MIN1 && option <= MAX1;
+        return option1 >= MIN1 && option1 <= MAX1;
     }
     public boolean validOption2() {
 
-        return (option == 'a' || option =='b' || option =='c'|| option =='d'|| option =='e'|| option =='f');
+        return (option2.equalsIgnoreCase("a") ||option2.equalsIgnoreCase("b")|| option2.equalsIgnoreCase("c")|| option2.equalsIgnoreCase("d")|| option2.equalsIgnoreCase("e")|| option2.equalsIgnoreCase("f"));
     }
 
-    public int getOption() {
-        return option;
+    public int getOption1() {
+        return option1;
+    }
+    public String getOption2() {
+        return option2;
     }
 
 }

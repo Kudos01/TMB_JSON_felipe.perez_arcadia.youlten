@@ -6,13 +6,13 @@ public class User {
 
     private String username;
     private String email;
-    private Date birthday;
+    private Integer birthday;
 
     //getters
 
     public String getUsername() {return username;}
     public String getEmail() {return email;}
-    public Date getBirthday() {return birthday;}
+    public Integer getBirthday() {return birthday;}
 
     //setters
     public void setUsername(String username) {
@@ -23,7 +23,7 @@ public class User {
         this.email = email;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(Integer birthday) {
         this.birthday = birthday;
     }
 }
