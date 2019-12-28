@@ -2,54 +2,6 @@ import java.util.Date;
 
 public class Logic {
 
-    public void whichOptionM1(int option){
-
-        if(option == 1){
-
-        }
-
-        if(option == 2){
-            //searchLocation();
-        }
-        else if(option == 3){
-
-        }
-        else if(option == 4){
-
-        }
-        else if(option == 5){
-
-            //System.out.println();
-
-        }
-    }
-
-    public void whichOptionM2(String option){
-
-        if(option.equalsIgnoreCase("a")){
-
-        }
-        else if(option.equalsIgnoreCase("b")){
-
-            //searchLocation();
-
-        }
-        else if(option.equalsIgnoreCase("c")){
-
-        }
-        else if(option.equalsIgnoreCase("d")){
-
-        }
-        else if(option.equalsIgnoreCase("e")){
-
-        }
-        else if(option.equalsIgnoreCase("f")){
-
-            //System.out.println();
-
-        }
-    }
-
     /*
 
     private void listLocations(){

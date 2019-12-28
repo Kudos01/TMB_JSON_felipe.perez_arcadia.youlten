@@ -43,7 +43,6 @@ public class Menu {
     public Menu() {
         scanner = new Scanner(System.in);
         option1 = -1;
-        option2 = "";
     }
 
 
@@ -80,7 +79,6 @@ public class Menu {
         System.out.println(exitmenu1);
         System.out.println("");
         System.out.println(select);
-        option1 = scanner.nextInt();
     }
 
     //prints all of the info related to menu1
@@ -94,26 +92,24 @@ public class Menu {
         System.out.println(exitmenu2);
         System.out.println("");
         System.out.println(select);
-        option2 = scanner.next();
     }
 
     public boolean exitMenu1() { return option1 == MAX1; }
     public boolean exitMenu2() { return option2.equalsIgnoreCase(MAX2); }
 
-    /*
+
     public void askForOption() {
-        System.out.println(ask);
-        option = scanner.nextInt();
+        option1 = scanner.nextInt();
     }
 
-     */
+    public void askForOptionString() {
+        option2 = scanner.next();
+    }
 
 
     public void whichOptionM1(int option){
 
         if(option ==1){
-
-            printMenu2();
 
         }
         else if(option == 2){

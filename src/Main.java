@@ -19,7 +19,6 @@ import java.util.ArrayList;
 public class Main {
     public static void main(String[] args) throws IOException {
 
-
         //TODO: goal for next couple sessions -> program various menu options
         //start with whatever you wish to start with, i've added some menu stuff, so it should be more or less straight
         //forward to try and implement stuff.
@@ -36,18 +35,18 @@ public class Main {
         menu.printIntro();
 
         do{
+
             menu.printMenu1();
+            menu.askForOption();
             menu.whichOptionM1(menu.getOption1());
 
-            do{
-
-                if(menu.getOption1() == 1){
+            if(menu.getOption1() == 1) {
+                do {
                     menu.printMenu2();
+                    menu.askForOptionString();
                     menu.whichOptionM2(menu.getOption2());
-                }
-
-            }while(!menu.exitMenu2());
-
+                }while (!menu.getOption2().equals("f"));
+            }
 
         }while(!menu.exitMenu1());
 
