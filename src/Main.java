@@ -35,15 +35,28 @@ public class Main {
         menu.printIntro();
 
         do{
+                menu.printMenu1();
+                menu.askForOption();
 
-            menu.printMenu1();
-            menu.askForOption();
-            menu.whichOptionM1(menu.getOption1());
+                while(!menu.validOption1()){
+                    System.out.println("Please Insert a valid option");
+                    menu.printMenu1();
+                    menu.askForOption();
+                }
+
+                menu.whichOptionM1(menu.getOption1());
 
             if(menu.getOption1() == 1) {
                 do {
                     menu.printMenu2();
                     menu.askForOptionString();
+
+                    while (!menu.validOption2()){
+                        System.out.println("Please Insert a valid option");
+                        menu.printMenu2();
+                        menu.askForOptionString();
+                    }
+
                     menu.whichOptionM2(menu.getOption2());
                 }while (!menu.getOption2().equals("f"));
             }

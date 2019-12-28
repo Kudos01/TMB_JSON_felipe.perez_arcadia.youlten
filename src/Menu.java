@@ -99,10 +99,12 @@ public class Menu {
 
 
     public void askForOption() {
+
         if(scanner.hasNextInt()){
             option1 = scanner.nextInt();
         }
         else{
+            scanner.next();
             option1 = 0;
         }
     }
