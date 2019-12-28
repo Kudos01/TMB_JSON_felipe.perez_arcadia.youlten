@@ -6,7 +6,6 @@ import java.util.Scanner;
 public class Menu {
 
     //TODO: error handling with nextint --> the program cannot crash!!!
-    //TODO: default string value for option2????
 
     private static final int MIN1 = 1;
     private static final String MIN2 = "a";
@@ -83,7 +82,7 @@ public class Menu {
         System.out.println("");
         System.out.println(select);
         option1 = scanner.nextInt();
-        logic.whichOption(option1);
+        logic.whichOptionM1(option1);
 
     }
 
@@ -99,6 +98,7 @@ public class Menu {
         System.out.println("");
         System.out.println(select);
         option2 = scanner.nextLine();
+        logic.whichOptionM2(option2);
     }
 
     public boolean exitMenu1() { return option1 == MAX1; }

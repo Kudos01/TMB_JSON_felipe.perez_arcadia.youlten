@@ -2,18 +2,12 @@ import java.util.Date;
 
 public class Logic {
 
-
-
-    public void whichOption(int option){
+    public void whichOptionM1(int option){
 
         if(option ==1){
 
             Menu menu = new Menu();
-
-            //TODO: Characters
-
             menu.printMenu2();
-
 
         }
         else if(option == 2){
@@ -28,6 +22,35 @@ public class Logic {
 
         }
         else if(option == 5){
+
+            //System.out.println();
+
+        }
+    }
+
+    public void whichOptionM2(String option){
+
+        if(option.equalsIgnoreCase("a")){
+
+            Menu menu = new Menu();
+            menu.printMenu2();
+
+        }
+        else if(option.equalsIgnoreCase("b")){
+
+            //searchLocation();
+
+        }
+        else if(option.equalsIgnoreCase("c")){
+
+        }
+        else if(option.equalsIgnoreCase("d")){
+
+        }
+        else if(option.equalsIgnoreCase("e")){
+
+        }
+        else if(option.equalsIgnoreCase("f")){
 
             //System.out.println();
 
