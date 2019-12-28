@@ -34,17 +34,16 @@ public class Menu {
 
     private static final String exitmenu2 = "f) Back to the principal menu";
     private static final String exitmenu1 = "5: Exit";
-    private static final String ask = "Select an option: ";
 
 
     private int option1;
     private String option2;
     private Scanner scanner;
-    private Logic logic = new Logic();
 
     public Menu() {
         scanner = new Scanner(System.in);
         option1 = -1;
+        option2 = "";
     }
 
 
@@ -95,7 +94,7 @@ public class Menu {
         System.out.println(exitmenu2);
         System.out.println("");
         System.out.println(select);
-        option2 = scanner.nextLine();
+        option2 = scanner.next();
     }
 
     public boolean exitMenu1() { return option1 == MAX1; }
