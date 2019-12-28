@@ -149,8 +149,6 @@ public class Menu {
 
         if(option.equalsIgnoreCase("a")){
 
-            printMenu2();
-
         }
         else if(option.equalsIgnoreCase("b")){
 
