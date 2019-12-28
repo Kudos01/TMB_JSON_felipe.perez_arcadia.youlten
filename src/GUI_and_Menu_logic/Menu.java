@@ -42,7 +42,6 @@ public class Menu {
     private static final String exitmenu1 = "5: Exit";
 
     ArrayList<Location> userLocations = new ArrayList<>();
-    Location newUserLocation = new Place();
 
 
     private int option1;
@@ -126,10 +125,7 @@ public class Menu {
 
     public void whichOptionM1(int option){
 
-        if(option ==1){
-
-        }
-        else if(option == 2){
+        if(option == 2){
             //searchLocation();
         }
         else if(option == 3){
@@ -148,6 +144,8 @@ public class Menu {
     public void whichOptionM2(String option){
 
         if(option.equalsIgnoreCase("a")){
+
+            logic.listLocations(userLocations);
 
         }
         else if(option.equalsIgnoreCase("b")){
@@ -186,95 +184,6 @@ public class Menu {
         return option2;
     }
 
-    void userCreateLocation(){
 
-        String name;
-        Double[] coordinates = new Double[2];
-        String description;
-
-        System.out.println("Location Name:");
-        name = scanner.nextLine();
-
-        ArrayList<Location> dummy = new ArrayList();
-
-        while(validLocationName(name, dummy) ){
-            System.out.println("");
-            System.out.println("Error: This location already exists.");
-            System.out.println("");
-
-            System.out.println("Location Name:");
-            name = scanner.nextLine();
-        }
-
-        System.out.println("");
-        System.out.println("Longitude: ");
-        coordinates[0] = scanner.nextDouble();
-
-        while(!validLocationCoords0(coordinates[0])){
-
-            System.out.println("");
-            System.out.println("Error! The longitude is not valid");
-            System.out.println("");
-            System.out.println("Longitude: ");
-            coordinates[0] = scanner.nextDouble();
-
-        }
-
-        System.out.println("");
-        System.out.println("Latitude: ");
-        coordinates[1] = scanner.nextDouble();
-
-        while(!validLocationCoords1(coordinates[1])){
-
-            System.out.println("");
-            System.out.println("Error! The longitude is not valid");
-            System.out.println("");
-            System.out.println("Longitude: ");
-            coordinates[1] = scanner.nextDouble();
-
-        }
-
-        System.out.println("");
-        System.out.println("Description: ");
-        description = scanner.nextLine();
-
-        newUserLocation = logic.createNewLocation(name, coordinates, description);
-        userLocations.add(newUserLocation);
-
-        System.out.println("");
-        System.out.println("This information has been successfully registered!");
-        System.out.println("");
-        for (int i = 0; i < userLocations.size() ; i++) {
-            System.out.println("-"+userLocations.get(i).getName());
-        }
-
-    }
-
-    private boolean validLocationName(String name, ArrayList<Location> allLocations ){
-
-        boolean tof = false;
-
-        for (int i = 0; i < allLocations.size(); i++) {
-            if(name.equalsIgnoreCase(allLocations.get(i).getName())){
-                tof = true;
-            }
-
-        }
-
-        return tof;
-
-    }
-
-    private boolean validLocationCoords0(Double coordinate){
-
-        return (true);
-
-    }
-
-    private boolean validLocationCoords1(Double coordinate){
-
-        return (true);
-
-    }
 
 }

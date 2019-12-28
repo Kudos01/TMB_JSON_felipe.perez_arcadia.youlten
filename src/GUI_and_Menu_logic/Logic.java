@@ -6,8 +6,22 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
 
+//TODO: get min max values for latitude somehow
+//TODO: find a way to maintain the values in arraylist for user input locations
+//TODO: find out a way to maintain allLocations arraylist
+
+/*
+private static final double minlat = ;
+private static final double maxlat = ;
+private static final double minlong = ;
+private static final double maxlong = ;
+
+ */
+
 public class Logic {
 
+    ArrayList<Location> userLocations = new ArrayList<>();
+    Location newUserLocation = new Place();
     private Scanner scanner;
 
     public Logic() {
@@ -15,8 +29,7 @@ public class Logic {
     }
 
 
-
-    private void listLocations(ArrayList<Location> userLocations){
+    void listLocations(ArrayList<Location> userLocations){
 
         String yesorno;
 
@@ -34,35 +47,128 @@ public class Logic {
                 System.out.println("");
                 System.out.println("Want to create a new location? (yes/no)");
                 yesorno = scanner.nextLine();
-                if(yesorno.equalsIgnoreCase("yes")){
 
-                    Menu menu = new Menu();
-                    menu.userCreateLocation();
+                while(!yesorno.equalsIgnoreCase("no") && !yesorno.equalsIgnoreCase("yes")){
+
+                    System.out.println("");
+                    System.out.println("Error! you must enter yes or no!");
+                    System.out.println("");
+                    System.out.println("Want to create a new location? (yes/no)");
+                    yesorno = scanner.nextLine();
+
 
                 }
+                if(yesorno.equalsIgnoreCase("yes")){
+                    userCreateLocation();
+                }
+
                 else if(yesorno.equalsIgnoreCase("no")){
 
-
                 }
-                else{
-
-
-                }
-
+            }
 
         }
 
-    }
 
-
-     Location createNewLocation(String name, Double[] coordinates, String description){
+    Location createNewLocation(String name, Double[] coordinates, String description){
 
         Place newPlace = new Place();
         newPlace.setName(name);
         newPlace.setCoordinates(coordinates);
         newPlace.setDescription(description);
 
-       return newPlace;
+        return newPlace;
+    }
+
+    void userCreateLocation(){
+
+        String name;
+        Double[] coordinates = new Double[2];
+        String description;
+
+        System.out.println("Location Name:");
+        name = scanner.nextLine();
+
+        ArrayList<Location> dummy = new ArrayList();
+
+        while(validLocationName(name, dummy) ){
+            System.out.println("");
+            System.out.println("Error: This location already exists.");
+            System.out.println("");
+
+            System.out.println("Location Name:");
+            name = scanner.nextLine();
+        }
+
+        System.out.println("");
+        System.out.println("Longitude: ");
+        coordinates[0] = scanner.nextDouble();
+
+        while(!validLocationCoords0(coordinates[0])){
+
+            System.out.println("");
+            System.out.println("Error! The longitude is not valid");
+            System.out.println("");
+            System.out.println("Longitude: ");
+            coordinates[0] = scanner.nextDouble();
+
+        }
+
+        System.out.println("");
+        System.out.println("Latitude: ");
+        coordinates[1] = scanner.nextDouble();
+
+        while(!validLocationCoords1(coordinates[1])){
+
+            System.out.println("");
+            System.out.println("Error! The longitude is not valid");
+            System.out.println("");
+            System.out.println("Longitude: ");
+            coordinates[1] = scanner.nextDouble();
+
+
+        }
+        System.out.println("");
+        System.out.println("Description: ");
+        scanner.nextLine();
+        description = scanner.nextLine();
+
+        newUserLocation =createNewLocation(name, coordinates, description);
+        userLocations.add(newUserLocation);
+
+        System.out.println("");
+        System.out.println("This information has been successfully registered!");
+        System.out.println("");
+        for (int i = 0; i < userLocations.size(); i++) {
+            System.out.println("-"+userLocations.get(i).getName());
+        }
+
+    }
+
+    private boolean validLocationName(String name, ArrayList<Location> allLocations ){
+
+        boolean tof = false;
+
+        for (int i = 0; i < allLocations.size(); i++) {
+            if(name.equalsIgnoreCase(allLocations.get(i).getName())){
+                tof = true;
+            }
+
+        }
+
+        return tof;
+
+    }
+
+    private boolean validLocationCoords0(Double coordinate){
+
+        return (true);
+
+    }
+
+    private boolean validLocationCoords1(Double coordinate){
+
+        return (true);
 
     }
 

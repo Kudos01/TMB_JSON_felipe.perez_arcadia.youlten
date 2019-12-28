@@ -7,6 +7,7 @@ import com.google.gson.reflect.TypeToken;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
@@ -30,6 +31,7 @@ public class Parser {
             ArrayList<temp> temps = new ArrayList<>();
 
             //get the json object
+            ArrayList<Location> allLocations= new ArrayList<>();
             locOb = gson.fromJson(reader, LocationObj.class);
             //if you run locOb.getLocations() you get the json list of locations
             temps = gson.fromJson(locOb.getLocations(), tempListType);
@@ -53,6 +55,7 @@ public class Parser {
                     tempH.setStars(temps.get(i).getStars());
 
                     hotels.add(tempH);
+                    allLocations.add(tempH);
                 } else if (temps.get(i).getArchitect() != null) {
 
                     tempM.setName(temps.get(i).getName());
@@ -60,6 +63,7 @@ public class Parser {
                     tempM.setDescription(temps.get(i).getDescription());
 
                     monuments.add(tempM);
+                    allLocations.add(tempM);
 
 
                 } else if (temps.get(i).getCharacteristics() != null) {
@@ -70,6 +74,7 @@ public class Parser {
                     tempR.setDescription(temps.get(i).getDescription());
 
                     restaurants.add(tempR);
+                    allLocations.add(tempR);
 
                 } else {
                     //add to location
@@ -78,10 +83,12 @@ public class Parser {
                     tempP.setDescription(temps.get(i).getDescription());
 
                     locations.add(tempP);
+                    allLocations.add(tempP);
 
                 }
 
             }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
