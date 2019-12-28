@@ -184,6 +184,4 @@ public class Menu {
         return option2;
     }
 
-
-
 }

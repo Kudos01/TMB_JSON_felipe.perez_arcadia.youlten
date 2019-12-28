@@ -62,7 +62,9 @@ public class Logic {
                     userCreateLocation();
                 }
 
+                }
                 else if(yesorno.equalsIgnoreCase("no")){
+
 
                 }
             }
@@ -70,7 +72,7 @@ public class Logic {
         }
 
 
-    Location createNewLocation(String name, Double[] coordinates, String description){
+     Location createNewLocation(String name, Double[] coordinates, String description){
 
         Place newPlace = new Place();
         newPlace.setName(name);

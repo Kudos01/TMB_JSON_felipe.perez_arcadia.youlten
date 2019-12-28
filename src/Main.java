@@ -19,25 +19,26 @@ public class Main {
 
 
         //love u <3 :kiss:
+        //Love u too babe :KISSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS & Hug & CUUUUUDDDLEEEEE:
 
-        //Parser parse = new Parser();
         //parse the json file localizations
-        //parse.parseLocation();
+        JSONParser parser = new JSONParser();
+        parser.parseLocations();
         Menu menu = new Menu();
 
         menu.printIntro();
 
         do{
+            menu.printMenu1();
+            menu.askForOption();
+
+            while(!menu.validOption1()){
+                System.out.println("Please Insert a valid option");
                 menu.printMenu1();
                 menu.askForOption();
+            }
 
-                while(!menu.validOption1()){
-                    System.out.println("Please Insert a valid option");
-                    menu.printMenu1();
-                    menu.askForOption();
-                }
-
-                menu.whichOptionM1(menu.getOption1());
+            menu.whichOptionM1(menu.getOption1());
 
             if(menu.getOption1() == 1) {
                 do {
@@ -53,10 +54,7 @@ public class Main {
                     menu.whichOptionM2(menu.getOption2());
                 }while (!menu.getOption2().equals("f"));
             }
-
         }while(!menu.exitMenu1());
-
-
 
 
         /*
@@ -88,10 +86,6 @@ public class Main {
             e.printStackTrace();
         }
         */
-
-
-
-
 
         }
 
