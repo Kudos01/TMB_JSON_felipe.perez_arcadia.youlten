@@ -82,8 +82,6 @@ public class Menu {
         System.out.println("");
         System.out.println(select);
         option1 = scanner.nextInt();
-        logic.whichOptionM1(option1);
-
     }
 
     //prints all of the info related to menu1
@@ -98,7 +96,6 @@ public class Menu {
         System.out.println("");
         System.out.println(select);
         option2 = scanner.nextLine();
-        logic.whichOptionM2(option2);
     }
 
     public boolean exitMenu1() { return option1 == MAX1; }
@@ -112,11 +109,63 @@ public class Menu {
 
      */
 
+
+    public void whichOptionM1(int option){
+
+        if(option ==1){
+
+            printMenu2();
+
+        }
+        else if(option == 2){
+            //searchLocation();
+        }
+        else if(option == 3){
+
+        }
+        else if(option == 4){
+
+        }
+        else if(option == 5){
+
+            System.out.println("Thanks for using our program!");
+
+        }
+    }
+
+    public void whichOptionM2(String option){
+
+        if(option.equalsIgnoreCase("a")){
+
+            printMenu2();
+
+        }
+        else if(option.equalsIgnoreCase("b")){
+
+            //searchLocation();
+
+        }
+        else if(option.equalsIgnoreCase("c")){
+
+        }
+        else if(option.equalsIgnoreCase("d")){
+
+        }
+        else if(option.equalsIgnoreCase("e")){
+
+        }
+        else if(option.equalsIgnoreCase("f")){
+
+            //System.out.println();
+
+        }
+    }
+
+
     public boolean validOption1() {
         return option1 >= MIN1 && option1 <= MAX1;
     }
     public boolean validOption2() {
-
         return (option2.equalsIgnoreCase("a") ||option2.equalsIgnoreCase("b")|| option2.equalsIgnoreCase("c")|| option2.equalsIgnoreCase("d")|| option2.equalsIgnoreCase("e")|| option2.equalsIgnoreCase("f"));
     }
 

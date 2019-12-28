@@ -4,16 +4,12 @@ public class Logic {
 
     public void whichOptionM1(int option){
 
-        if(option ==1){
-
-            Menu menu = new Menu();
-            menu.printMenu2();
+        if(option == 1){
 
         }
-        else if(option == 2){
 
+        if(option == 2){
             //searchLocation();
-
         }
         else if(option == 3){
 
@@ -31,9 +27,6 @@ public class Logic {
     public void whichOptionM2(String option){
 
         if(option.equalsIgnoreCase("a")){
-
-            Menu menu = new Menu();
-            menu.printMenu2();
 
         }
         else if(option.equalsIgnoreCase("b")){
@@ -101,14 +94,6 @@ public class Logic {
 
 
     }
-
-
-
-
     */
-
-
-
-
 }
 

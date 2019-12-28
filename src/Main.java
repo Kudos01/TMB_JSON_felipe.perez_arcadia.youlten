@@ -28,14 +28,29 @@ public class Main {
 
         //love u <3 :kiss:
 
-        Parser parse = new Parser();
+        //Parser parse = new Parser();
         //parse the json file localizations
-        parse.parseLocation();
+        //parse.parseLocation();
         Menu menu = new Menu();
 
         menu.printIntro();
-        menu.printMenu1();
-        //menu.printMenu2();
+
+        do{
+            menu.printMenu1();
+            menu.whichOptionM1(menu.getOption1());
+
+            do{
+
+                if(menu.getOption1() == 1){
+                    menu.printMenu2();
+                    menu.whichOptionM2(menu.getOption2());
+                }
+
+            }while(!menu.exitMenu2());
+
+
+        }while(!menu.exitMenu1());
+
 
 
 
