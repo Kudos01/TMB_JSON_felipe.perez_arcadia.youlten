@@ -1,6 +1,8 @@
-import DataModel.User;
+package GUI_and_Menu_logic;
 
-import java.util.Date;
+import DataModel.User;
+import GUI_and_Menu_logic.Logic;
+
 import java.util.Scanner;
 
 public class Menu {
@@ -174,6 +176,32 @@ public class Menu {
     }
     public String getOption2() {
         return option2;
+    }
+
+    void userCreateLocation(){
+
+        String name;
+        Double[] coordinates = new Double[2];
+        String description;
+
+        System.out.println("Location Name:");
+        name = scanner.nextLine();
+
+        System.out.println("");
+        System.out.println("Longitude: ");
+        coordinates[0] = scanner.nextDouble();
+
+        System.out.println("");
+        System.out.println("Latitude: ");
+        coordinates[1] = scanner.nextDouble();
+
+        System.out.println("");
+        System.out.println("Description: ");
+        description = scanner.nextLine();
+
+        logic.createNewLocation(name, coordinates, description);
+
+
     }
 
 }
