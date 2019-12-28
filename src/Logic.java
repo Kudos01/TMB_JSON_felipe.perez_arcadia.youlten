@@ -2,16 +2,23 @@ import java.util.Date;
 
 public class Logic {
 
+
+
     public void whichOption(int option){
 
         if(option ==1){
 
+            Menu menu = new Menu();
+
+            //TODO: Characters
+
+            menu.printMenu2();
 
 
         }
         else if(option == 2){
 
-            searchLocation()
+            //searchLocation();
 
         }
         else if(option == 3){
@@ -23,10 +30,6 @@ public class Logic {
         else if(option == 5){
 
             //System.out.println();
-
-        }
-        else{
-            System.out.println("error boiiiiiiiii");
 
         }
     }
