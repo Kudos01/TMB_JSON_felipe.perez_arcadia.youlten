@@ -1,6 +1,6 @@
 package GUI_and_Menu_logic;
 
-import DataModel.Location;
+import DataModel.*;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,57 +14,6 @@ public class Logic {
         scanner = new Scanner(System.in);
     }
 
-    public void whichOptionM1(int option){
-
-        if(option ==1){
-
-            Menu menu = new Menu();
-            menu.printMenu2();
-
-        }
-        else if(option == 2){
-
-            //searchLocation();
-
-        }
-        else if(option == 3){
-
-        }
-        else if(option == 4){
-
-        }
-        else if(option == 5){
-
-            //System.out.println();
-
-        }
-    }
-
-    public void whichOptionM2(String option){
-
-        if(option.equalsIgnoreCase("a")){
-            //listLocations();
-        }
-        else if(option.equalsIgnoreCase("b")){
-
-            //searchLocation();
-
-        }
-        else if(option.equalsIgnoreCase("c")){
-
-        }
-        else if(option.equalsIgnoreCase("d")){
-
-        }
-        else if(option.equalsIgnoreCase("e")){
-
-        }
-        else if(option.equalsIgnoreCase("f")){
-
-            //System.out.println();
-
-        }
-    }
 
 
     private void listLocations(ArrayList<Location> userLocations){
@@ -106,9 +55,14 @@ public class Logic {
     }
 
 
+     Location createNewLocation(String name, Double[] coordinates, String description){
 
-    void createNewLocation(String name, Double[] coordinates, String description){
+        Place newPlace = new Place();
+        newPlace.setName(name);
+        newPlace.setCoordinates(coordinates);
+        newPlace.setDescription(description);
 
+       return newPlace;
 
     }
 

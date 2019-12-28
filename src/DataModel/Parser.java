@@ -19,18 +19,13 @@ public class Parser {
         try (Reader reader = new FileReader("resources/localizations.json")) {
 
             //make a new type token of type teams, so that we can parse all the teams from the json to an arraylist of type Team
-            //Type monumentListType = new TypeToken<ArrayList<Monument>>(){}.getType();
-            //Type hotelListType = new TypeToken<ArrayList<Hotel>>(){}.getType();
-            //Type restaurantListType = new TypeToken<ArrayList<Restaurant>>(){}.getType();
-            //Type locationListType = new TypeToken<ArrayList<Location>>(){}.getType();
 
             LocationObj locOb = new LocationObj();
             ArrayList<Location> locations = new ArrayList<>();
             ArrayList<Hotel> hotels = new ArrayList<>();
             ArrayList<Restaurant> restaurants = new ArrayList<>();
             ArrayList<Monument> monuments = new ArrayList<>();
-            Type tempListType = new TypeToken<ArrayList<temp>>() {
-            }.getType();
+            Type tempListType = new TypeToken<ArrayList<temp>>() {}.getType();
             //temp temps = new temp();
             ArrayList<temp> temps = new ArrayList<>();
 
