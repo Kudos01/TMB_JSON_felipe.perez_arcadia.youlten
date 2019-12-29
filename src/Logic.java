@@ -1,7 +1,9 @@
 import DataModel.*;
-import com.sun.tools.javac.Main;
+import Exceptions.locationNotFoundException;
+import Exceptions.noStationsBirthdayException;
+import Web_Services.API;
+import Web_Services.MetroStation;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -22,6 +24,7 @@ private static final double maxlong = 4.384272;
 public class Logic {
 
     private User user;
+    private API api;
     private final Scanner scanner = new Scanner(System.in);
 
     public ArrayList<Location> allLocations;
@@ -365,6 +368,30 @@ public class Logic {
     }
 
 
+    public void stationsInauguratedByBirthYear(){
+
+        ArrayList<MetroStation> birthday_stations = new ArrayList<>();
+
+        try{
+
+        birthday_stations = api.apiGetStationInauguration(user.getBirthday());
+
+            for (int i = 0; i < birthday_stations.size() ; i++) {
+
+                System.out.println("");
+                System.out.println("Stations inaugurated by " + user.getBirthday());
+                //System.out.println("\t" + "-" + birthday_stations.get(i).getName());
+
+            }
+
+        } catch (noStationsBirthdayException e) {
+            e.printErrorMessage();
+        }
+
+
+    }
+
+
     public void whichOptionM1(int option){
 
         if(option == 2){
@@ -400,6 +427,8 @@ public class Logic {
 
         }
         else if(option.equalsIgnoreCase("e")){
+
+            stationsInauguratedByBirthYear();
 
         }
         else if(option.equalsIgnoreCase("f")){
