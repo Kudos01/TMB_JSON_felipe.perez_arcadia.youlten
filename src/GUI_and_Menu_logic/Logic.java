@@ -195,7 +195,8 @@ public class Logic {
 
                     System.out.println("Characteristics: ");
                     //TODO: how to get all characteristics
-                    //System.out.print((Restaurant) allLocations.get(pos).getCharacteristics());
+                    //System.out.print(Arrays.toString(((Restaurant) allLocations.get(pos)).getCharacteristics()));
+
                 }
 
             }
