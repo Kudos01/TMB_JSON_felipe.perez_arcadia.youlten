@@ -11,6 +11,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
 
         //TODO: goal for next couple sessions -> program various menu options
+        //TODO: add exception prevention for
         //start with whatever you wish to start with, i've added some menu stuff, so it should be more or less straight
         //forward to try and implement stuff.
         //see the other files for the other todos;
