@@ -213,57 +213,57 @@ public class Logic {
 
         name = scanner.nextLine();
 
-
         try {
             pos = checkLocationExist(name);
+            searchedLocations.add(allLocations.get(pos));
+            System.out.println("Coordinates:"+""+ Arrays.toString(allLocations.get(pos).getCoordinates()));
+            System.out.println("Description:");
+            System.out.println(allLocations.get(pos).getDescription());
+
+            if(allLocations.get(pos) instanceof Restaurant){
+
+                for (int i = 0; i < ((Restaurant) allLocations.get(pos)).getCharacteristics().size(); i++) {
+                    System.out.println("Characteristics: ");
+                    System.out.print(((Restaurant) allLocations.get(pos)).getCharacteristics());
+                }
+
+            }
+            else if(allLocations.get(pos) instanceof Hotel){
+
+                System.out.println("Stars: " + ((Hotel) allLocations.get(pos)).getStars());
+
+            }
+            else if(allLocations.get(pos) instanceof Monument){
+
+                System.out.println("Architect: " + ((Monument) allLocations.get(pos)).getArchitect());
+                System.out.println("Inauguration: " + ((Monument) allLocations.get(pos)).getInauguration());
+
+            }
+
+            System.out.println("");
+            System.out.println("Do you want to set the found location as your favorite? (yes/no)");
+            String yesorno = scanner.nextLine();
+
+            while(!yesorno.equalsIgnoreCase("no") && !yesorno.equalsIgnoreCase("yes")){
+                System.out.println("");
+                System.out.println("Error! you must enter yes or no!");
+                System.out.println("");
+                System.out.println("Do you want to set the found location as your favorite? (yes/no)");
+                yesorno = scanner.nextLine();
+            }
+
+            if(yesorno.equalsIgnoreCase("yes")){
+                userSetFaveLocation(allLocations.get(pos));
+            }
+
+            else if(yesorno.equalsIgnoreCase("no")) {
+
+            }
+
         } catch (locationNotFoundException e) {
             e.printErrorMessage();
         }
 
-        searchedLocations.add(allLocations.get(pos));
-        System.out.println("Coordinates:"+""+ Arrays.toString(allLocations.get(pos).getCoordinates()));
-        System.out.println("Description:");
-        System.out.println(allLocations.get(pos).getDescription());
-
-        if(allLocations.get(pos) instanceof Restaurant){
-
-            for (int i = 0; i < ((Restaurant) allLocations.get(pos)).getCharacteristics().size(); i++) {
-                System.out.println("Characteristics: ");
-                System.out.print(((Restaurant) allLocations.get(pos)).getCharacteristics());
-            }
-
-        }
-        else if(allLocations.get(pos) instanceof Hotel){
-
-            System.out.println("Stars: " + ((Hotel) allLocations.get(pos)).getStars());
-
-        }
-        else if(allLocations.get(pos) instanceof Monument){
-
-            System.out.println("Architect: " + ((Monument) allLocations.get(pos)).getArchitect());
-            System.out.println("Inauguration: " + ((Monument) allLocations.get(pos)).getInauguration());
-
-        }
-
-        System.out.println("");
-        System.out.println("Do you want to set the found location as your favorite? (yes/no)");
-        String yesorno = scanner.nextLine();
-
-        while(!yesorno.equalsIgnoreCase("no") && !yesorno.equalsIgnoreCase("yes")){
-            System.out.println("");
-            System.out.println("Error! you must enter yes or no!");
-            System.out.println("");
-            System.out.println("Do you want to set the found location as your favorite? (yes/no)");
-            yesorno = scanner.nextLine();
-        }
-
-        if(yesorno.equalsIgnoreCase("yes")){
-            userSetFaveLocation(allLocations.get(pos));
-        }
-
-        else if(yesorno.equalsIgnoreCase("no")) {
-
-        }
 
     }
 
@@ -277,11 +277,11 @@ public class Logic {
                 pos = i;
             }
         }
-        
+
         if (pos == -1){
             throw new locationNotFoundException();
         }
-        
+
         return pos;
     }
 
@@ -290,7 +290,7 @@ public class Logic {
         System.out.println("");
         System.out.println("Type (home / work / studies / leisure / culture):");
         String type = scanner.nextLine();
-        //**********************************************************************************************************
+        //************************************
 
         while(!(type.equalsIgnoreCase("home") || type.equalsIgnoreCase("work") || type.equalsIgnoreCase("studies") || type.equalsIgnoreCase("leisure") ||type.equalsIgnoreCase("culture")  )){
             System.out.println("");
@@ -345,7 +345,24 @@ public class Logic {
         System.out.println(location.getName()+" had been added as a new favorite location");
     }
 
+    private void locationHistory() {
 
+        if (!searchedLocations.isEmpty()) {
+
+            for (int i = 0; i < searchedLocations.size(); i++) {
+                System.out.println("");
+                System.out.println("Searched Locations:");
+                System.out.println("\t" + "-" + searchedLocations.get(i).getName());
+            }
+        }
+        else{
+            System.out.println("");
+            System.out.println("You have not searched for any locations!");
+            System.out.println("To search for one, access option 2 in the principal menu.");
+
+        }
+
+    }
 
 
     public void whichOptionM1(int option){
@@ -372,6 +389,8 @@ public class Logic {
         }
 
         else if(option.equalsIgnoreCase("b")){
+
+            locationHistory();
 
         }
         else if(option.equalsIgnoreCase("c")){
@@ -422,10 +441,5 @@ public class Logic {
 
     }
 
-
-
-
     */
-
 }
-
