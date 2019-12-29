@@ -111,4 +111,29 @@ public class API {
             e.printStackTrace();
         }
     }
+
+    public ArrayList<BusLine> getStops(Integer stopCode){
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("https://api.tmb.cat/v1/ibus/stops/");
+        sb.append(stopCode);
+        sb.append("?app_id=41936f32&app_key=3c5639afc8280c17cb4f633b78de717b");
+        String url = sb.toString();
+
+        Request request = new Request.Builder().url(url).build();
+        ArrayList<BusLine> closeBuses = new ArrayList<>();
+
+        //check bus lines + api
+
+        /*
+
+
+
+         */
+
+        return closeBuses;
+
+    }
+
+
 }

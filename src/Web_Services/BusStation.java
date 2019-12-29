@@ -25,6 +25,7 @@ public class BusStation {
         this.street_name = busStation.get("properties").getAsJsonObject().get("NOM_VIA").getAsString();
     }
 
+
     public Double[] getCoordinates() {
         return coordinates;
     }

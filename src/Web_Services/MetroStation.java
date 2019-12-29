@@ -12,6 +12,7 @@ public class MetroStation {
     private String date_inaugurated;
 
 
+
     public MetroStation(JsonObject metroStation){
         this.coordinates[0] = metroStation.get("geometry").getAsJsonObject().get("coordinates").getAsJsonArray().get(0).getAsDouble();
         this.coordinates[1] = metroStation.get("geometry").getAsJsonObject().get("coordinates").getAsJsonArray().get(1).getAsDouble();

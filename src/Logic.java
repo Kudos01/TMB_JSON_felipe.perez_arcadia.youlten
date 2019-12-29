@@ -1,10 +1,13 @@
 import DataModel.*;
+import Exceptions.invalidStopCodeException;
 import Exceptions.locationNotFoundException;
 import Exceptions.StationNotFoundByYearException;
 import Web_Services.API;
+import Web_Services.BusLine;
 import Web_Services.BusStation;
 import Web_Services.MetroStation;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -45,7 +48,7 @@ public class Logic {
         busStations = api.loadBusStations();
 
         //loading all of the metro lines from the API
-        metroStations = api.loadMetroStations();
+        //metroStations = api.loadMetroStations();
     }
 
     public void Intro(){
@@ -415,6 +418,55 @@ public class Logic {
     }
 
 
+    public void getBusWaitTime(){
+            int unknownStopCode;
+            Integer foundStopCode;
+
+            System.out.println("");
+            System.out.println("Enter the stop code:");
+            unknownStopCode = scanner.nextInt();
+
+        try{
+            foundStopCode = checkStopCode(unknownStopCode, busStations);
+            ArrayList<BusLine> closeBus= new ArrayList<BusLine>(api.getStops(foundStopCode));
+
+        //*********************************************************************************************************
+
+
+
+        }
+        catch(invalidStopCodeException e) {
+
+            e.printErrorMessage();
+        }
+
+    }
+
+    //public void askForStopCode();
+
+    public Integer checkStopCode(int stopcode, ArrayList<BusStation> stations) throws invalidStopCodeException {
+
+        Integer pos = null;
+
+        for (int i = 0; i < stations.size(); i++) {
+
+            if(stopcode == stations.get(i).getStopCode()){
+                pos = i;
+            }
+
+        }
+
+        if(pos == null){
+
+            throw new invalidStopCodeException();
+
+        }
+        return pos;
+    }
+
+
+
+
     public void whichOptionM1(int option){
 
         if(option == 2){
@@ -425,6 +477,8 @@ public class Logic {
 
         }
         else if(option == 4){
+
+            getBusWaitTime();
 
         }
         else if(option == 5){
