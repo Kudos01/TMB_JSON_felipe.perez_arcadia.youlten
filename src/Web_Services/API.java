@@ -15,6 +15,7 @@ import java.util.ArrayList;
  /*
         //https://www.vogella.com/tutorials/JavaLibrary-OkHttp/article.html
         &filter=DATA_INAUGURACIO=1999
+        System.out.println(metroLines.get("features").getAsJsonArray().get(0).getAsJsonObject().get("properties").getAsJsonObject().get("ID_PARADA"));
         */
 
 public class API {
@@ -40,10 +41,16 @@ public class API {
 
                 //Type metroLineType = new TypeToken<ArrayList<MetroLine>>(){}.getType();
 
-                //ArrayList<MetroLine> ml = gson.fromJson(jsonData, metroLineType);
-                JsonObject metroLines = gson.fromJson(jsonData, JsonObject.class);
+                ArrayList<MetroStation> metroStations = new ArrayList<>();
+                JsonObject metroStationTemp = gson.fromJson(jsonData, JsonObject.class);
 
-                //System.out.println(metroLines);
+                //System.out.println(metroStation.get("features").getAsJsonArray().get(0).getAsJsonObject().get("properties").getAsJsonObject().get("ID_PARADA"));
+
+                for (int i = 0; i < metroStationTemp.get("features").getAsJsonArray().size(); i++) {
+                    MetroStation ml = new MetroStation(metroStationTemp.get("features").getAsJsonArray().get(i).getAsJsonObject());
+                    System.out.println(ml.getStop_name());
+                    metroStations.add(ml);
+                }
 
             }catch (IOException e){
                 e.printStackTrace();
