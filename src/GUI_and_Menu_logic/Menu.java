@@ -122,7 +122,7 @@ public class Menu {
     public void whichOptionM1(int option){
 
         if(option == 2){
-            //searchLocation();
+            logic.searchLocation();
         }
         else if(option == 3){
 

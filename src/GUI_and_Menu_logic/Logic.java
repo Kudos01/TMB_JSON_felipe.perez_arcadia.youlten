@@ -3,7 +3,9 @@ package GUI_and_Menu_logic;
 import DataModel.*;
 import com.sun.tools.javac.Main;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -135,7 +137,6 @@ public class Logic {
             }
 
         }
-
         return tof;
     }
 
@@ -171,44 +172,70 @@ public class Logic {
         }
     }
 
-    /*
-
-    private void searchLocation(Location location){
+    void searchLocation(){
 
         String name;
+        Integer pos;
 
         System.out.println("");
         System.out.println("Enter the name of a location");
         name = scanner.nextLine();
-        if(checkNameExist(name)){
 
+        pos = checkLocationExist(name);
 
+        if(pos != null){
 
-        }
-        else{
+            System.out.println("Coordinates:"+""+ Arrays.toString(allLocations.get(pos).getCoordinates()));
+            System.out.println("Description:");
+            System.out.println(allLocations.get(pos).getDescription());
 
-        }
+            if(allLocations.get(pos) instanceof Restaurant){
 
-    }
+                for (int i = 0; i < ((Restaurant) allLocations.get(pos)).getCharacteristics().size(); i++) {
 
-    private Boolean checkNameExist(String name){
+                    System.out.println("Characteristics: ");
+                    //TODO: how to get all characteristics
+                    //System.out.print((Restaurant) allLocations.get(pos).getCharacteristics());
+                }
 
-        boolean tof = false;
+            }
+            else if(allLocations.get(pos) instanceof Hotel){
 
-        for (int i = 0; i < Main.allLocations.size() ; i++) {
+                System.out.println("Stars: " + ((Hotel) allLocations.get(pos)).getStars());
 
-            if(name.equalsIgnoreCase(Main.allLocations.get(i).getName())){
+            }
+            else if(allLocations.get(pos) instanceof Monument){
 
-                tof = true;
+                System.out.println("Architect: " + ((Monument) allLocations.get(pos)).getArchitect());
+                System.out.println("Inauguration: " + ((Monument) allLocations.get(pos)).getInauguration());
 
             }
 
         }
+        else{
 
 
-        return tof;
+        }
+
+
     }
 
+    private Integer checkLocationExist(String name){
+
+        Integer pos = null;
+
+        for (int i = 0; i < allLocations.size(); i++) {
+
+            if(name.equalsIgnoreCase(allLocations.get(i).getName())){
+
+                pos = i;
+            }
+        }
+        return pos;
+    }
+
+
+   /*
     private void editLocation(Location newLocation){
 
 
