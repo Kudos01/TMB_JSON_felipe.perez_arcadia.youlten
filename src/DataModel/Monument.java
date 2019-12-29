@@ -3,7 +3,7 @@ package DataModel;
 public class Monument extends Location{
 
     private String architect;
-    private Integer inauguration;
+    private int inauguration;
 
     public String getArchitect() { return architect; }
 

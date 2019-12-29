@@ -57,6 +57,8 @@ public class JSONParser implements Parse{
                     tempM.setName(temps.get(i).getName());
                     tempM.setCoordinates(temps.get(i).getCoordinates());
                     tempM.setDescription(temps.get(i).getDescription());
+                    tempM.setArchitect(temps.get(i).getArchitect());
+                    tempM.setInauguration(temps.get(i).getInauguration());
 
                     allLocations.add(tempM);
 
@@ -67,6 +69,7 @@ public class JSONParser implements Parse{
                     tempR.setName(temps.get(i).getName());
                     tempR.setCoordinates(temps.get(i).getCoordinates());
                     tempR.setDescription(temps.get(i).getDescription());
+                    tempR.setCharacteristics(temps.get(i).getCharacteristics());
 
                     allLocations.add(tempR);
 
@@ -79,7 +82,6 @@ public class JSONParser implements Parse{
                     allLocations.add(tempP);
 
                 }
-
             }
         } catch (IOException e) {
             e.printStackTrace();

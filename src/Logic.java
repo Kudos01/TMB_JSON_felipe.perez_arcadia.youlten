@@ -25,7 +25,7 @@ public class Logic {
     private final Scanner scanner = new Scanner(System.in);
 
     public ArrayList<Location> allLocations;
-    private ArrayList<Location> searchedLocations;
+    private ArrayList<Location> searchedLocations = new ArrayList<>();
     //private static ArrayList<Location> searchedLocations;
 
     public void loadLocationData(){
@@ -220,52 +220,51 @@ public class Logic {
             e.printErrorMessage();
         }
 
-        if(pos != -1){
-            searchedLocations.add(allLocations.get(pos));
-            System.out.println("Coordinates:"+""+ Arrays.toString(allLocations.get(pos).getCoordinates()));
-            System.out.println("Description:");
-            System.out.println(allLocations.get(pos).getDescription());
+        searchedLocations.add(allLocations.get(pos));
+        System.out.println("Coordinates:"+""+ Arrays.toString(allLocations.get(pos).getCoordinates()));
+        System.out.println("Description:");
+        System.out.println(allLocations.get(pos).getDescription());
 
-            if(allLocations.get(pos) instanceof Restaurant){
+        if(allLocations.get(pos) instanceof Restaurant){
 
-                for (int i = 0; i < ((Restaurant) allLocations.get(pos)).getCharacteristics().size(); i++) {
-                    System.out.println("Characteristics: ");
-                    System.out.print(((Restaurant) allLocations.get(pos)).getCharacteristics());
-                }
-
-            }
-            else if(allLocations.get(pos) instanceof Hotel){
-
-                System.out.println("Stars: " + ((Hotel) allLocations.get(pos)).getStars());
-
-            }
-            else if(allLocations.get(pos) instanceof Monument){
-
-                System.out.println("Architect: " + ((Monument) allLocations.get(pos)).getArchitect());
-                System.out.println("Inauguration: " + ((Monument) allLocations.get(pos)).getInauguration());
-
+            for (int i = 0; i < ((Restaurant) allLocations.get(pos)).getCharacteristics().size(); i++) {
+                System.out.println("Characteristics: ");
+                System.out.print(((Restaurant) allLocations.get(pos)).getCharacteristics());
             }
 
+        }
+        else if(allLocations.get(pos) instanceof Hotel){
+
+            System.out.println("Stars: " + ((Hotel) allLocations.get(pos)).getStars());
+
+        }
+        else if(allLocations.get(pos) instanceof Monument){
+
+            System.out.println("Architect: " + ((Monument) allLocations.get(pos)).getArchitect());
+            System.out.println("Inauguration: " + ((Monument) allLocations.get(pos)).getInauguration());
+
+        }
+
+        System.out.println("");
+        System.out.println("Do you want to set the found location as your favorite? (yes/no)");
+        String yesorno = scanner.nextLine();
+
+        while(!yesorno.equalsIgnoreCase("no") && !yesorno.equalsIgnoreCase("yes")){
+            System.out.println("");
+            System.out.println("Error! you must enter yes or no!");
             System.out.println("");
             System.out.println("Do you want to set the found location as your favorite? (yes/no)");
-            String yesorno = scanner.nextLine();
-
-            while(!yesorno.equalsIgnoreCase("no") && !yesorno.equalsIgnoreCase("yes")){
-                System.out.println("");
-                System.out.println("Error! you must enter yes or no!");
-                System.out.println("");
-                System.out.println("Do you want to set the found location as your favorite? (yes/no)");
-                yesorno = scanner.nextLine();
-            }
-
-            if(yesorno.equalsIgnoreCase("yes")){
-                userSetFaveLocation(allLocations.get(pos));
-            }
-
-            else if(yesorno.equalsIgnoreCase("no")) {
-
-            }
+            yesorno = scanner.nextLine();
         }
+
+        if(yesorno.equalsIgnoreCase("yes")){
+            userSetFaveLocation(allLocations.get(pos));
+        }
+
+        else if(yesorno.equalsIgnoreCase("no")) {
+
+        }
+
     }
 
     private int checkLocationExist(String name) throws locationNotFoundException{
