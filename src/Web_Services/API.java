@@ -1,15 +1,13 @@
 package Web_Services;
 
-import Exceptions.noStationsBirthdayException;
+import Exceptions.StationNotFoundByYearException;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 
  /*
@@ -22,10 +20,10 @@ public class API {
 
     private OkHttpClient client = new OkHttpClient();
 
-    public ArrayList<MetroStation> loadMetroStations(){
+    public ArrayList<BusStation> loadBusStations(){
 
         Request request = new Request.Builder().url("https://api.tmb.cat/v1/transit/parades?app_id=41936f32&app_key=3c5639afc8280c17cb4f633b78de717b").build();
-        ArrayList<MetroStation> metroStations = new ArrayList<>();
+        ArrayList<BusStation> busStations = new ArrayList<>();
 
         try{
             Response response = client.newCall(request).execute();
@@ -38,20 +36,52 @@ public class API {
 
             //Type metroLineType = new TypeToken<ArrayList<MetroLine>>(){}.getType();
 
-            JsonObject metroStationTemp = gson.fromJson(jsonData, JsonObject.class);
+            JsonObject busStationTemp = gson.fromJson(jsonData, JsonObject.class);
 
             //System.out.println(metroStation.get("features").getAsJsonArray().get(0).getAsJsonObject().get("properties").getAsJsonObject().get("ID_PARADA"));
 
-            for (int i = 0; i < metroStationTemp.get("features").getAsJsonArray().size(); i++) {
-                MetroStation ml = new MetroStation(metroStationTemp.get("features").getAsJsonArray().get(i).getAsJsonObject());
-                System.out.println(ml.getStop_name());
-                metroStations.add(ml);
+            for (int i = 0; i < busStationTemp.get("features").getAsJsonArray().size(); i++) {
+                BusStation bus = new BusStation(busStationTemp.get("features").getAsJsonArray().get(i).getAsJsonObject());
+                System.out.println(bus.getStop_name());
+                busStations.add(bus);
             }
 
         }catch (IOException e){
             e.printStackTrace();
         }
-        return metroStations;
+        return busStations;
+    }
+
+
+    public ArrayList<MetroStation> loadMetroStations() {
+        Request request = new Request.Builder().url("https://api.tmb.cat/v1/transit/parades?app_id=41936f32&app_key=3c5639afc8280c17cb4f633b78de717b").build();
+        ArrayList<BusStation> busStations = new ArrayList<>();
+
+        try{
+            Response response = client.newCall(request).execute();
+            String jsonData = null;
+            if(response.body() != null){
+                jsonData = response.body().string();
+            }
+
+            Gson gson = new Gson();
+
+            //Type metroLineType = new TypeToken<ArrayList<MetroLine>>(){}.getType();
+
+            JsonObject busStationTemp = gson.fromJson(jsonData, JsonObject.class);
+
+            //System.out.println(metroStation.get("features").getAsJsonArray().get(0).getAsJsonObject().get("properties").getAsJsonObject().get("ID_PARADA"));
+
+            for (int i = 0; i < busStationTemp.get("features").getAsJsonArray().size(); i++) {
+                BusStation bus = new BusStation(busStationTemp.get("features").getAsJsonArray().get(i).getAsJsonObject());
+                System.out.println(bus.getStop_name());
+                busStations.add(bus);
+            }
+
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        return busStations;
     }
 
     public void testAPI(){
@@ -85,34 +115,4 @@ public class API {
             e.printStackTrace();
         }
     }
-
-    public ArrayList<MetroStation> apiGetStationInauguration(int birth_year) throws noStationsBirthdayException {
-
-        ArrayList<MetroStation> inauguratedStations = new ArrayList<>();
-
-        /*
-        for (int i = 0; i < ; i++) {
-
-            if( birth_year == ){
-
-            inauguratedStations.add();
-
-            }
-
-            //check all stations on all lines if they were inaugurated in year
-        }
-
-        return inauguratedStations;
-
-         */
-        if(inauguratedStations.isEmpty()){
-
-            throw new noStationsBirthdayException();
-        }
-
-        return inauguratedStations;
-
-    }
-
-
 }

@@ -1,7 +1,8 @@
 import DataModel.*;
 import Exceptions.locationNotFoundException;
-import Exceptions.noStationsBirthdayException;
+import Exceptions.StationNotFoundByYearException;
 import Web_Services.API;
+import Web_Services.BusStation;
 import Web_Services.MetroStation;
 
 import java.util.ArrayList;
@@ -32,15 +33,19 @@ public class Logic {
     private ArrayList<Location> searchedLocations = new ArrayList<>();
     //private static ArrayList<Location> searchedLocations;
 
+    public ArrayList<BusStation> busStations = new ArrayList<>();
     public ArrayList<MetroStation> metroStations = new ArrayList<>();
+
 
     public void loadData(){
         //Loading locations from the JSON file
         allLocations = parser.parseLocations();
 
-        //Loading all of the metro lines from the API
-        metroStations = api.loadMetroStations();
+        //Loading all of the bus lines from the API
+        busStations = api.loadBusStations();
 
+        //loading all of the metro lines from the API
+        metroStations = api.loadMetroStations();
     }
 
     public void Intro(){
@@ -374,28 +379,33 @@ public class Logic {
 
     }
 
+    private ArrayList<MetroStation> findStationsByYear(int year) throws StationNotFoundByYearException{
+        ArrayList<MetroStation> birthyear_stations = new ArrayList<>();
 
-    public void stationsInauguratedByBirthYear(){
-
-        ArrayList<MetroStation> birthday_stations = new ArrayList<>();
-
-        try{
-
-        birthday_stations = api.apiGetStationInauguration(user.getBirthday());
-
-            for (int i = 0; i < birthday_stations.size() ; i++) {
-
-                System.out.println("");
-                System.out.println("Stations inaugurated by " + user.getBirthday());
-                //System.out.println("\t" + "-" + birthday_stations.get(i).getName());
-
+        for (int i = 0; i < metroStations.size() ; i++) {
+            if(metroStations.get(i).getDate().contains(Integer.toString(year))){
+                birthyear_stations.add(metroStations.get(i));
             }
-
-        } catch (noStationsBirthdayException e) {
-            e.printErrorMessage();
         }
 
+        if(birthyear_stations.isEmpty()){
+            throw new StationNotFoundByYearException();
+        }
+        return birthyear_stations;
+    }
 
+    public void stationsInauguratedByBirthYear(){
+        ArrayList<MetroStation> birthyear_stations = new ArrayList<>();
+        try{
+            birthyear_stations = findStationsByYear(user.getBirthyear());
+
+            for (int i = 0; i < birthyear_stations.size(); i++) {
+                System.out.println(birthyear_stations.get(i));
+            }
+
+        } catch (StationNotFoundByYearException e) {
+            e.printErrorMessage();
+        }
     }
 
 

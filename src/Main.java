@@ -32,7 +32,7 @@ public class Main {
 
         logic.Intro();
 
-        api.testAPI();
+
 
         /*
         do{

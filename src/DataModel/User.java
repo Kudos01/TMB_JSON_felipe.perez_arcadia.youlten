@@ -7,22 +7,22 @@ public class User {
 
     private String username;
     private String email;
-    private int birthday;
+    private int birthyear;
 
     public ArrayList<Location> userLocations = new ArrayList<>();
     public ArrayList<FavLocation> favoriteLocations = new ArrayList<>();
 
-    public User(String username, String email, int birthday){
+    public User(String username, String email, int birthyear){
         this.username = username;
         this.email = email;
-        this.birthday = birthday;
+        this.birthyear = birthyear;
     }
 
     //getters
 
     public String getUsername() {return username;}
     public String getEmail() {return email;}
-    public Integer getBirthday() {return birthday;}
+    public Integer getBirthyear() {return birthyear;}
 
     //setters
     public void setUsername(String username) {
@@ -34,6 +34,6 @@ public class User {
     }
 
     public void setBirthday(Integer birthday) {
-        this.birthday = birthday;
+        this.birthyear = birthday;
     }
 }
