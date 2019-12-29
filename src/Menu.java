@@ -74,16 +74,17 @@ public class Menu {
 
         if(scanner.hasNextInt()){
             option1 = scanner.nextInt();
+            scanner.nextLine();
         }
 
         else{
-            scanner.next();
+            scanner.nextLine();
             option1 = 0;
         }
     }
 
     public void askForOptionString() {
-        option2 = scanner.next();
+        option2 = scanner.nextLine();
     }
 
     public boolean validOption1() {
@@ -99,5 +100,4 @@ public class Menu {
     public String getOption2() {
         return option2;
     }
-
 }

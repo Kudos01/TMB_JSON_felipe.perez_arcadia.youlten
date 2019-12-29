@@ -10,7 +10,7 @@ public class User {
     private int birthday;
 
     public ArrayList<Location> userLocations = new ArrayList<>();
-    public ArrayList<FavLocation> favoriteLocation = new ArrayList<>();
+    public ArrayList<FavLocation> favoriteLocations = new ArrayList<>();
 
     public User(String username, String email, int birthday){
         this.username = username;
