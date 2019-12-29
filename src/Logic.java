@@ -7,10 +7,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Scanner;
 
-//TODO: get min max values for latitude somehow
-//TODO: find a way to maintain the values in arraylist for user input locations
-//TODO: find out a way to maintain allLocations arraylist
-
 /*
 private static final double minlat = ;
 private static final double maxlat = 50.712093;
@@ -55,6 +51,7 @@ public class Logic {
 
         System.out.println("Want to create a new location? (yes/no)");
         yesorno = scanner.nextLine();
+        //**********************************************************************************************************
 
         while(!yesorno.equalsIgnoreCase("no") && !yesorno.equalsIgnoreCase("yes")){
             System.out.println("");
@@ -188,6 +185,7 @@ public class Logic {
 
         System.out.println("");
         System.out.println("Enter the name of a location");
+        //**********************************************************************************************************
         name = scanner.nextLine();
 
         try {
@@ -220,7 +218,7 @@ public class Logic {
             System.out.println("");
             System.out.println("Do you want to set the found location as your favorite? (yes/no)");
             String yesorno = scanner.nextLine();
-
+            //**********************************************************************************************************
             while(!yesorno.equalsIgnoreCase("no") && !yesorno.equalsIgnoreCase("yes")){
                 System.out.println("");
                 System.out.println("Error! you must enter yes or no!");
@@ -262,14 +260,25 @@ public class Logic {
 
     private void userSetFaveLocation(Location location){
 
+        System.out.println("");
+        System.out.println("Type (home / work / studies / leisure / culture):");
+        String type = scanner.nextLine();
+        //**********************************************************************************************************
+
+        while(!(type.equalsIgnoreCase("home") || type.equalsIgnoreCase("work") || type.equalsIgnoreCase("studies") || type.equalsIgnoreCase("leisure") ||type.equalsIgnoreCase("culture")  )){
+            System.out.println("");
+            System.out.println("Error! You have to enter \"home\", \"work\", \"studies\", \"leisure\" or \"culture\".");
+            System.out.println("Type (home / work / studies / leisure / culture):");
+            type = scanner.nextLine();
+        }
+
+        Date date = new Date();
+
         if(location instanceof Restaurant){
 
             FavLocation tempR = new FavLocation();
-            tempR.setName(location.getName());
-            tempR.setCoordinates(location.getCoordinates());
-            tempR.setDescription(location.getDescription());
-            //tempR.setCharacteristics(((Restaurant) location).getCharacteristics());
-            tempR.setDate();
+            tempR.setLocation(location);
+            tempR.setDate(date);
             tempR.setType(type);
 
             user.favoriteLocation.add(tempR);
@@ -277,11 +286,8 @@ public class Logic {
         }
         else if(location instanceof Hotel){
             FavLocation tempH = new FavLocation();
-            tempH.setName(location.getName());
-            tempH.setCoordinates(location.getCoordinates());
-            tempH.setDescription(location.getDescription());
-            tempH.setStars(((Hotel) location).getStars());
-            tempH.setDate();
+            tempH.setLocation(location);
+            tempH.setDate(date);
             tempH.setType(type);
 
             user.favoriteLocation.add(tempH);
@@ -290,12 +296,8 @@ public class Logic {
         }
         else if(location instanceof Monument){
             FavLocation tempM = new FavLocation();
-            tempM.setName(location.getName());
-            tempM.setCoordinates(location.getCoordinates());
-            tempM.setDescription(location.getDescription());
-            ((Monument) tempM).setArchitect(((Monument) location).getArchitect());
-            tempM.setInauguration(((Monument) location).getInauguration());
-            tempM.setDate();
+            tempM.setLocation(location);
+            tempM.setDate(date);
             tempM.setType(type);
 
             user.favoriteLocation.add(tempM);
@@ -303,21 +305,17 @@ public class Logic {
         else{
             FavLocation tempP = new FavLocation();
 
-            tempP.setName(location.getName());
-            tempP.setCoordinates(location.getCoordinates());
-            tempP.setDescription(location.getDescription());
-            tempP.setDate();
+            tempP.setLocation(location);
+            tempP.setDate(date);
             tempP.setType(type);
 
             user.favoriteLocation.add(tempP);
-
-
         }
-
         System.out.println("");
         System.out.println(location.getName()+" had been added as a new favorite location");
-
     }
+
+
 
 
    /*
@@ -355,6 +353,5 @@ public class Logic {
 
 
     */
-
 }
 

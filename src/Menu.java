@@ -42,7 +42,6 @@ public class Menu {
         option1 = -1;
     }
 
-
     public void printIntro(){
 
         String username;
@@ -119,9 +118,10 @@ public class Menu {
             logic.searchLocation();
         }
         else if(option == 3){
-
+            //logic.
         }
         else if(option == 4){
+            //logic.
 
         }
         else if(option == 5){
