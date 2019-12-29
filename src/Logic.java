@@ -22,8 +22,7 @@ private static final double maxlong = 4.384272;
 public class Logic {
 
     private Scanner scanner;
-
-    private static User user;
+    private User user;
     public static ArrayList<Location> allLocations;
     private static ArrayList<Location> searchedLocations;
     //private static ArrayList<Location> searchedLocations;
@@ -111,7 +110,7 @@ public class Logic {
 
         Location newLoc = createNewLocation(name, coordinates, description);
 
-        User.userLocations.add(newLoc);
+        user.userLocations.add(newLoc);
         allLocations.add(newLoc);
 
         System.out.println("");
