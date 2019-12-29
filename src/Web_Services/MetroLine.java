@@ -1,6 +1,6 @@
 package Web_Services;
 
-public class MetroLines {
+public class MetroLine {
 
     private int line_id;
     private int line_code;

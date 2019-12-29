@@ -2,6 +2,7 @@ package Web_Services;
 
 import Exceptions.noStationsBirthdayException;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -37,11 +38,12 @@ public class API {
 
                 Gson gson = new Gson();
 
-                Type metroLineType = new TypeToken<ArrayList<MetroLines>>(){}.getType();
+                //Type metroLineType = new TypeToken<ArrayList<MetroLines>>(){}.getType();
 
-                ArrayList<MetroLines> ml = gson.fromJson(jsonData, metroLineType);
+                //ArrayList<MetroLines> ml = gson.fromJson(jsonData, metroLineType);
+                JsonObject metroLines = gson.fromJson(jsonData, JsonObject.class);
 
-                System.out.println(ml);
+                System.out.println(metroLines);
 
             }catch (IOException e){
                 e.printStackTrace();

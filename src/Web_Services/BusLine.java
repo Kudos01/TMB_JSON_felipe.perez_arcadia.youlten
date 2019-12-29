@@ -1,4 +1,4 @@
 package Web_Services;
 
-public class BusLines {
+public class BusLine {
 }
