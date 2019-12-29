@@ -1,12 +1,6 @@
 //package com.company;
 
-import DataModel.*;
-import GUI_and_Menu_logic.Logic;
-import GUI_and_Menu_logic.Menu;
-import com.google.gson.JsonArray;
-
 import java.io.IOException;
-import java.util.ArrayList;
 
 // APP ID AND APP KEY
 // app_id=41936f32&

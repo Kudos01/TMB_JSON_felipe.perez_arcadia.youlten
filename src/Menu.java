@@ -1,12 +1,5 @@
-package GUI_and_Menu_logic;
-
-import DataModel.Location;
-import DataModel.Place;
 import DataModel.User;
-import GUI_and_Menu_logic.Logic;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Menu {

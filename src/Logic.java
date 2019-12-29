@@ -1,5 +1,3 @@
-package GUI_and_Menu_logic;
-
 import DataModel.*;
 import com.sun.tools.javac.Main;
 
@@ -15,9 +13,9 @@ import java.util.Scanner;
 
 /*
 private static final double minlat = ;
-private static final double maxlat = ;
+private static final double maxlat = 50.712093;
 private static final double minlong = ;
-private static final double maxlong = ;
+private static final double maxlong = 4.384272;
 
  */
 
@@ -26,6 +24,7 @@ public class Logic {
     private Scanner scanner;
 
     public static ArrayList<Location> allLocations;
+
 
     public Logic() {
         scanner = new Scanner(System.in);
@@ -107,7 +106,10 @@ public class Logic {
         scanner.nextLine();
         description = scanner.nextLine();
 
-        User.userLocations.add(createNewLocation(name, coordinates, description));
+        Location newLoc = createNewLocation(name, coordinates, description);
+
+        User.userLocations.add(newLoc);
+        allLocations.add(newLoc);
 
         System.out.println("");
         System.out.println("This information has been successfully registered!");
@@ -172,16 +174,20 @@ public class Logic {
         }
     }
 
-    void searchLocation(){
+    public void searchLocation(){
 
         String name;
-        Integer pos;
+        Integer pos = null;
 
         System.out.println("");
         System.out.println("Enter the name of a location");
         name = scanner.nextLine();
 
-        pos = checkLocationExist(name);
+        try {
+            pos = checkLocationExist(name);
+        } catch (locationNotFoundException e) {
+            e.printErrorMessage();
+        }
 
         if(pos != null){
 
@@ -212,6 +218,8 @@ public class Logic {
             }
 
         }
+
+
         else{
 
 
@@ -220,17 +228,21 @@ public class Logic {
 
     }
 
-    private Integer checkLocationExist(String name){
+    private Integer checkLocationExist(String name) throws locationNotFoundException{
 
         Integer pos = null;
 
         for (int i = 0; i < allLocations.size(); i++) {
 
             if(name.equalsIgnoreCase(allLocations.get(i).getName())){
-
                 pos = i;
             }
         }
+        
+        if (pos == null){
+            throw new locationNotFoundException();
+        }
+        
         return pos;
     }
 
