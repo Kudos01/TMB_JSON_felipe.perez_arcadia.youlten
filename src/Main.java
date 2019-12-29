@@ -32,9 +32,6 @@ public class Main {
 
         logic.Intro();
 
-
-
-        /*
         do{
             menu.printMenu1();
             menu.askForOption();
@@ -62,8 +59,6 @@ public class Main {
                 }while (!menu.getOption2().equalsIgnoreCase("f"));
             }
         }while(!menu.exitMenu1());
-
-         */
 
         }
 

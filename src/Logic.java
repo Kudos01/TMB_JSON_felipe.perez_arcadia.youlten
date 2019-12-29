@@ -400,7 +400,7 @@ public class Logic {
             birthyear_stations = findStationsByYear(user.getBirthyear());
 
             for (int i = 0; i < birthyear_stations.size(); i++) {
-                System.out.println(birthyear_stations.get(i));
+                System.out.println(birthyear_stations.get(i).getStationName());
             }
 
         } catch (StationNotFoundByYearException e) {

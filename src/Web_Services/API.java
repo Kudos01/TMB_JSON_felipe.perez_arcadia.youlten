@@ -1,6 +1,5 @@
 package Web_Services;
 
-import Exceptions.StationNotFoundByYearException;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import okhttp3.OkHttpClient;
@@ -42,7 +41,6 @@ public class API {
 
             for (int i = 0; i < busStationTemp.get("features").getAsJsonArray().size(); i++) {
                 BusStation bus = new BusStation(busStationTemp.get("features").getAsJsonArray().get(i).getAsJsonObject());
-                System.out.println(bus.getStop_name());
                 busStations.add(bus);
             }
 
@@ -54,8 +52,8 @@ public class API {
 
 
     public ArrayList<MetroStation> loadMetroStations() {
-        Request request = new Request.Builder().url("https://api.tmb.cat/v1/transit/parades?app_id=41936f32&app_key=3c5639afc8280c17cb4f633b78de717b").build();
-        ArrayList<BusStation> busStations = new ArrayList<>();
+        Request request = new Request.Builder().url("https://api.tmb.cat/v1/transit/estacions?app_id=41936f32&app_key=3c5639afc8280c17cb4f633b78de717b").build();
+        ArrayList<MetroStation> metroStations = new ArrayList<>();
 
         try{
             Response response = client.newCall(request).execute();
@@ -68,20 +66,19 @@ public class API {
 
             //Type metroLineType = new TypeToken<ArrayList<MetroLine>>(){}.getType();
 
-            JsonObject busStationTemp = gson.fromJson(jsonData, JsonObject.class);
+            JsonObject metroStationTemp = gson.fromJson(jsonData, JsonObject.class);
 
             //System.out.println(metroStation.get("features").getAsJsonArray().get(0).getAsJsonObject().get("properties").getAsJsonObject().get("ID_PARADA"));
 
-            for (int i = 0; i < busStationTemp.get("features").getAsJsonArray().size(); i++) {
-                BusStation bus = new BusStation(busStationTemp.get("features").getAsJsonArray().get(i).getAsJsonObject());
-                System.out.println(bus.getStop_name());
-                busStations.add(bus);
+            for (int i = 0; i < metroStationTemp.get("features").getAsJsonArray().size(); i++) {
+                MetroStation ms = new MetroStation(metroStationTemp.get("features").getAsJsonArray().get(i).getAsJsonObject());
+                metroStations.add(ms);
             }
 
         }catch (IOException e){
             e.printStackTrace();
         }
-        return busStations;
+        return metroStations;
     }
 
     public void testAPI(){
@@ -107,7 +104,7 @@ public class API {
 
             for (int i = 0; i < metroStationTemp.get("features").getAsJsonArray().size(); i++) {
                 MetroStation ml = new MetroStation(metroStationTemp.get("features").getAsJsonArray().get(i).getAsJsonObject());
-                System.out.println(ml.getStop_name());
+                System.out.println(ml.getStationName());
                 metroStations.add(ml);
             }
 
