@@ -160,7 +160,7 @@ public class Logic {
             return false;
         }
     }
-//
+
     private boolean askForLatitude(Double[] coordinates){
         if(scanner.hasNextDouble()){
             coordinates[1] = scanner.nextDouble();
@@ -196,26 +196,23 @@ public class Logic {
         System.out.println("Description:");
         System.out.println(allLocations.get(pos).getDescription());
 
-        if(allLocations.get(pos) instanceof Restaurant){
+            if(allLocations.get(pos) instanceof Restaurant){
 
-            for (int i = 0; i < ((Restaurant) allLocations.get(pos)).getCharacteristics().size(); i++) {
-
-                System.out.println("Characteristics: ");
-                //TODO: how to get all characteristics
-                //System.out.print(Arrays.toString(((Restaurant) allLocations.get(pos)).getCharacteristics()));
+                for (int i = 0; i < ((Restaurant) allLocations.get(pos)).getCharacteristics().size(); i++) {
+                    System.out.println("Characteristics: ");
+                    System.out.print(((Restaurant) allLocations.get(pos)).getCharacteristics());
+                }
 
             }
+            else if(allLocations.get(pos) instanceof Hotel){
 
-        }
-        else if(allLocations.get(pos) instanceof Hotel){
+                System.out.println("Stars: " + ((Hotel) allLocations.get(pos)).getStars());
 
-            System.out.println("Stars: " + ((Hotel) allLocations.get(pos)).getStars());
+            }
+            else if(allLocations.get(pos) instanceof Monument){
 
-        }
-        else if(allLocations.get(pos) instanceof Monument){
-
-            System.out.println("Architect: " + ((Monument) allLocations.get(pos)).getArchitect());
-            System.out.println("Inauguration: " + ((Monument) allLocations.get(pos)).getInauguration());
+                System.out.println("Architect: " + ((Monument) allLocations.get(pos)).getArchitect());
+                System.out.println("Inauguration: " + ((Monument) allLocations.get(pos)).getInauguration());
 
         }
 
