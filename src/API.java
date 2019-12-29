@@ -12,7 +12,7 @@ public class API {
 
         /*
         //https://www.vogella.com/tutorials/JavaLibrary-OkHttp/article.html
-
+        &filter=DATA_INAUGURACIO=1999
         */
 
         public void testAPI(){

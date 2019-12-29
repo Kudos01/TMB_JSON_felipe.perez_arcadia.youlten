@@ -24,11 +24,15 @@ public class Main {
 
         Logic logic = new Logic();
         Menu menu = new Menu();
-        //
+        API api = new API();
+
         logic.loadLocationData();
 
         logic.Intro();
 
+        api.testAPI();
+
+        /*
         do{
             menu.printMenu1();
             menu.askForOption();
@@ -56,6 +60,8 @@ public class Main {
                 }while (!menu.getOption2().equalsIgnoreCase("f"));
             }
         }while(!menu.exitMenu1());
+
+         */
 
         }
 
