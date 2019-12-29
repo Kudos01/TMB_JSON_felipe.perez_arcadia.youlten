@@ -1,11 +1,12 @@
 package DataModel;
 
-import java.sql.Date;
+import java.util.Date;
 
-public class FavLocation extends Location{
+public class FavLocation{
 
     private String type;
     private Date date;
+    private Location location;
 
     public String getType() { return type; }
 
@@ -17,5 +18,13 @@ public class FavLocation extends Location{
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
     }
 }

@@ -287,14 +287,25 @@ public class Logic {
 
     private void userSetFaveLocation(Location location){
 
+        System.out.println("");
+        System.out.println("Type (home / work / studies / leisure / culture):");
+        String type = scanner.nextLine();
+        //**********************************************************************************************************
+
+        while(!(type.equalsIgnoreCase("home") || type.equalsIgnoreCase("work") || type.equalsIgnoreCase("studies") || type.equalsIgnoreCase("leisure") ||type.equalsIgnoreCase("culture")  )){
+            System.out.println("");
+            System.out.println("Error! You have to enter \"home\", \"work\", \"studies\", \"leisure\" or \"culture\".");
+            System.out.println("Type (home / work / studies / leisure / culture):");
+            type = scanner.nextLine();
+        }
+
+        Date date = new Date();
+
         if(location instanceof Restaurant){
 
             FavLocation tempR = new FavLocation();
-            tempR.setName(location.getName());
-            tempR.setCoordinates(location.getCoordinates());
-            tempR.setDescription(location.getDescription());
-            //tempR.setCharacteristics(((Restaurant) location).getCharacteristics());
-            tempR.setDate();
+            tempR.setLocation(location);
+            tempR.setDate(date);
             tempR.setType(type);
 
             user.favoriteLocation.add(tempR);
@@ -302,11 +313,8 @@ public class Logic {
         }
         else if(location instanceof Hotel){
             FavLocation tempH = new FavLocation();
-            tempH.setName(location.getName());
-            tempH.setCoordinates(location.getCoordinates());
-            tempH.setDescription(location.getDescription());
-            tempH.setStars(((Hotel) location).getStars());
-            tempH.setDate();
+            tempH.setLocation(location);
+            tempH.setDate(date);
             tempH.setType(type);
 
             user.favoriteLocation.add(tempH);
@@ -315,12 +323,8 @@ public class Logic {
         }
         else if(location instanceof Monument){
             FavLocation tempM = new FavLocation();
-            tempM.setName(location.getName());
-            tempM.setCoordinates(location.getCoordinates());
-            tempM.setDescription(location.getDescription());
-            ((Monument) tempM).setArchitect(((Monument) location).getArchitect());
-            tempM.setInauguration(((Monument) location).getInauguration());
-            tempM.setDate();
+            tempM.setLocation(location);
+            tempM.setDate(date);
             tempM.setType(type);
 
             user.favoriteLocation.add(tempM);
@@ -328,10 +332,8 @@ public class Logic {
         else{
             FavLocation tempP = new FavLocation();
 
-            tempP.setName(location.getName());
-            tempP.setCoordinates(location.getCoordinates());
-            tempP.setDescription(location.getDescription());
-            tempP.setDate();
+            tempP.setLocation(location);
+            tempP.setDate(date);
             tempP.setType(type);
 
             user.favoriteLocation.add(tempP);
@@ -341,8 +343,9 @@ public class Logic {
 
         System.out.println("");
         System.out.println(location.getName()+" had been added as a new favorite location");
-
     }
+
+
 
 
     public void whichOptionM1(int option){
