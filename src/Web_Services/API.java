@@ -1,3 +1,6 @@
+package Web_Services;
+
+import Exceptions.noStationsBirthdayException;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import okhttp3.OkHttpClient;
@@ -8,12 +11,14 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
-public class API {
-
-        /*
+ /*
         //https://www.vogella.com/tutorials/JavaLibrary-OkHttp/article.html
         &filter=DATA_INAUGURACIO=1999
         */
+
+public class API {
+
+
 
         public void testAPI(){
 
@@ -41,6 +46,34 @@ public class API {
             }catch (IOException e){
                 e.printStackTrace();
             }
+
+        }
+
+        public ArrayList<MetroStation> apiGetStationInauguration(int birth_year) throws noStationsBirthdayException {
+
+            ArrayList<MetroStation> inauguratedStations = new ArrayList<>();
+
+            /*
+            for (int i = 0; i < ; i++) {
+
+                if( birth_year == ){
+
+                inauguratedStations.add();
+
+                }
+
+                //check all stations on all lines if they were inaugurated in year
+            }
+
+            return inauguratedStations;
+
+             */
+            if(inauguratedStations.isEmpty()){
+
+                throw new noStationsBirthdayException();
+            }
+
+            return inauguratedStations;
 
         }
 
