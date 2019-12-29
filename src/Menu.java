@@ -41,30 +41,6 @@ public class Menu {
         option1 = -1;
     }
 
-    public void printIntro(){
-
-        String username;
-        String email;
-        Integer birthday;
-
-        System.out.println("");
-        System.out.println(intro);
-        System.out.println(userinfo1);
-        username = scanner.nextLine();
-
-        System.out.println(userinfo2);
-        email = scanner.nextLine();
-
-        System.out.println(userinfo3);
-        birthday = scanner.nextInt();
-
-        System.out.println(flagvalid);
-        System.out.println("");
-
-        logic.userAssignInfo(username, email, birthday);
-
-    }
-
     //prints all of the information related to menu2
     public void printMenu1() {
         System.out.println("");
@@ -109,54 +85,6 @@ public class Menu {
     public void askForOptionString() {
         option2 = scanner.next();
     }
-
-
-    public void whichOptionM1(int option){
-
-        if(option == 2){
-            logic.searchLocation();
-        }
-        else if(option == 3){
-            //logic.
-        }
-        else if(option == 4){
-            //logic.
-
-        }
-        else if(option == 5){
-
-            System.out.println("Thanks for using our program!");
-
-        }
-    }
-
-    public void whichOptionM2(String option){
-
-        if(option.equalsIgnoreCase("a")){
-            logic.listLocations(User.userLocations);
-        }
-
-        else if(option.equalsIgnoreCase("b")){
-
-            //searchLocation();
-
-        }
-        else if(option.equalsIgnoreCase("c")){
-
-        }
-        else if(option.equalsIgnoreCase("d")){
-
-        }
-        else if(option.equalsIgnoreCase("e")){
-
-        }
-        else if(option.equalsIgnoreCase("f")){
-
-            //System.out.println();
-
-        }
-    }
-
 
     public boolean validOption1() {
         return option1 >= MIN1 && option1 <= MAX1;

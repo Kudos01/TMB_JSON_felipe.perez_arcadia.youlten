@@ -36,7 +36,7 @@ public class Logic {
     public void Intro(){
         String username;
         String email;
-        Integer birthday;
+        int birthyear;
 
         System.out.println("");
         System.out.println(Menu.intro);
@@ -47,22 +47,17 @@ public class Logic {
         email = scanner.nextLine();
 
         System.out.println(Menu.userinfo3);
-        birthday = scanner.nextInt();
+        birthyear = scanner.nextInt();
 
         System.out.println(Menu.flagvalid);
         System.out.println("");
 
-        userAssignInfo(username, email, birthday);
-    }
-
-
-    public void userAssignInfo(String username, String email, int year){
-        user = new User(username, email, year);
+        user = new User(username, email, birthyear);
     }
 
     public void listLocations(){
 
-        ArrayList<Location> userLocations = new ArrayList<>(User.userLocations);
+        ArrayList<Location> userLocations = new ArrayList<>(user.userLocations);
 
         String yesorno;
 

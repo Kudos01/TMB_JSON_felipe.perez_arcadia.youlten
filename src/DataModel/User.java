@@ -9,7 +9,7 @@ public class User {
     private String email;
     private int birthday;
 
-    public static ArrayList<Location> userLocations = new ArrayList<>();
+    public ArrayList<Location> userLocations = new ArrayList<>();
     public ArrayList<FavLocation> favoriteLocation = new ArrayList<>();
 
     public User(String username, String email, int birthday){
