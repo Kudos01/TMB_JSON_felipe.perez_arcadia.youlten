@@ -45,7 +45,6 @@ public class Menu {
 
     public void printIntro(){
 
-        User user = new User();
         String username;
         String email;
         Integer birthday;
@@ -54,15 +53,17 @@ public class Menu {
         System.out.println(intro);
         System.out.println(userinfo1);
         username = scanner.nextLine();
-        user.setUsername(username);
+
         System.out.println(userinfo2);
         email = scanner.nextLine();
-        user.setEmail(email);
+
         System.out.println(userinfo3);
         birthday = scanner.nextInt();
-        user.setBirthday(birthday);
+
         System.out.println(flagvalid);
         System.out.println("");
+
+        logic.userAssignInfo(username, email, birthday);
 
     }
 

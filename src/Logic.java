@@ -32,7 +32,12 @@ public class Logic {
         scanner = new Scanner(System.in);
     }
 
-    void listLocations(ArrayList<Location> userLocations){
+    public void userAssignInfo(String username, String email, int year){
+        User user = new User(username, email, year);
+        this.user = user;
+    }
+
+    public void listLocations(ArrayList<Location> userLocations){
 
         String yesorno;
 
@@ -116,8 +121,8 @@ public class Logic {
         System.out.println("");
         System.out.println("This information has been successfully registered!");
         System.out.println("");
-        for (int i = 0; i < User.userLocations.size(); i++) {
-            System.out.println("-" + User.userLocations.get(i).getName());
+        for (int i = 0; i < user.userLocations.size(); i++) {
+            System.out.println("-" + user.userLocations.get(i).getName());
         }
     }
 
@@ -187,13 +192,10 @@ public class Logic {
 
         try {
             pos = checkLocationExist(name);
-        } catch (locationNotFoundException e) {
-            e.printErrorMessage();
-        }
-        searchedLocations.add(allLocations.get(pos));
-        System.out.println("Coordinates:"+""+ Arrays.toString(allLocations.get(pos).getCoordinates()));
-        System.out.println("Description:");
-        System.out.println(allLocations.get(pos).getDescription());
+            searchedLocations.add(allLocations.get(pos));
+            System.out.println("Coordinates:"+""+ Arrays.toString(allLocations.get(pos).getCoordinates()));
+            System.out.println("Description:");
+            System.out.println(allLocations.get(pos).getDescription());
 
             if(allLocations.get(pos) instanceof Restaurant){
 
@@ -213,28 +215,31 @@ public class Logic {
                 System.out.println("Architect: " + ((Monument) allLocations.get(pos)).getArchitect());
                 System.out.println("Inauguration: " + ((Monument) allLocations.get(pos)).getInauguration());
 
-        }
+            }
 
-        System.out.println("");
-        System.out.println("Do you want to set the found location as your favorite? (yes/no)");
-        String yesorno = scanner.nextLine();
-
-        while(!yesorno.equalsIgnoreCase("no") && !yesorno.equalsIgnoreCase("yes")){
-            System.out.println("");
-            System.out.println("Error! you must enter yes or no!");
             System.out.println("");
             System.out.println("Do you want to set the found location as your favorite? (yes/no)");
-            yesorno = scanner.nextLine();
+            String yesorno = scanner.nextLine();
+
+            while(!yesorno.equalsIgnoreCase("no") && !yesorno.equalsIgnoreCase("yes")){
+                System.out.println("");
+                System.out.println("Error! you must enter yes or no!");
+                System.out.println("");
+                System.out.println("Do you want to set the found location as your favorite? (yes/no)");
+                yesorno = scanner.nextLine();
+            }
+
+            if(yesorno.equalsIgnoreCase("yes")){
+                userSetFaveLocation(allLocations.get(pos));
+            }
+
+            else if(yesorno.equalsIgnoreCase("no")) {
+
+            }
+
+        } catch (locationNotFoundException e) {
+            e.printErrorMessage();
         }
-
-        if(yesorno.equalsIgnoreCase("yes")){
-            userSetFaveLocation(allLocations.get(pos));
-        }
-
-        else if(yesorno.equalsIgnoreCase("no")) {
-
-        }
-
     }
 
     private Integer checkLocationExist(String name) throws locationNotFoundException{
@@ -256,7 +261,6 @@ public class Logic {
     }
 
     private void userSetFaveLocation(Location location){
-
 
         if(location instanceof Restaurant){
 
@@ -289,15 +293,12 @@ public class Logic {
             tempM.setName(location.getName());
             tempM.setCoordinates(location.getCoordinates());
             tempM.setDescription(location.getDescription());
-            tempM.setArchitect(((Monument) location).getArchitect());
+            ((Monument) tempM).setArchitect(((Monument) location).getArchitect());
             tempM.setInauguration(((Monument) location).getInauguration());
             tempM.setDate();
             tempM.setType(type);
 
             user.favoriteLocation.add(tempM);
-
-
-
         }
         else{
             FavLocation tempP = new FavLocation();

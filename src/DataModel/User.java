@@ -7,11 +7,16 @@ public class User {
 
     private String username;
     private String email;
-    private Integer birthday;
+    private int birthday;
 
     public static ArrayList<Location> userLocations = new ArrayList<>();
-    public static ArrayList<FavLocation> favoriteLocation = new ArrayList<>();
+    public ArrayList<FavLocation> favoriteLocation = new ArrayList<>();
 
+    public User(String username, String email, int birthday){
+        this.username = username;
+        this.email = email;
+        this.birthday = birthday;
+    }
 
     //getters
 
