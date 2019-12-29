@@ -70,9 +70,7 @@ private static final double maxlong = ;
         System.out.println("Location Name:");
         name = scanner.nextLine();
 
-        ArrayList<Location> dummy = new ArrayList();
-
-        while(validLocationName(name, dummy) ){
+        while(validLocationName(name, allLocations) ){
             System.out.println("");
             System.out.println("Error: This location already exists.");
             System.out.println("");

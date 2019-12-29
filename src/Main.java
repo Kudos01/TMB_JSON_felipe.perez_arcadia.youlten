@@ -2,15 +2,20 @@
 
 import DataModel.*;
 import GUI_and_Menu_logic.Menu;
+import com.google.gson.JsonArray;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 // APP ID AND APP KEY
 // app_id=41936f32&
 // app_key=3c5639afc8280c17cb4f633b78de717b
 
 public class Main {
+
     public static void main(String[] args) throws IOException {
+
+        ArrayList<Location> allLocations = new ArrayList();
 
         //TODO: goal for next couple sessions -> program various menu options
         //start with whatever you wish to start with, i've added some menu stuff, so it should be more or less straight
@@ -23,7 +28,7 @@ public class Main {
 
         //parse the json file localizations
         JSONParser parser = new JSONParser();
-        parser.parseLocations();
+        allLocations = parser.parseLocations();
         Menu menu = new Menu();
 
         menu.printIntro();
@@ -52,7 +57,7 @@ public class Main {
                     }
 
                     menu.whichOptionM2(menu.getOption2());
-                }while (!menu.getOption2().equals("f"));
+                }while (!menu.getOption2().equalsIgnoreCase("f"));
             }
         }while(!menu.exitMenu1());
 

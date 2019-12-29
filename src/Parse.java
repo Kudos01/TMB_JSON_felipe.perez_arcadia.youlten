@@ -1,4 +1,8 @@
+import DataModel.Location;
+
+import java.util.ArrayList;
+
 public interface Parse {
-    void parseLocations();
+    ArrayList<Location> parseLocations();
     //void parseUsers();
 }

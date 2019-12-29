@@ -11,8 +11,6 @@ import java.util.Scanner;
 
 public class Menu {
 
-    //TODO: error handling with nextint --> the program cannot crash!!!
-
     private static final int MIN1 = 1;
     private static final String MIN2 = "a";
     private static final int MAX1 = 5;
