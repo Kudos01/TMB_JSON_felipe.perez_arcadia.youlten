@@ -55,6 +55,50 @@ public class Logic {
         user = new User(username, email, birthyear);
     }
 
+
+    public void whichOptionM1(int option){
+
+        if(option == 2){
+            searchLocation();
+        }
+        else if(option == 3){
+
+        }
+        else if(option == 4){
+
+        }
+        else if(option == 5){
+            System.out.println("Thanks for using our program!");
+        }
+    }
+
+    public void whichOptionM2(String option){
+
+        if(option.equalsIgnoreCase("a")){
+            listLocations();
+        }
+
+        else if(option.equalsIgnoreCase("b")){
+
+            locationHistory();
+
+        }
+        else if(option.equalsIgnoreCase("c")){
+
+        }
+        else if(option.equalsIgnoreCase("d")){
+
+        }
+        else if(option.equalsIgnoreCase("e")){
+
+        }
+        else if(option.equalsIgnoreCase("f")){
+
+            System.out.println();
+
+        }
+    }
+
     public void listLocations(){
 
         ArrayList<Location> userLocations = new ArrayList<>(user.userLocations);
@@ -75,6 +119,7 @@ public class Logic {
 
         System.out.println("Want to create a new location? (yes/no)");
         yesorno = scanner.nextLine();
+        //**********************************************************************************************************
 
         while(!yesorno.equalsIgnoreCase("no") && !yesorno.equalsIgnoreCase("yes")){
             System.out.println("");
@@ -339,52 +384,32 @@ public class Logic {
         System.out.println("");
         System.out.println(location.getName()+" had been added as a new favorite location");
     }
+    
+    
+    private void locationHistory(){
 
+        if(searchedLocations.isEmpty()){
 
-
-
-    public void whichOptionM1(int option){
-
-        if(option == 2){
-            searchLocation();
-        }
-        else if(option == 3){
-
-        }
-        else if(option == 4){
+            for (int i = 0; i < searchedLocations.size(); i++) {
+                System.out.println("");
+                System.out.println("Searched Locations:");
+                System.out.println("/t"+"-"+searchedLocations.get(i));
+            }
 
         }
-        else if(option == 5){
-            System.out.println("Thanks for using our program!");
+        else{
+
+            System.out.println("");
+            System.out.println("You have not searched for any locations!");
+            System.out.println("To search for one, access option 2 in the principal menu.");
+
         }
+
     }
 
-    public void whichOptionM2(String option){
 
-        if(option.equalsIgnoreCase("a")){
-            listLocations();
-        }
 
-        else if(option.equalsIgnoreCase("b")){
 
-            searchLocation();
-
-        }
-        else if(option.equalsIgnoreCase("c")){
-
-        }
-        else if(option.equalsIgnoreCase("d")){
-
-        }
-        else if(option.equalsIgnoreCase("e")){
-
-        }
-        else if(option.equalsIgnoreCase("f")){
-
-            System.out.println();
-
-        }
-    }
 
 
    /*
