@@ -41,13 +41,10 @@ public class Menu {
     private static final String exitmenu2 = "f) Back to the principal menu";
     private static final String exitmenu1 = "5: Exit";
 
-    ArrayList<Location> userLocations = new ArrayList<>();
-
-
     private int option1;
     private String option2;
     private Scanner scanner;
-    Logic logic = new Logic();
+    private Logic logic = new Logic();
 
     public Menu() {
         scanner = new Scanner(System.in);
@@ -144,10 +141,9 @@ public class Menu {
     public void whichOptionM2(String option){
 
         if(option.equalsIgnoreCase("a")){
-
-            logic.listLocations(userLocations);
-
+            logic.listLocations(User.userLocations);
         }
+
         else if(option.equalsIgnoreCase("b")){
 
             //searchLocation();

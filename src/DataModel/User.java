@@ -1,12 +1,16 @@
 package DataModel;
 
 import java.sql.Date;
+import java.util.ArrayList;
 
 public class User {
 
     private String username;
     private String email;
     private Integer birthday;
+
+    public static ArrayList<Location> userLocations = new ArrayList<>();
+
 
     //getters
 
