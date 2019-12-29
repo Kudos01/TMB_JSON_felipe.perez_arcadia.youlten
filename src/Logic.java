@@ -382,8 +382,11 @@ public class Logic {
     private ArrayList<MetroStation> findStationsByYear(int year) throws StationNotFoundByYearException{
         ArrayList<MetroStation> birthyear_stations = new ArrayList<>();
 
+        String yearStr = Integer.toString(year);
+
         for (int i = 0; i < metroStations.size() ; i++) {
-            if(metroStations.get(i).getDateInaugurated().contains(Integer.toString(year))){
+            if(metroStations.get(i).getDateInaugurated().charAt(0) == yearStr.charAt(0) && metroStations.get(i).getDateInaugurated().charAt(1) == yearStr.charAt(1)
+                && metroStations.get(i).getDateInaugurated().charAt(2) == yearStr.charAt(2) && metroStations.get(i).getDateInaugurated().charAt(3) == yearStr.charAt(3)){
                 birthyear_stations.add(metroStations.get(i));
             }
         }
