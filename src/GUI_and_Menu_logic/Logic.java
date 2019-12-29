@@ -1,6 +1,7 @@
 package GUI_and_Menu_logic;
 
 import DataModel.*;
+import com.sun.tools.javac.Main;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -59,6 +60,7 @@ private static final double maxlong = ;
 
         else if(yesorno.equalsIgnoreCase("no")){
 
+            }
         }
     }
 
@@ -71,7 +73,8 @@ private static final double maxlong = ;
         System.out.println("Location Name:");
         name = scanner.nextLine();
 
-        while(validLocationName(name, User.userLocations) ){
+
+        while(validLocationName(name, Main.allLocations) ){
             System.out.println("");
             System.out.println("Error: This location already exists.");
             System.out.println("");
@@ -129,7 +132,9 @@ private static final double maxlong = ;
             if(name.equalsIgnoreCase(allLocations.get(i).getName())){
                 tof = true;
             }
+
         }
+
         return tof;
     }
 
@@ -165,20 +170,55 @@ private static final double maxlong = ;
         }
     }
 
-    private boolean askForCoord1(){
-        return (true);
+
     }
 
     /*
+
+    private void searchLocation(Location location){
+
+        String name;
+
+        System.out.println("");
+        System.out.println("Enter the name of a location");
+        name = scanner.nextLine();
+        if(checkNameExist(name)){
+
+
+
+        }
+        else{
+
+        }
+
+    }
+
+    private Boolean checkNameExist(String name){
+
+        boolean tof = false;
+
+        for (int i = 0; i < Main.allLocations.size() ; i++) {
+
+            if(name.equalsIgnoreCase(Main.allLocations.get(i).getName())){
+
+                tof = true;
+
+            }
+
+        }
+
+
+        return tof;
+    }
 
     private void editLocation(Location newLocation){
 
 
     }
 
-   private Boolean searchLocation(Location location){
-        return true;
-    }
+
+
+
 
     private Route planRoute(Location origin, Location destination, String date, String hour, int max_dist_walking){
 

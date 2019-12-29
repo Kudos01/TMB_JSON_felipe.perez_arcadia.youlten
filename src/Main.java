@@ -13,9 +13,10 @@ import java.util.ArrayList;
 
 public class Main {
 
+    public static ArrayList<Location> allLocations;
+
     public static void main(String[] args) throws IOException {
 
-        ArrayList<Location> allLocations = new ArrayList();
 
         //TODO: goal for next couple sessions -> program various menu options
         //start with whatever you wish to start with, i've added some menu stuff, so it should be more or less straight
