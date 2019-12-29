@@ -232,10 +232,9 @@ public class Logic {
             userSetFaveLocation(allLocations.get(pos));
         }
 
-        else if(yesorno.equalsIgnoreCase("no")){
+        else if(yesorno.equalsIgnoreCase("no")) {
 
         }
-
 
     }
 
