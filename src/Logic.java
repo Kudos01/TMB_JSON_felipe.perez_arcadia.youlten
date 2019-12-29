@@ -21,23 +21,48 @@ private static final double maxlong = 4.384272;
 
 public class Logic {
 
-    private Scanner scanner;
     private User user;
-    public static ArrayList<Location> allLocations;
-    private static ArrayList<Location> searchedLocations;
+    private Scanner scanner = new Scanner(System.in);
+
+    public ArrayList<Location> allLocations;
+    private ArrayList<Location> searchedLocations;
     //private static ArrayList<Location> searchedLocations;
 
-
-    public Logic() {
-        scanner = new Scanner(System.in);
+    public void loadLocationData(){
+        JSONParser parser = new JSONParser();
+        allLocations = parser.parseLocations();
     }
+
+    public void Intro(){
+        String username;
+        String email;
+        Integer birthday;
+
+        System.out.println("");
+        System.out.println(Menu.intro);
+        System.out.println(Menu.userinfo1);
+        username = scanner.nextLine();
+
+        System.out.println(Menu.userinfo2);
+        email = scanner.nextLine();
+
+        System.out.println(Menu.userinfo3);
+        birthday = scanner.nextInt();
+
+        System.out.println(Menu.flagvalid);
+        System.out.println("");
+
+        userAssignInfo(username, email, birthday);
+    }
+
 
     public void userAssignInfo(String username, String email, int year){
-        User user = new User(username, email, year);
-        this.user = user;
+        user = new User(username, email, year);
     }
 
-    public void listLocations(ArrayList<Location> userLocations){
+    public void listLocations(){
+
+        ArrayList<Location> userLocations = new ArrayList<>(User.userLocations);
 
         String yesorno;
 
@@ -68,10 +93,10 @@ public class Logic {
             userCreateLocation();
         }
 
-        else if(yesorno.equalsIgnoreCase("no")){
+        else if(yesorno.equalsIgnoreCase("no")) {
 
-            }
         }
+    }
 
     void userCreateLocation(){
 
@@ -317,6 +342,50 @@ public class Logic {
         System.out.println("");
         System.out.println(location.getName()+" had been added as a new favorite location");
 
+    }
+
+
+    public void whichOptionM1(int option){
+
+        if(option == 2){
+            searchLocation();
+        }
+        else if(option == 3){
+
+        }
+        else if(option == 4){
+
+        }
+        else if(option == 5){
+            System.out.println("Thanks for using our program!");
+        }
+    }
+
+    public void whichOptionM2(String option){
+
+        if(option.equalsIgnoreCase("a")){
+            listLocations();
+        }
+
+        else if(option.equalsIgnoreCase("b")){
+
+            searchLocation();
+
+        }
+        else if(option.equalsIgnoreCase("c")){
+
+        }
+        else if(option.equalsIgnoreCase("d")){
+
+        }
+        else if(option.equalsIgnoreCase("e")){
+
+        }
+        else if(option.equalsIgnoreCase("f")){
+
+            System.out.println();
+
+        }
     }
 
 

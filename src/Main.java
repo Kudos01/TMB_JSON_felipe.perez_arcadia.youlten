@@ -20,11 +20,13 @@ public class Main {
         //Love u too babe :KISSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS & Hug & CUUUUUDDDLEEEEE:
 
         //parse the json file localizations
-        JSONParser parser = new JSONParser();
-        Logic.allLocations = parser.parseLocations();
+
+        Logic logic = new Logic();
         Menu menu = new Menu();
 
-        menu.printIntro();
+        logic.loadLocationData();
+
+        logic.Intro();
 
         do{
             menu.printMenu1();
@@ -36,7 +38,7 @@ public class Main {
                 menu.askForOption();
             }
 
-            menu.whichOptionM1(menu.getOption1());
+            logic.whichOptionM1(menu.getOption1());
 
             if(menu.getOption1() == 1) {
                 do {
@@ -49,7 +51,7 @@ public class Main {
                         menu.askForOptionString();
                     }
 
-                    menu.whichOptionM2(menu.getOption2());
+                    logic.whichOptionM2(menu.getOption2());
                 }while (!menu.getOption2().equalsIgnoreCase("f"));
             }
         }while(!menu.exitMenu1());
