@@ -12,8 +12,10 @@ import java.util.ArrayList;
 
 public class JSONParser implements Parse{
 
+    ArrayList<Location> allLocations = new ArrayList<>();
+
     @Override
-    public void parseLocations() {
+    public  ArrayList<Location> parseLocations() {
 
         Gson gson = new Gson();
         //TODO: check if this is sufficient for checking and exiting program with error message
@@ -22,10 +24,6 @@ public class JSONParser implements Parse{
             //make a new type token of type teams, so that we can parse all the teams from the json to an arraylist of type Team
 
             LocationObj locOb = new LocationObj();
-            ArrayList<Location> locations = new ArrayList<>();
-            ArrayList<Hotel> hotels = new ArrayList<>();
-            ArrayList<Restaurant> restaurants = new ArrayList<>();
-            ArrayList<Monument> monuments = new ArrayList<>();
             Type tempListType = new TypeToken<ArrayList<temp>>() {}.getType();
             //temp temps = new temp();
             ArrayList<temp> temps = new ArrayList<>();
@@ -53,14 +51,14 @@ public class JSONParser implements Parse{
                     tempH.setDescription(temps.get(i).getDescription());
                     tempH.setStars(temps.get(i).getStars());
 
-                    hotels.add(tempH);
+                    allLocations.add(tempH);
                 } else if (temps.get(i).getArchitect() != null) {
 
                     tempM.setName(temps.get(i).getName());
                     tempM.setCoordinates(temps.get(i).getCoordinates());
                     tempM.setDescription(temps.get(i).getDescription());
 
-                    monuments.add(tempM);
+                    allLocations.add(tempM);
 
 
                 } else if (temps.get(i).getCharacteristics() != null) {
@@ -70,7 +68,7 @@ public class JSONParser implements Parse{
                     tempR.setCoordinates(temps.get(i).getCoordinates());
                     tempR.setDescription(temps.get(i).getDescription());
 
-                    restaurants.add(tempR);
+                    allLocations.add(tempR);
 
                 } else {
                     //add to location
@@ -78,7 +76,7 @@ public class JSONParser implements Parse{
                     tempP.setCoordinates(temps.get(i).getCoordinates());
                     tempP.setDescription(temps.get(i).getDescription());
 
-                    locations.add(tempP);
+                    allLocations.add(tempP);
 
                 }
 
@@ -86,6 +84,8 @@ public class JSONParser implements Parse{
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        return allLocations;
     }
 
 }
