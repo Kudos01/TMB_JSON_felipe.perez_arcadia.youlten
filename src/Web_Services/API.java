@@ -52,7 +52,7 @@ public class API {
 
 
     public ArrayList<MetroStation> loadMetroStations() {
-        Request request = new Request.Builder().url("https://api.tmb.cat/v1/transit/estacions?app_id=41936f32&app_key=3c5639afc8280c17cb4f633b78de717b").build();
+        Request request = new Request.Builder().url("https://api.tmb.cat/v1/transit/linies/metro/estacions?app_id=41936f32&app_key=3c5639afc8280c17cb4f633b78de717b").build();
         ArrayList<MetroStation> metroStations = new ArrayList<>();
 
         try{
@@ -104,7 +104,6 @@ public class API {
 
             for (int i = 0; i < metroStationTemp.get("features").getAsJsonArray().size(); i++) {
                 MetroStation ml = new MetroStation(metroStationTemp.get("features").getAsJsonArray().get(i).getAsJsonObject());
-                System.out.println(ml.getStationName());
                 metroStations.add(ml);
             }
 

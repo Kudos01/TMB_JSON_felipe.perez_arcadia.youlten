@@ -383,7 +383,7 @@ public class Logic {
         ArrayList<MetroStation> birthyear_stations = new ArrayList<>();
 
         for (int i = 0; i < metroStations.size() ; i++) {
-            if(metroStations.get(i).getDate().contains(Integer.toString(year))){
+            if(metroStations.get(i).getDateInaugurated().contains(Integer.toString(year))){
                 birthyear_stations.add(metroStations.get(i));
             }
         }
@@ -400,7 +400,10 @@ public class Logic {
             birthyear_stations = findStationsByYear(user.getBirthyear());
 
             for (int i = 0; i < birthyear_stations.size(); i++) {
-                System.out.println(birthyear_stations.get(i).getStationName());
+                StringBuilder sb = new StringBuilder(birthyear_stations.get(i).getName());
+                sb.append(" ");
+                sb.append(birthyear_stations.get(i).getLineName());
+                System.out.println(sb);
             }
 
         } catch (StationNotFoundByYearException e) {
