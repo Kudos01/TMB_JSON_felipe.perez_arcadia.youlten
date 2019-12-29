@@ -19,9 +19,11 @@ private static final double maxlong = ;
 
  */
 
-    public class Logic {
+public class Logic {
 
     private Scanner scanner;
+
+    public static ArrayList<Location> allLocations;
 
     public Logic() {
         scanner = new Scanner(System.in);
@@ -62,7 +64,6 @@ private static final double maxlong = ;
 
             }
         }
-    }
 
     void userCreateLocation(){
 
@@ -74,7 +75,7 @@ private static final double maxlong = ;
         name = scanner.nextLine();
 
 
-        while(validLocationName(name, Main.allLocations) ){
+        while(validLocationName(name, allLocations) ){
             System.out.println("");
             System.out.println("Error: This location already exists.");
             System.out.println("");
@@ -170,9 +171,6 @@ private static final double maxlong = ;
         }
     }
 
-
-    }
-
     /*
 
     private void searchLocation(Location location){
@@ -248,9 +246,6 @@ private static final double maxlong = ;
 
 
     */
-
-
-
 
 }
 

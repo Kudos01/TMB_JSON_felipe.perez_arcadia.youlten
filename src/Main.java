@@ -1,6 +1,7 @@
 //package com.company;
 
 import DataModel.*;
+import GUI_and_Menu_logic.Logic;
 import GUI_and_Menu_logic.Menu;
 import com.google.gson.JsonArray;
 
@@ -13,10 +14,7 @@ import java.util.ArrayList;
 
 public class Main {
 
-    public static ArrayList<Location> allLocations;
-
     public static void main(String[] args) throws IOException {
-
 
         //TODO: goal for next couple sessions -> program various menu options
         //start with whatever you wish to start with, i've added some menu stuff, so it should be more or less straight
@@ -29,7 +27,7 @@ public class Main {
 
         //parse the json file localizations
         JSONParser parser = new JSONParser();
-        allLocations = parser.parseLocations();
+        Logic.allLocations = parser.parseLocations();
         Menu menu = new Menu();
 
         menu.printIntro();
