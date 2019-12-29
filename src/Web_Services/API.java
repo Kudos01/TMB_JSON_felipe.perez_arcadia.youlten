@@ -41,7 +41,7 @@ public class API {
 
                 ArrayList<MetroLines> ml = gson.fromJson(jsonData, metroLineType);
 
-                //System.out.println(ml);
+                System.out.println(ml);
 
             }catch (IOException e){
                 e.printStackTrace();
