@@ -28,7 +28,7 @@ public class Main {
         Menu menu = new Menu();
         API api = new API();
 
-        logic.loadLocationData();
+        logic.loadData();
 
         logic.Intro();
 

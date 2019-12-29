@@ -20,71 +20,99 @@ import java.util.ArrayList;
 
 public class API {
 
+    private OkHttpClient client = new OkHttpClient();
 
+    public ArrayList<MetroStation> loadMetroStations(){
 
-        public void testAPI(){
+        Request request = new Request.Builder().url("https://api.tmb.cat/v1/transit/parades?app_id=41936f32&app_key=3c5639afc8280c17cb4f633b78de717b").build();
+        ArrayList<MetroStation> metroStations = new ArrayList<>();
 
-            OkHttpClient client = new OkHttpClient();
-            //
-            Request request = new Request.Builder().url("https://api.tmb.cat/v1/transit/parades?app_id=41936f32&app_key=3c5639afc8280c17cb4f633b78de717b").build();
-
-            try{
-
-                Response response = client.newCall(request).execute();
-                String jsonData = null;
-                if(response.body() != null){
-
-                    jsonData = response.body().string();
-                }
-
-                Gson gson = new Gson();
-
-                //Type metroLineType = new TypeToken<ArrayList<MetroLine>>(){}.getType();
-
-                ArrayList<MetroStation> metroStations = new ArrayList<>();
-                JsonObject metroStationTemp = gson.fromJson(jsonData, JsonObject.class);
-
-                //System.out.println(metroStation.get("features").getAsJsonArray().get(0).getAsJsonObject().get("properties").getAsJsonObject().get("ID_PARADA"));
-
-                for (int i = 0; i < metroStationTemp.get("features").getAsJsonArray().size(); i++) {
-                    MetroStation ml = new MetroStation(metroStationTemp.get("features").getAsJsonArray().get(i).getAsJsonObject());
-                    System.out.println(ml.getStop_name());
-                    metroStations.add(ml);
-                }
-
-            }catch (IOException e){
-                e.printStackTrace();
+        try{
+            Response response = client.newCall(request).execute();
+            String jsonData = null;
+            if(response.body() != null){
+                jsonData = response.body().string();
             }
 
+            Gson gson = new Gson();
+
+            //Type metroLineType = new TypeToken<ArrayList<MetroLine>>(){}.getType();
+
+            JsonObject metroStationTemp = gson.fromJson(jsonData, JsonObject.class);
+
+            //System.out.println(metroStation.get("features").getAsJsonArray().get(0).getAsJsonObject().get("properties").getAsJsonObject().get("ID_PARADA"));
+
+            for (int i = 0; i < metroStationTemp.get("features").getAsJsonArray().size(); i++) {
+                MetroStation ml = new MetroStation(metroStationTemp.get("features").getAsJsonArray().get(i).getAsJsonObject());
+                System.out.println(ml.getStop_name());
+                metroStations.add(ml);
+            }
+
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        return metroStations;
+    }
+
+    public void testAPI(){
+
+        Request request = new Request.Builder().url("https://api.tmb.cat/v1/transit/parades?app_id=41936f32&app_key=3c5639afc8280c17cb4f633b78de717b").build();
+
+        try{
+            Response response = client.newCall(request).execute();
+            String jsonData = null;
+            if(response.body() != null){
+
+                jsonData = response.body().string();
+            }
+
+            Gson gson = new Gson();
+
+            //Type metroLineType = new TypeToken<ArrayList<MetroLine>>(){}.getType();
+
+            ArrayList<MetroStation> metroStations = new ArrayList<>();
+            JsonObject metroStationTemp = gson.fromJson(jsonData, JsonObject.class);
+
+            //System.out.println(metroStation.get("features").getAsJsonArray().get(0).getAsJsonObject().get("properties").getAsJsonObject().get("ID_PARADA"));
+
+            for (int i = 0; i < metroStationTemp.get("features").getAsJsonArray().size(); i++) {
+                MetroStation ml = new MetroStation(metroStationTemp.get("features").getAsJsonArray().get(i).getAsJsonObject());
+                System.out.println(ml.getStop_name());
+                metroStations.add(ml);
+            }
+
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    public ArrayList<MetroStation> apiGetStationInauguration(int birth_year) throws noStationsBirthdayException {
+
+        ArrayList<MetroStation> inauguratedStations = new ArrayList<>();
+
+        /*
+        for (int i = 0; i < ; i++) {
+
+            if( birth_year == ){
+
+            inauguratedStations.add();
+
+            }
+
+            //check all stations on all lines if they were inaugurated in year
         }
 
-        public ArrayList<MetroStation> apiGetStationInauguration(int birth_year) throws noStationsBirthdayException {
+        return inauguratedStations;
 
-            ArrayList<MetroStation> inauguratedStations = new ArrayList<>();
+         */
+        if(inauguratedStations.isEmpty()){
 
-            /*
-            for (int i = 0; i < ; i++) {
-
-                if( birth_year == ){
-
-                inauguratedStations.add();
-
-                }
-
-                //check all stations on all lines if they were inaugurated in year
-            }
-
-            return inauguratedStations;
-
-             */
-            if(inauguratedStations.isEmpty()){
-
-                throw new noStationsBirthdayException();
-            }
-
-            return inauguratedStations;
-
+            throw new noStationsBirthdayException();
         }
+
+        return inauguratedStations;
+
+    }
 
 
 }

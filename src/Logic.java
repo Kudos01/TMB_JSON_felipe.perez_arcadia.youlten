@@ -24,16 +24,23 @@ private static final double maxlong = 4.384272;
 public class Logic {
 
     private User user;
-    private API api;
+    private API api = new API();
+    private JSONParser parser = new JSONParser();
     private final Scanner scanner = new Scanner(System.in);
 
     public ArrayList<Location> allLocations;
     private ArrayList<Location> searchedLocations = new ArrayList<>();
     //private static ArrayList<Location> searchedLocations;
 
-    public void loadLocationData(){
-        JSONParser parser = new JSONParser();
+    public ArrayList<MetroStation> metroStations = new ArrayList<>();
+
+    public void loadData(){
+        //Loading locations from the JSON file
         allLocations = parser.parseLocations();
+
+        //Loading all of the metro lines from the API
+        metroStations = api.loadMetroStations();
+
     }
 
     public void Intro(){
