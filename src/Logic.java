@@ -328,9 +328,6 @@ public class Logic {
     }
 
 
-
-
-
     private Route planRoute(Location origin, Location destination, String date, String hour, int max_dist_walking){
 
     return null;
