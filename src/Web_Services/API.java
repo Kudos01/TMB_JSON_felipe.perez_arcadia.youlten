@@ -38,12 +38,12 @@ public class API {
 
                 Gson gson = new Gson();
 
-                //Type metroLineType = new TypeToken<ArrayList<MetroLines>>(){}.getType();
+                //Type metroLineType = new TypeToken<ArrayList<MetroLine>>(){}.getType();
 
-                //ArrayList<MetroLines> ml = gson.fromJson(jsonData, metroLineType);
+                //ArrayList<MetroLine> ml = gson.fromJson(jsonData, metroLineType);
                 JsonObject metroLines = gson.fromJson(jsonData, JsonObject.class);
 
-                System.out.println(metroLines);
+                //System.out.println(metroLines);
 
             }catch (IOException e){
                 e.printStackTrace();
