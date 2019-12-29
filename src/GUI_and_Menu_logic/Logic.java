@@ -33,31 +33,32 @@ private static final double maxlong = ;
         if(!userLocations.isEmpty()){
             for (int i = 0; i < userLocations.size(); i++) {
                 //Print out all of the user's locations
-                System.out.println();
+                System.out.println(userLocations.get(i).getName());
             }
         }
 
-        else{
+        if(userLocations.isEmpty()){
             System.out.println("You don't have any locations created");
+            System.out.println("");
+        }
+
+        System.out.println("Want to create a new location? (yes/no)");
+        yesorno = scanner.nextLine();
+
+        while(!yesorno.equalsIgnoreCase("no") && !yesorno.equalsIgnoreCase("yes")){
+            System.out.println("");
+            System.out.println("Error! you must enter yes or no!");
             System.out.println("");
             System.out.println("Want to create a new location? (yes/no)");
             yesorno = scanner.nextLine();
+        }
 
-            while(!yesorno.equalsIgnoreCase("no") && !yesorno.equalsIgnoreCase("yes")){
-                System.out.println("");
-                System.out.println("Error! you must enter yes or no!");
-                System.out.println("");
-                System.out.println("Want to create a new location? (yes/no)");
-                yesorno = scanner.nextLine();
-            }
+        if(yesorno.equalsIgnoreCase("yes")){
+            userCreateLocation();
+        }
 
-            if(yesorno.equalsIgnoreCase("yes")){
-                userCreateLocation();
-            }
+        else if(yesorno.equalsIgnoreCase("no")){
 
-            else if(yesorno.equalsIgnoreCase("no")){
-
-            }
         }
     }
 
@@ -70,9 +71,7 @@ private static final double maxlong = ;
         System.out.println("Location Name:");
         name = scanner.nextLine();
 
-        ArrayList<Location> dummy = new ArrayList();
-
-        while(validLocationName(name, dummy) ){
+        while(validLocationName(name, User.userLocations) ){
             System.out.println("");
             System.out.println("Error: This location already exists.");
             System.out.println("");
@@ -83,28 +82,18 @@ private static final double maxlong = ;
 
         System.out.println("");
         System.out.println("Longitude: ");
-        coordinates[0] = scanner.nextDouble();
+        boolean b = askForLongitude(coordinates);
 
-        while(!validLocationCoords0(coordinates[0])){
-
-            System.out.println("");
-            System.out.println("Error! The longitude is not valid");
-            System.out.println("");
-            System.out.println("Longitude: ");
-            coordinates[0] = scanner.nextDouble();
-
+        while(!b){
+            b = askForLongitude(coordinates);
         }
 
         System.out.println("");
         System.out.println("Latitude: ");
-        coordinates[1] = scanner.nextDouble();
+        b = askForLatitude(coordinates);
 
-        while(!validLocationCoords1(coordinates[1])){
-            System.out.println("");
-            System.out.println("Error! The longitude is not valid");
-            System.out.println("");
-            System.out.println("Longitude: ");
-            coordinates[1] = scanner.nextDouble();
+        while(!b){
+            b = askForLatitude(coordinates);
         }
 
         System.out.println("");
@@ -132,7 +121,7 @@ private static final double maxlong = ;
         return newPlace;
     }
 
-    private boolean validLocationName(String name, ArrayList<Location> allLocations ){
+    private boolean validLocationName(String name, ArrayList<Location> allLocations){
 
         boolean tof = false;
 
@@ -140,23 +129,44 @@ private static final double maxlong = ;
             if(name.equalsIgnoreCase(allLocations.get(i).getName())){
                 tof = true;
             }
+        }
+        return tof;
+    }
 
+    private boolean askForLongitude(Double[] coordinates){
+        if(scanner.hasNextDouble()){
+            coordinates[0] = scanner.nextDouble();
+            return true;
         }
 
-        return tof;
-
+        else{
+            scanner.nextLine();
+            System.out.println("");
+            System.out.println("Error! The longitude is not valid");
+            System.out.println("");
+            System.out.println("Longitude: ");
+            return false;
+        }
     }
 
-    private boolean validLocationCoords0(Double coordinate){
+    private boolean askForLatitude(Double[] coordinates){
+        if(scanner.hasNextDouble()){
+            coordinates[1] = scanner.nextDouble();
+            return true;
+        }
 
-        return (true);
-
+        else{
+            scanner.nextLine();
+            System.out.println("");
+            System.out.println("Error! The latitude is not valid");
+            System.out.println("");
+            System.out.println("Latitude: ");
+            return false;
+        }
     }
 
-    private boolean validLocationCoords1(Double coordinate){
-
+    private boolean askForCoord1(){
         return (true);
-
     }
 
     /*

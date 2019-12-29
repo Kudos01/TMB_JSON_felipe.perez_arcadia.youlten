@@ -109,6 +109,7 @@ public class Menu {
         if(scanner.hasNextInt()){
             option1 = scanner.nextInt();
         }
+
         else{
             scanner.next();
             option1 = 0;
