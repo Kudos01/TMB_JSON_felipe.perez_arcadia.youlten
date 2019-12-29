@@ -10,6 +10,7 @@ public class User {
     private Integer birthday;
 
     public static ArrayList<Location> userLocations = new ArrayList<>();
+    public static ArrayList<FavLocation> favoriteLocation = new ArrayList<>();
 
 
     //getters

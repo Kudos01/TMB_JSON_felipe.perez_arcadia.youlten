@@ -23,7 +23,10 @@ public class Logic {
 
     private Scanner scanner;
 
+    private static User user;
     public static ArrayList<Location> allLocations;
+    private static ArrayList<Location> searchedLocations;
+    //private static ArrayList<Location> searchedLocations;
 
 
     public Logic() {
@@ -188,41 +191,51 @@ public class Logic {
         } catch (locationNotFoundException e) {
             e.printErrorMessage();
         }
+        searchedLocations.add(allLocations.get(pos));
+        System.out.println("Coordinates:"+""+ Arrays.toString(allLocations.get(pos).getCoordinates()));
+        System.out.println("Description:");
+        System.out.println(allLocations.get(pos).getDescription());
 
-        if(pos != null){
+        if(allLocations.get(pos) instanceof Restaurant){
 
-            System.out.println("Coordinates:"+""+ Arrays.toString(allLocations.get(pos).getCoordinates()));
-            System.out.println("Description:");
-            System.out.println(allLocations.get(pos).getDescription());
+            for (int i = 0; i < ((Restaurant) allLocations.get(pos)).getCharacteristics().size(); i++) {
 
-            if(allLocations.get(pos) instanceof Restaurant){
-
-                for (int i = 0; i < ((Restaurant) allLocations.get(pos)).getCharacteristics().size(); i++) {
-
-                    System.out.println("Characteristics: ");
-                    //TODO: how to get all characteristics
-                    //System.out.print(Arrays.toString(((Restaurant) allLocations.get(pos)).getCharacteristics()));
-
-                }
-
-            }
-            else if(allLocations.get(pos) instanceof Hotel){
-
-                System.out.println("Stars: " + ((Hotel) allLocations.get(pos)).getStars());
-
-            }
-            else if(allLocations.get(pos) instanceof Monument){
-
-                System.out.println("Architect: " + ((Monument) allLocations.get(pos)).getArchitect());
-                System.out.println("Inauguration: " + ((Monument) allLocations.get(pos)).getInauguration());
+                System.out.println("Characteristics: ");
+                //TODO: how to get all characteristics
+                //System.out.print(Arrays.toString(((Restaurant) allLocations.get(pos)).getCharacteristics()));
 
             }
 
         }
+        else if(allLocations.get(pos) instanceof Hotel){
 
+            System.out.println("Stars: " + ((Hotel) allLocations.get(pos)).getStars());
 
-        else{
+        }
+        else if(allLocations.get(pos) instanceof Monument){
 
+            System.out.println("Architect: " + ((Monument) allLocations.get(pos)).getArchitect());
+            System.out.println("Inauguration: " + ((Monument) allLocations.get(pos)).getInauguration());
+
+        }
+
+        System.out.println("");
+        System.out.println("Do you want to set the found location as your favorite? (yes/no)");
+        String yesorno = scanner.nextLine();
+
+        while(!yesorno.equalsIgnoreCase("no") && !yesorno.equalsIgnoreCase("yes")){
+            System.out.println("");
+            System.out.println("Error! you must enter yes or no!");
+            System.out.println("");
+            System.out.println("Do you want to set the found location as your favorite? (yes/no)");
+            yesorno = scanner.nextLine();
+        }
+
+        if(yesorno.equalsIgnoreCase("yes")){
+            userSetFaveLocation(allLocations.get(pos));
+        }
+
+        else if(yesorno.equalsIgnoreCase("no")){
 
         }
 
@@ -245,6 +258,69 @@ public class Logic {
         }
         
         return pos;
+    }
+
+    private void userSetFaveLocation(Location location){
+
+
+        if(location instanceof Restaurant){
+
+            FavLocation tempR = new FavLocation();
+            tempR.setName(location.getName());
+            tempR.setCoordinates(location.getCoordinates());
+            tempR.setDescription(location.getDescription());
+            //tempR.setCharacteristics(((Restaurant) location).getCharacteristics());
+            tempR.setDate();
+            tempR.setType(type);
+
+            user.favoriteLocation.add(tempR);
+
+        }
+        else if(location instanceof Hotel){
+            FavLocation tempH = new FavLocation();
+            tempH.setName(location.getName());
+            tempH.setCoordinates(location.getCoordinates());
+            tempH.setDescription(location.getDescription());
+            tempH.setStars(((Hotel) location).getStars());
+            tempH.setDate();
+            tempH.setType(type);
+
+            user.favoriteLocation.add(tempH);
+
+
+        }
+        else if(location instanceof Monument){
+            FavLocation tempM = new FavLocation();
+            tempM.setName(location.getName());
+            tempM.setCoordinates(location.getCoordinates());
+            tempM.setDescription(location.getDescription());
+            tempM.setArchitect(((Monument) location).getArchitect());
+            tempM.setInauguration(((Monument) location).getInauguration());
+            tempM.setDate();
+            tempM.setType(type);
+
+            user.favoriteLocation.add(tempM);
+
+
+
+        }
+        else{
+            FavLocation tempP = new FavLocation();
+
+            tempP.setName(location.getName());
+            tempP.setCoordinates(location.getCoordinates());
+            tempP.setDescription(location.getDescription());
+            tempP.setDate();
+            tempP.setType(type);
+
+            user.favoriteLocation.add(tempP);
+
+
+        }
+
+        System.out.println("");
+        System.out.println(location.getName()+" had been added as a new favorite location");
+
     }
 
 

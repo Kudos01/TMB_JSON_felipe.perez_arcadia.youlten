@@ -2,7 +2,7 @@ package DataModel;
 
 import java.sql.Date;
 
-public class FavLocation {
+public class FavLocation extends Location{
 
     private String type;
     private Date date;
