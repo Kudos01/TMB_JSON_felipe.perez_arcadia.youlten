@@ -155,7 +155,7 @@ public class Logic {
             return false;
         }
     }
-
+//
     private boolean askForLatitude(Double[] coordinates){
         if(scanner.hasNextDouble()){
             coordinates[1] = scanner.nextDouble();
