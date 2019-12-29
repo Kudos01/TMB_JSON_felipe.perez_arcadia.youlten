@@ -24,7 +24,7 @@ public class Main {
 
         Logic logic = new Logic();
         Menu menu = new Menu();
-
+        //
         logic.loadLocationData();
 
         logic.Intro();
