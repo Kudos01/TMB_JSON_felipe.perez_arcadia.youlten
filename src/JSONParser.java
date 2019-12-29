@@ -12,10 +12,10 @@ import java.util.ArrayList;
 
 public class JSONParser implements Parse{
 
-    ArrayList<Location> allLocations = new ArrayList<>();
-
     @Override
-    public  ArrayList<Location> parseLocations() {
+    public ArrayList<Location> parseLocations() {
+
+        ArrayList<Location> allLocations = new ArrayList<>();
 
         Gson gson = new Gson();
         //TODO: check if this is sufficient for checking and exiting program with error message
@@ -23,7 +23,7 @@ public class JSONParser implements Parse{
 
             //make a new type token of type teams, so that we can parse all the teams from the json to an arraylist of type Team
 
-            LocationObj locOb = new LocationObj();
+            LocationObj locOb;
             Type tempListType = new TypeToken<ArrayList<temp>>() {}.getType();
             //temp temps = new temp();
             ArrayList<temp> temps = new ArrayList<>();
