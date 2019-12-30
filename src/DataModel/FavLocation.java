@@ -8,23 +8,18 @@ public class FavLocation{
     private Date date;
     private Location location;
 
+    public FavLocation(Location location, Date date, String type) {
+        this.location = location;
+        this.date = date;
+        this.type = type;
+    }
+
     public String getType() { return type; }
 
     public Date getDate() { return date; }
 
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public Location getLocation() {
+    public Location getLocation(){
         return location;
     }
 
-    public void setLocation(Location location) {
-        this.location = location;
-    }
 }

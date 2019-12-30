@@ -43,6 +43,14 @@ public class Logic {
         //Loading all of the bus lines from the API
         busStations = api.loadBusStations();
 
+        /*
+        for (int i = 0; i < busStations.size(); i++) {
+            System.out.println(busStations.get(i).getCoordinates()[0]);
+            System.out.println(busStations.get(i).getCoordinates()[1]);
+        }
+
+         */
+
         //loading all of the metro lines from the API
         //metroStations = api.loadMetroStations();
     }
@@ -161,13 +169,7 @@ public class Logic {
     }
 
     private Location createNewLocation(String name, Double[] coordinates, String description){
-
-        Place newPlace = new Place();
-        newPlace.setName(name);
-        newPlace.setCoordinates(coordinates);
-        newPlace.setDescription(description);
-
-        return newPlace;
+        return new Place(name, coordinates, description);
     }
 
     private boolean validLocationName(String name, ArrayList<Location> allLocations){
@@ -328,43 +330,9 @@ public class Logic {
 
         Date date = new Date();
 
-        if(location instanceof Restaurant){
+        FavLocation temp = new FavLocation(location, date, type);
 
-            FavLocation tempR = new FavLocation();
-            tempR.setLocation(location);
-            tempR.setDate(date);
-            tempR.setType(type);
-
-            user.favoriteLocations.add(tempR);
-
-        }
-        else if(location instanceof Hotel){
-            FavLocation tempH = new FavLocation();
-            tempH.setLocation(location);
-            tempH.setDate(date);
-            tempH.setType(type);
-
-            user.favoriteLocations.add(tempH);
-
-
-        }
-        else if(location instanceof Monument){
-            FavLocation tempM = new FavLocation();
-            tempM.setLocation(location);
-            tempM.setDate(date);
-            tempM.setType(type);
-
-            user.favoriteLocations.add(tempM);
-        }
-        else{
-            FavLocation tempP = new FavLocation();
-
-            tempP.setLocation(location);
-            tempP.setDate(date);
-            tempP.setType(type);
-
-            user.favoriteLocations.add(tempP);
-        }
+        user.favoriteLocations.add(temp);
 
         System.out.println("");
         System.out.println(location.getName() + " has been added as a new favorite location");
@@ -468,8 +436,6 @@ public class Logic {
         }
     }
 
-    //public void askForStopCode();
-
     public boolean checkStopCodeIfExists(int stopcode, ArrayList<BusStation> stations) throws invalidStopCodeException {
 
         boolean exists = false;
@@ -484,6 +450,69 @@ public class Logic {
             throw new invalidStopCodeException();
         }
         return exists;
+    }
+
+    private void showCloseStations() {
+        if(user.favoriteLocations.isEmpty()){
+            System.out.println("In order to have favourite stops and stations it is necessary to create a favourite location previously.");
+        }
+
+        else{
+            ArrayList<BusStation> bs = new ArrayList<>(busStations);
+            ArrayList<MetroStation> ms = new ArrayList<>(metroStations);
+
+            int counter = 0;
+
+            boolean flag = false;
+
+            for (int i = 0; i < bs.size(); i++) {
+                for (int j = 0; j < user.favoriteLocations.size(); j++) {
+
+                    if(500 >= distanceInKmBetweenEarthCoordinates(bs.get(i).getCoordinates(), user.favoriteLocations.get(j).getLocation().getCoordinates())){
+
+                        System.out.println(distanceInKmBetweenEarthCoordinates(bs.get(i).getCoordinates(), user.favoriteLocations.get(j).getLocation().getCoordinates()));
+
+                        StringBuilder sb = new StringBuilder();
+
+                        sb.append("(");
+                        sb.append(++counter);
+                        sb.append(" ");
+                        sb.append(bs.get(i).getStopName());
+                        sb.append(" (");
+                        sb.append(bs.get(i).getStopCode());
+                        sb.append(") ");
+                        sb.append("BUS");
+
+                        System.out.println(sb);
+
+                        flag = true;
+                    }
+                }
+            }
+
+            if(!flag){
+                System.out.println("TMB is doing its best to make the bus and subway arrive here.");
+            }
+        }
+    }
+
+    private double distanceInKmBetweenEarthCoordinates(Double[] lat_long1, Double[] lat_long2) {
+        int earthRadiusM = 6371000;
+
+        double dLat = degreesToRadians(lat_long2[1]-lat_long1[1]);
+        double dLon = degreesToRadians(lat_long2[0]-lat_long1[0]);
+
+        double lat1_deg = degreesToRadians(lat_long1[1]);
+        double lat2_deg = degreesToRadians(lat_long2[1]);
+
+        double a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1_deg) * Math.cos(lat2_deg);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        return c * earthRadiusM;
+    }
+
+    private double degreesToRadians(double degrees) {
+        return degrees * 0.0174532925199433;
     }
 
 
@@ -521,7 +550,7 @@ public class Logic {
 
         }
         else if(option.equalsIgnoreCase("d")){
-
+            showCloseStations();
         }
         else if(option.equalsIgnoreCase("e")){
 
@@ -535,13 +564,7 @@ public class Logic {
         }
     }
 
-
    /*
-    private void editLocation(Location newLocation){
-
-
-    }
-
 
     private Route planRoute(Location origin, Location destination, String date, String hour, int max_dist_walking){
 
@@ -553,16 +576,7 @@ public class Logic {
     return null;
     }
 
-    private void busWaitTime(int stop_code){
-
-
-    }
-
     private void checkUserData(String username,String email,int birthday){
-
-
-    }
-    private void markAsFavourite(Location location){
 
 
     }

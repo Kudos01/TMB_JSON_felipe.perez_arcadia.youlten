@@ -5,6 +5,10 @@ public class Monument extends Location{
     private String architect;
     private int inauguration;
 
+    public Monument(Generic g) {
+        super(g);
+    }
+
     public String getArchitect() { return architect; }
 
     public Integer getInauguration() { return inauguration; }

@@ -26,12 +26,11 @@ public class Main {
 
         Logic logic = new Logic();
         Menu menu = new Menu();
-        API api = new API();
 
         logic.loadData();
 
-        logic.Intro();
 
+        logic.Intro();
 
         do{
             menu.printMenu1();
@@ -63,7 +62,5 @@ public class Main {
 
 
         }
-
-
 
     }

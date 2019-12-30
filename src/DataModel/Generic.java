@@ -2,7 +2,7 @@ package DataModel;
 
 import com.google.gson.JsonArray;
 
-public class temp{
+public class Generic {
 
     private String name;
     private Double[] coordinates;
