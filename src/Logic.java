@@ -235,6 +235,8 @@ public class Logic {
             for (int i = 0; i < searchedLocations.size(); i++) {
                 if(searchedLocations.get(i) == allLocations.get(pos)){
                     alreadySearched = true;
+                    searchedLocations.remove(i);
+                    searchedLocations.add(allLocations.get(pos));
                 }
             }
 
