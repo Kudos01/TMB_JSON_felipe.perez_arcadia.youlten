@@ -2,6 +2,7 @@ package Web_Services;
 
 import DataModel.LocationObj;
 import DataModel.temp;
+import Exceptions.invalidStopCodeException;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
@@ -25,7 +26,7 @@ public class API {
 
     public ArrayList<BusStation> loadBusStations(){
 
-        Request request = new Request.Builder().url("https://api.tmb.cat/v1/transit/parades?app_id=41936f32&app_key=3c5639afc8280c17cb4f633b78de717b").build();
+        Request request = new Request.Builder().url("https://api.tmb.cat/v1/transit/linies/bus/parades?app_id=41936f32&app_key=3c5639afc8280c17cb4f633b78de717b").build();
         ArrayList<BusStation> busStations = new ArrayList<>();
 
         try{
@@ -36,8 +37,6 @@ public class API {
             }
 
             Gson gson = new Gson();
-
-            //Type metroLineType = new TypeToken<ArrayList<MetroLine>>(){}.getType();
 
             JsonObject busStationTemp = gson.fromJson(jsonData, JsonObject.class);
 
@@ -67,8 +66,6 @@ public class API {
             }
 
             Gson gson = new Gson();
-
-            //Type metroLineType = new TypeToken<ArrayList<MetroLine>>(){}.getType();
 
             JsonObject metroStationTemp = gson.fromJson(jsonData, JsonObject.class);
 
@@ -120,7 +117,7 @@ public class API {
          */
     }
 
-    public ArrayList<iBus> getStops(Integer stopCode) throws IOException {
+    public ArrayList<iBus> getBusWaitTime(int stopCode){
 
 
         StringBuilder sb = new StringBuilder();
@@ -128,12 +125,11 @@ public class API {
         sb.append(stopCode);
         sb.append("?app_id=41936f32&app_key=3c5639afc8280c17cb4f633b78de717b");
         String url = sb.toString();
-
+        ArrayList<iBus> closeBuses = new ArrayList<>();
 
         Request request = new Request.Builder().url(url).build();
 
         try {
-            ArrayList<iBus> closeBuses = new ArrayList<>();
 
             Response response = client.newCall(request).execute();
             String jsonData = null;
@@ -143,13 +139,12 @@ public class API {
 
             Gson gson = new Gson();
 
-            Type iBusListType = new TypeToken<ArrayList<iBus>>() {
-            }.getType();
-            ArrayList<temp> temps = new ArrayList<>();
-
             JsonObject ibus = gson.fromJson(jsonData, JsonObject.class);
-            closeBuses = gson.fromJson(ibus.get("data").getAsJsonObject().get("ibus").getAsJsonArray(), iBusListType);
 
+            for (int i = 0; i < ibus.get("data").getAsJsonObject().get("ibus").getAsJsonArray().size(); i++) {
+                iBus ib = new iBus(ibus.get("data").getAsJsonObject().get("ibus").getAsJsonArray().get(i).getAsJsonObject());
+                closeBuses.add(ib);
+            }
 
         }catch(IOException e){
 
@@ -158,6 +153,4 @@ public class API {
         }
         return closeBuses;
     }
-
-
 }

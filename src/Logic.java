@@ -305,7 +305,6 @@ public class Logic {
         System.out.println("");
         System.out.println("Type (home / work / studies / leisure / culture):");
         String type = scanner.nextLine();
-        //************************************
 
         while(!(type.equalsIgnoreCase("home") || type.equalsIgnoreCase("work") || type.equalsIgnoreCase("studies") || type.equalsIgnoreCase("leisure") ||type.equalsIgnoreCase("culture")  )){
             System.out.println("");
@@ -416,55 +415,48 @@ public class Logic {
 
 
     public void getBusWaitTime(){
-            int unknownStopCode;
-            Integer foundStopCode;
+        int stopCode;
+        boolean exists = false;
 
+        //check if it exists HERE
+        while(!exists){
             System.out.println("");
             System.out.println("Enter the stop code:");
-            unknownStopCode = scanner.nextInt();
-        //*********************************************************************************************************
-
-       try{
-            foundStopCode = checkStopCode(unknownStopCode, busStations);
-            ArrayList<iBus> closeBus= new ArrayList<iBus>(api.getStops(foundStopCode));
-
-            for (int i = 0; i < closeBus.size() ; i++) {
-                System.out.println(closeBus.get(i).getLine() + ""+ "-"+""+closeBus.get(i).getDestination() + ""+ "-"+"" + closeBus.get(i).getTime_in_min()+ " min");
+            stopCode = scanner.nextInt();
+            scanner.nextLine();
+            try {
+                exists = checkStopCodeIfExists(stopCode, busStations);
+            } catch (invalidStopCodeException e) {
+                e.printErrorMessage();
+            }finally {
+                if(exists){
+                    ArrayList<iBus> closeBus = new ArrayList<>(api.getBusWaitTime(stopCode));
+                    for (int i = 0; i < closeBus.size() ; i++) {
+                        System.out.println(closeBus.get(i).getLine() + "" + "-" + "" + closeBus.get(i).getDestination() +
+                                "" + "-" + "" + closeBus.get(i).getTime_in_min() + " min");
+                    }
+                }
             }
-
-
-
         }
-        catch(IOException | invalidStopCodeException e) {
-
-            e.printStackTrace();
-        }
-
     }
 
     //public void askForStopCode();
 
-    public Integer checkStopCode(int stopcode, ArrayList<BusStation> stations) throws invalidStopCodeException {
+    public boolean checkStopCodeIfExists(int stopcode, ArrayList<BusStation> stations) throws invalidStopCodeException {
 
-        Integer pos = null;
+        boolean exists = false;
 
         for (int i = 0; i < stations.size(); i++) {
-
             if(stopcode == stations.get(i).getStopCode()){
-                pos = i;
+                exists = true;
             }
-
         }
 
-        if(pos == null){
-
+        if(!exists){
             throw new invalidStopCodeException();
-
         }
-        return pos;
+        return exists;
     }
-
-
 
 
     public void whichOptionM1(int option){
