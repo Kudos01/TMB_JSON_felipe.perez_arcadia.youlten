@@ -3,7 +3,7 @@ package DataModel;
 public abstract class Location {
 
     private String name;
-    private Double[] coordinates;
+    private double[] coordinates;
     private String description;
 
     public Location(Generic g){
@@ -12,7 +12,7 @@ public abstract class Location {
         this.description = g.getDescription();
     }
 
-    public Location(String name, Double[] coordinates, String description){
+    public Location(String name, double[] coordinates, String description){
         this.name = name;
         this.coordinates = coordinates;
         this.description = description;
@@ -26,7 +26,7 @@ public abstract class Location {
         this.name = name;
     }
 
-    public Double[] getCoordinates() {
+    public double[] getCoordinates() {
         return coordinates;
     }
 

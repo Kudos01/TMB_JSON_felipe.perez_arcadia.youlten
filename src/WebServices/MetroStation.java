@@ -4,7 +4,7 @@ import com.google.gson.JsonObject;
 
 public class MetroStation {
 
-    private Double[] coordinates = new Double[2];
+    private double[] coordinates = new double[2];
     private int station_id;
     private int station_code;
     private String station_name;
@@ -43,7 +43,7 @@ public class MetroStation {
         return date_inaugurated;
     }
 
-    public Double[] getCoordinates() {
+    public double[] getCoordinates() {
         return coordinates;
     }
 }

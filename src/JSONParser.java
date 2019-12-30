@@ -32,8 +32,6 @@ public class JSONParser implements Parse{
             //if you run locOb.getLocations() you get the json list of locations
             temp = gson.fromJson(locOb.getLocations(), tempListType);
 
-            System.out.println(Arrays.toString(temp.get(0).getCoordinates()));
-
             //the idea of this part is once you get here, there should be an arraylist of generics (see temp)
             for (int i = 0; i < temp.size(); i++) {
 

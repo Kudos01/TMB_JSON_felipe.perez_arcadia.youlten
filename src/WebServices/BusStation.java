@@ -4,7 +4,7 @@ import com.google.gson.JsonObject;
 
 public class BusStation {
 
-    private Double[] coordinates = new Double[2];
+    private double[] coordinates = new double[2];
     private int stop_code;
     private String stop_name;
     private String stop_description;
@@ -21,7 +21,7 @@ public class BusStation {
     }
 
 
-    public Double[] getCoordinates() {
+    public double[] getCoordinates() {
         return coordinates;
     }
 

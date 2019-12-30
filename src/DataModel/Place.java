@@ -6,7 +6,7 @@ public class Place extends Location {
         super(g);
     }
 
-    public Place(String name, Double[] coordinates, String description) {
+    public Place(String name, double[] coordinates, String description) {
         super(name, coordinates, description);
     }
 }

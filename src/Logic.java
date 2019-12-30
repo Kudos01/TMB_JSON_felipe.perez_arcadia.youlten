@@ -119,7 +119,7 @@ public class Logic {
     void userCreateLocation(){
 
         String name;
-        Double[] coordinates = new Double[2];
+        double[] coordinates = new double[2];
         String description;
 
         System.out.println("Location Name:");
@@ -168,7 +168,7 @@ public class Logic {
         }
     }
 
-    private Location createNewLocation(String name, Double[] coordinates, String description){
+    private Location createNewLocation(String name, double[] coordinates, String description){
         return new Place(name, coordinates, description);
     }
 
@@ -185,7 +185,7 @@ public class Logic {
         return tof;
     }
 
-    private boolean askForLongitude(Double[] coordinates){
+    private boolean askForLongitude(double[] coordinates){
         if(scanner.hasNextDouble()){
             coordinates[0] = scanner.nextDouble();
             scanner.nextLine();
@@ -202,7 +202,7 @@ public class Logic {
         }
     }
 
-    private boolean askForLatitude(Double[] coordinates){
+    private boolean askForLatitude(double[] coordinates){
         if(scanner.hasNextDouble()){
             coordinates[1] = scanner.nextDouble();
             scanner.nextLine();
@@ -411,8 +411,9 @@ public class Logic {
             }finally {
                 if(exists){
                     ArrayList<iBus> closeBus = new ArrayList<>(api.getBusWaitTime(stopCode));
-                    StringBuilder sb = new StringBuilder();
+
                     for (int i = 0; i < closeBus.size() ; i++) {
+                        StringBuilder sb = new StringBuilder();
                         //System.out.println(closeBus.get(i).getLine() + "" + "-" + "" + closeBus.get(i).getDestination() + "" + "-" + "" + closeBus.get(i).getTime_in_min() + " min");
                         sb.append(closeBus.get(i).getLine());
                         sb.append(" - ");
@@ -465,12 +466,13 @@ public class Logic {
 
             boolean flag = false;
 
-            for (int i = 0; i < bs.size(); i++) {
-                for (int j = 0; j < user.favoriteLocations.size(); j++) {
+            for (int j = 0; j < user.favoriteLocations.size(); j++) {
 
-                    if(500 >= distanceInKmBetweenEarthCoordinates(bs.get(i).getCoordinates(), user.favoriteLocations.get(j).getLocation().getCoordinates())){
+                System.out.println("-" + user.favoriteLocations.get(j).getLocation().getName());
 
-                        System.out.println(distanceInKmBetweenEarthCoordinates(bs.get(i).getCoordinates(), user.favoriteLocations.get(j).getLocation().getCoordinates()));
+                for (int i = 0; i < bs.size(); i++) {
+
+                    if (500 >= distanceInKmBetweenEarthCoordinates(bs.get(i).getCoordinates(), user.favoriteLocations.get(j).getLocation().getCoordinates())) {
 
                         StringBuilder sb = new StringBuilder();
 
@@ -488,6 +490,27 @@ public class Logic {
                         flag = true;
                     }
                 }
+
+                for (int i = 0; i < ms.size(); i++) {
+
+                    if (500 >= distanceInKmBetweenEarthCoordinates(ms.get(i).getCoordinates(), user.favoriteLocations.get(j).getLocation().getCoordinates())) {
+
+                        StringBuilder sb = new StringBuilder();
+
+                        sb.append("(");
+                        sb.append(++counter);
+                        sb.append(" ");
+                        sb.append(ms.get(i).getStationCode());
+                        sb.append(" (");
+                        sb.append(ms.get(i).getStationCode());
+                        sb.append(") ");
+                        sb.append("METRO");
+
+                        System.out.println(sb);
+
+                        flag = true;
+                    }
+                }
             }
 
             if(!flag){
@@ -496,23 +519,21 @@ public class Logic {
         }
     }
 
-    private double distanceInKmBetweenEarthCoordinates(Double[] lat_long1, Double[] lat_long2) {
+    private double distanceInKmBetweenEarthCoordinates(double[] long_lat1, double[] long_lat2) {
         int earthRadiusM = 6371000;
 
-        double dLat = degreesToRadians(lat_long2[1]-lat_long1[1]);
-        double dLon = degreesToRadians(lat_long2[0]-lat_long1[0]);
+        double latDistance = degreesToRadians(long_lat2[1]-long_lat1[1]);
+        double lonDistance = degreesToRadians(long_lat2[0]-long_lat1[0]);
 
-        double lat1_deg = degreesToRadians(lat_long1[1]);
-        double lat2_deg = degreesToRadians(lat_long2[1]);
-
-        double a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-                Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1_deg) * Math.cos(lat2_deg);
+        double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2) +
+                Math.cos(degreesToRadians(long_lat1[1])) * Math.cos(degreesToRadians(long_lat2[1])) *
+                        Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-        return c * earthRadiusM;
+        return earthRadiusM * c;
     }
 
     private double degreesToRadians(double degrees) {
-        return degrees * 0.0174532925199433;
+        return degrees * (Math.PI/180);
     }
 
 

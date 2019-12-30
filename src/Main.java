@@ -29,7 +29,6 @@ public class Main {
 
         logic.loadData();
 
-
         logic.Intro();
 
         do{
@@ -59,7 +58,6 @@ public class Main {
                 }while (!menu.getOption2().equalsIgnoreCase("f"));
             }
         }while(!menu.exitMenu1());
-
 
         }
 

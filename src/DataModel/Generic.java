@@ -5,7 +5,7 @@ import com.google.gson.JsonArray;
 public class Generic {
 
     private String name;
-    private Double[] coordinates;
+    private double[] coordinates;
     private String description;
     private Integer stars;
     private JsonArray characteristics;
@@ -46,11 +46,11 @@ public class Generic {
         this.name = name;
     }
 
-    public Double[] getCoordinates() {
+    public double[] getCoordinates() {
         return coordinates;
     }
 
-    public void setCoordinates(Double[] coordinates) {
+    public void setCoordinates(double[] coordinates) {
         this.coordinates = coordinates;
     }
 
