@@ -32,6 +32,9 @@ public class Main {
 
         logic.Intro();
 
+        logic.getBusWaitTime();
+        /*
+
         do{
             menu.printMenu1();
             menu.askForOption();
@@ -60,6 +63,10 @@ public class Main {
             }
         }while(!menu.exitMenu1());
 
+         */
+
         }
+
+
 
     }

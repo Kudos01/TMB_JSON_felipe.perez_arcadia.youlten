@@ -2,10 +2,7 @@ import DataModel.*;
 import Exceptions.invalidStopCodeException;
 import Exceptions.locationNotFoundException;
 import Exceptions.StationNotFoundByYearException;
-import Web_Services.API;
-import Web_Services.BusLine;
-import Web_Services.BusStation;
-import Web_Services.MetroStation;
+import Web_Services.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -425,19 +422,22 @@ public class Logic {
             System.out.println("");
             System.out.println("Enter the stop code:");
             unknownStopCode = scanner.nextInt();
-
-        try{
-            foundStopCode = checkStopCode(unknownStopCode, busStations);
-            ArrayList<BusLine> closeBus= new ArrayList<BusLine>(api.getStops(foundStopCode));
-
         //*********************************************************************************************************
+
+       try{
+            foundStopCode = checkStopCode(unknownStopCode, busStations);
+            ArrayList<iBus> closeBus= new ArrayList<iBus>(api.getStops(foundStopCode));
+
+            for (int i = 0; i < closeBus.size() ; i++) {
+                System.out.println(closeBus.get(i).getLine() + ""+ "-"+""+closeBus.get(i).getDestination() + ""+ "-"+"" + closeBus.get(i).getTime_in_min()+ " min");
+            }
 
 
 
         }
-        catch(invalidStopCodeException e) {
+        catch(IOException | invalidStopCodeException e) {
 
-            e.printErrorMessage();
+            e.printStackTrace();
         }
 
     }
