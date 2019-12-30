@@ -1,10 +1,9 @@
 import DataModel.*;
 import Exceptions.invalidStopCodeException;
 import Exceptions.locationNotFoundException;
-import Exceptions.StationNotFoundByYearException;
-import Web_Services.*;
+import Exceptions.stationNotFoundByYearException;
+import WebServices.*;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -229,8 +228,20 @@ public class Logic {
         name = scanner.nextLine();
 
         try {
-            pos = checkLocationExist(name);
-            searchedLocations.add(allLocations.get(pos));
+            pos = checkLocationExist(name, allLocations);
+
+            boolean alreadySearched = false;
+
+            for (int i = 0; i < searchedLocations.size(); i++) {
+                if(searchedLocations.get(i) == allLocations.get(pos)){
+                    alreadySearched = true;
+                }
+            }
+
+            if(!alreadySearched){
+                searchedLocations.add(allLocations.get(pos));
+            }
+
             System.out.println("Coordinates:"+""+ Arrays.toString(allLocations.get(pos).getCoordinates()));
             System.out.println("Description:");
             System.out.println(allLocations.get(pos).getDescription());
@@ -282,13 +293,13 @@ public class Logic {
 
     }
 
-    private int checkLocationExist(String name) throws locationNotFoundException{
+    private int checkLocationExist(String name, ArrayList<Location> locations) throws locationNotFoundException{
 
         int pos = -1;
 
-        for (int i = 0; i < allLocations.size(); i++) {
+        for (int i = 0; i < locations.size(); i++) {
 
-            if(name.equalsIgnoreCase(allLocations.get(i).getName())){
+            if(name.equalsIgnoreCase(locations.get(i).getName())){
                 pos = i;
             }
         }
@@ -351,21 +362,20 @@ public class Logic {
             tempP.setType(type);
 
             user.favoriteLocations.add(tempP);
-
-
         }
 
         System.out.println("");
-        System.out.println(location.getName()+" had been added as a new favorite location");
+        System.out.println(location.getName() + " has been added as a new favorite location");
     }
 
     private void locationHistory() {
 
         if (!searchedLocations.isEmpty()) {
 
-            for (int i = 0; i < searchedLocations.size(); i++) {
+            System.out.println("Searched Locations:");
+
+            for (int i = searchedLocations.size() -1; i >= 0; i--) {
                 System.out.println("");
-                System.out.println("Searched Locations:");
                 System.out.println("\t" + "-" + searchedLocations.get(i).getName());
             }
         }
@@ -378,7 +388,7 @@ public class Logic {
 
     }
 
-    private ArrayList<MetroStation> findStationsByYear(int year) throws StationNotFoundByYearException{
+    private ArrayList<MetroStation> findStationsByYear(int year) throws stationNotFoundByYearException {
         ArrayList<MetroStation> birthyear_stations = new ArrayList<>();
 
         String yearStr = Integer.toString(year);
@@ -391,7 +401,7 @@ public class Logic {
         }
 
         if(birthyear_stations.isEmpty()){
-            throw new StationNotFoundByYearException();
+            throw new stationNotFoundByYearException();
         }
         return birthyear_stations;
     }
@@ -408,7 +418,7 @@ public class Logic {
                 System.out.println(sb);
             }
 
-        } catch (StationNotFoundByYearException e) {
+        } catch (stationNotFoundByYearException e) {
             e.printErrorMessage();
         }
     }
@@ -431,9 +441,25 @@ public class Logic {
             }finally {
                 if(exists){
                     ArrayList<iBus> closeBus = new ArrayList<>(api.getBusWaitTime(stopCode));
+                    StringBuilder sb = new StringBuilder();
                     for (int i = 0; i < closeBus.size() ; i++) {
-                        System.out.println(closeBus.get(i).getLine() + "" + "-" + "" + closeBus.get(i).getDestination() +
-                                "" + "-" + "" + closeBus.get(i).getTime_in_min() + " min");
+                        //System.out.println(closeBus.get(i).getLine() + "" + "-" + "" + closeBus.get(i).getDestination() + "" + "-" + "" + closeBus.get(i).getTime_in_min() + " min");
+                        sb.append(closeBus.get(i).getLine());
+                        sb.append(" - ");
+                        sb.append(closeBus.get(i).getDestination());
+                        sb.append(" - ");
+
+                        if(closeBus.get(i).getTime_in_min() == 0){
+                            sb.append("Imminient");
+                        }
+
+                        else{
+                            sb.append(closeBus.get(i).getTime_in_min());
+                            sb.append(" min");
+                        }
+
+                        System.out.println(sb);
+
                     }
                 }
             }

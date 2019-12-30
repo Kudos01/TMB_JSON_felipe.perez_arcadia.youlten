@@ -1,4 +1,4 @@
-package Web_Services;
+package WebServices;
 
 import com.google.gson.JsonObject;
 

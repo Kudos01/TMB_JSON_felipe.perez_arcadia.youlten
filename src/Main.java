@@ -1,6 +1,6 @@
 //package com.company;
 
-import Web_Services.API;
+import WebServices.API;
 
 import java.io.IOException;
 
@@ -32,8 +32,6 @@ public class Main {
 
         logic.Intro();
 
-        logic.getBusWaitTime();
-        /*
 
         do{
             menu.printMenu1();
@@ -63,7 +61,6 @@ public class Main {
             }
         }while(!menu.exitMenu1());
 
-         */
 
         }
 
