@@ -415,7 +415,6 @@ public class Logic {
                     for (int i = 0; i < closeBus.size() ; i++) {
                         StringBuilder sb = new StringBuilder();
                         checkIfStopIsFavorite(stopCode);
-                        //System.out.println(closeBus.get(i).getLine() + "" + "-" + "" + closeBus.get(i).getDestination() + "" + "-" + "" + closeBus.get(i).getTime_in_min() + " min");
                         sb.append(closeBus.get(i).getLine());
                         sb.append(" - ");
                         sb.append(closeBus.get(i).getDestination());
@@ -466,14 +465,13 @@ public class Logic {
 
             }
         }
-
             for (int j = 0; j < user.favoriteLocations.size() ; j++) {
 
                 distanceToFaveLocation =  distanceInKmBetweenEarthCoordinates(currentStop.getCoordinates(), user.favoriteLocations.get(j).getLocation().getCoordinates());
 
-                //if(distanceToFaveLocation > 500){
+                if(distanceToFaveLocation < 500){
                     System.out.println("Favourite stop!");
-                //}
+                }
 
             }
 
