@@ -9,19 +9,13 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Scanner;
 
-//TODO: get min max values for latitude somehow
-//TODO: find a way to maintain the values in arraylist for user input locations
-//TODO: find out a way to maintain allLocations arraylist
-
-/*
-private static final double minlat = ;
-private static final double maxlat = 50.712093;
-private static final double minlong = ;
-private static final double maxlong = 4.384272;
-
- */
 
 public class Logic {
+
+    private static final double minlat = 2.244097;
+    private static final double maxlat = 41.5;
+    private static final double minlong = 2.046171;
+    private static final double maxlong = 41.287565;
 
     private User user;
     private API api = new API();
@@ -578,30 +572,70 @@ public class Logic {
 
         }
         else if(option.equalsIgnoreCase("c")){
+            double min_long = 0;
+            double min_lat = 0;
 
-        }
-        else if(option.equalsIgnoreCase("d")){
-            showCloseStations();
-            /*
-            for (int i = 0; i < busStations.size()-1; i++) {
+            double max_long = 999999;
+            double max_lat = 999999;
 
-                if(busStations.get(i+1).getStopName().equalsIgnoreCase(busStations.get(i).getStopName())){
-                    System.out.println(busStations.get(i).getStopName());
-                    System.out.println(i + "<------");
+            for (int i = 0; i < busStations.size(); i++) {
+                if(min_long < busStations.get(i).getCoordinates()[0]){
+                    min_long = busStations.get(i).getCoordinates()[0];
+                }
+
+                if(min_lat < busStations.get(i).getCoordinates()[1]){
+                    min_lat = busStations.get(i).getCoordinates()[1];
                 }
             }
 
-             */
+            for (int i = 0; i < metroStations.size(); i++) {
+                if(min_long < metroStations.get(i).getCoordinates()[0]){
+                    min_long = metroStations.get(i).getCoordinates()[0];
+                }
+
+                if(min_lat < metroStations.get(i).getCoordinates()[1]){
+                    min_lat = metroStations.get(i).getCoordinates()[1];
+                }
+            }
+
+            System.out.println(min_long);
+            System.out.println(min_lat);
+
+            for (int i = 0; i < busStations.size(); i++) {
+                if(max_long > busStations.get(i).getCoordinates()[0]){
+                    max_long = busStations.get(i).getCoordinates()[0];
+                }
+
+                if(max_lat > busStations.get(i).getCoordinates()[1]){
+                    max_lat = busStations.get(i).getCoordinates()[1];
+                }
+            }
+
+            for (int i = 0; i < metroStations.size(); i++) {
+                if(max_long > metroStations.get(i).getCoordinates()[0]){
+                    max_long = metroStations.get(i).getCoordinates()[0];
+                }
+
+                if(max_lat > metroStations.get(i).getCoordinates()[1]){
+                    max_lat = metroStations.get(i).getCoordinates()[1];
+                }
+            }
+
+            System.out.println(max_long);
+            System.out.println(max_lat);
+
         }
+
+        else if(option.equalsIgnoreCase("d")){
+            showCloseStations();
+        }
+
         else if(option.equalsIgnoreCase("e")){
-
             stationsInauguratedByBirthYear();
-
         }
+
         else if(option.equalsIgnoreCase("f")){
-
             System.out.println();
-
         }
     }
 
