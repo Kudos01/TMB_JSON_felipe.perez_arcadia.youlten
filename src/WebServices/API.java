@@ -150,17 +150,28 @@ public class API {
         return closeBuses;
     }
 
-    public void plannerAPI(String origin, String destination, String date, String time, String arriveBy, int maxWalkDistance){
+    public void plannerAPI(String origin, String destination, String date, String time, boolean dep_or_arrival, int maxWalkDistance){
 
         StringBuilder sb = new StringBuilder();
         sb.append("https://api.tmb.cat/v1/planner/plan?app_id=41936f32&app_key=3c5639afc8280c17cb4f633b78de717b&");
-        //sb.append(stopCode);
-        sb.append("?app_id=41936f32&app_key=3c5639afc8280c17cb4f633b78de717b");
-        String url = sb.toString();
-        ArrayList<iBus> closeBuses = new ArrayList<>();
-        Request request = new Request.Builder().url(url).build();
-        ArrayList<BusStation> busStations = new ArrayList<>();
+        sb.append("fromPlace="+origin+"&");
+        sb.append("toPlace="+destination+"&");
+        sb.append("date="+date+"&");
+        sb.append("time="+time+"&");
+        sb.append("arriveBy="+dep_or_arrival+"&");
+        sb.append("mode=TRANSIT,WALK&");
+        sb.append("maxWalkDistance="+maxWalkDistance+"&");
+        sb.append("showIntermediateStops=TRUE");
 
+        //String aaaa = "https://api.tmb.cat/v1/planner/plan?app_id=41936f32&app_key=3c5639afc8280c17cb4f633b78de717b&";
+
+        String url = sb.toString();
+        System.out.println(url);
+        //ArrayList<iBus> closeBuses = new ArrayList<>();
+        Request request = new Request.Builder().url(url).build();
+        System.out.println(request);
+
+        //"https://api.tmb.cat/v1/planner/plan?app_id=41936f32&app_key=3c5639afc8280c17cb4f633b78de717b&origin"
 
     }
 }

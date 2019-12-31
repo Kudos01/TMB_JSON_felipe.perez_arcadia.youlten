@@ -67,7 +67,8 @@ public class Logic {
 
         ArrayList<Location> userLocations = new ArrayList<>(user.userLocations);
 
-        String yesorno;
+        String yesorno = null;
+        boolean yon;
 
         if(!userLocations.isEmpty()){
             for (int i = 0; i < userLocations.size(); i++) {
@@ -82,15 +83,14 @@ public class Logic {
         }
 
         System.out.println("Want to create a new location? (yes/no)");
-        yesorno = scanner.nextLine();
-
-        while(!yesorno.equalsIgnoreCase("no") && !yesorno.equalsIgnoreCase("yes")){
-            System.out.println("");
-            System.out.println("Error! you must enter yes or no!");
-            System.out.println("");
-            System.out.println("Want to create a new location? (yes/no)");
-            yesorno = scanner.nextLine();
+        /*
+        yon = askYesOrNo(yesorno);
+        while(!yon){
+            yon = askYesOrNo(yesorno);
         }
+
+         */
+        yesorno = scanner.nextLine();
 
         if(yesorno.equalsIgnoreCase("yes")){
             userCreateLocation();
@@ -525,41 +525,93 @@ public class Logic {
 
     public void planRoute(){
 
-        String origin;
+        String origin = null;
         String destination = null;
-        String depOrArrival;
-        String day;
-        String hour;
-        int maxWalkingDist;
+        String depOrArrival = null;
+        boolean boolDepOrA = false;
+        boolean tof = false;
+        String day = null;
+        String hour = null;
+        int maxWalkingDist = 0;
 
 
         System.out.println("");
         System.out.println("Origin? (lat,long / destination)");
         origin = scanner.nextLine();
-        //checkIfOriginOrDestValid();
+
+        /*
+        tof = checkIfOriginOrDestValid(origin);
+        while(!tof){
+            tof = checkIfOriginOrDestValid(origin);
+        }
+
+         */
 
         System.out.println("");
-        System.out.println("Destination? (lat, lon / location name)");
-        origin = scanner.nextLine();
-        //checkIfOriginOrDestValid();
+        System.out.println("Destination? (lat,lon / location name)");
+        destination = scanner.nextLine();
+        /*
+        TODO: IF LOCATION NAME INPUT, GET COORDINATES
+        tof = checkIfOriginOrDestValid(destination);
+        while(!tof){
+            tof = checkIfOriginOrDestValid(destination);
+        }
+
+         */
 
         System.out.println("");
         System.out.println("Departure or arrival? (d/a)");
+        /*
+        tof = checkifDepOrArrivalValid(depOrArrival);
+        while(!tof){
+            tof = checkifDepOrArrivalValid(depOrArrival);
+        }
+
+         */
         depOrArrival = scanner.nextLine();
+
+        if(depOrArrival.equalsIgnoreCase("a")){
+            boolDepOrA = true;
+        }
+        else{
+            boolDepOrA = false;
+        }
 
         System.out.println("");
         System.out.println("Day? (MM-DD-YYYY)");
         day = scanner.nextLine();
+        /*
+        tof = checkifDayValid(day);
+        while(!tof){
+            tof = checkifDayValid(day);
+        }
+
+         */
 
         System.out.println("");
         System.out.println("Hour? (HH:MMam/HH:MMpm)");
         hour = scanner.nextLine();
 
+        /*
+        tof = checkifHourValid(hour);
+        while(!tof){
+            tof = checkifHourValid(hour);
+        }
+
+         */
+
         System.out.println("");
         System.out.println("Maximum walking distance in meters?");
-        maxWalkingDist =  scanner.nextInt();
+        maxWalkingDist = scanner.nextInt();
+        /*
+        tof = checkifMaxWalkValid(maxWalkingDist);
+        while(!tof){
+            tof = checkifMaxWalkValid(maxWalkingDist);
+        }
 
-        api.plannerAPI(origin,destination, depOrArrival, day, hour, maxWalkingDist);
+         */
+
+        api.plannerAPI(origin,destination, day,  hour, boolDepOrA, maxWalkingDist);
 
         System.out.println("Fastest Combination");
         //System.out.println("\t" +"Time Taken:" + );
@@ -569,10 +621,128 @@ public class Logic {
 
     }
 
-    private boolean checkIfOriginValid(){
+    private boolean checkIfOriginOrDestValid(String name){
+        if(scanner.hasNextLine() && (validLocationName(name, allLocations))){
+            name = scanner.nextLine();
+            scanner.nextLine();
+            return true;
+        }
 
-        return true;
+        else{
+            scanner.nextLine();
+            System.out.println("");
+            System.out.println("Sorry, this location is not valid :(");
+            System.out.println("");
+            System.out.println("Origin? (lat,long / destination)");
+            return false;
+        }
+
     }
+
+    private boolean checkifDepOrArrivalValid(String doa){
+        if(scanner.hasNextLine() && ((doa.equalsIgnoreCase("a") || (doa.equalsIgnoreCase("d")))) ){
+            doa = scanner.nextLine();
+            scanner.nextLine();
+            return true;
+        }
+
+        else{
+            scanner.nextLine();
+            System.out.println("");
+            System.out.println("Error! You must enter \"d\" or \"a\"!");
+            System.out.println("");
+            System.out.println("Departure or arrival? (d/a)");
+            return false;
+        }
+
+    }
+
+    private boolean checkifDayValid(String day){
+        if(scanner.hasNextLine()){
+            day = scanner.nextLine();
+            scanner.nextLine();
+            return true;
+        }
+
+        else{
+            scanner.nextLine();
+            System.out.println("");
+            System.out.println("Error! Please enter a string");
+            System.out.println("");
+            System.out.println("Day? (MM-DD-YYYY)");
+            return false;
+        }
+
+    }
+
+    private boolean checkifHourValid(String hour){
+        if(scanner.hasNextLine()){
+            hour = scanner.nextLine();
+            scanner.nextLine();
+            return true;
+        }
+
+        else{
+            scanner.nextLine();
+            System.out.println("");
+            System.out.println("Error! Please enter a string");
+            System.out.println("");
+            System.out.println("Hour? (HH:MMam/HH:MMpm)");
+            return false;
+        }
+
+    }
+
+    private boolean checkifMaxWalkValid(int maxWalk){
+        if(scanner.hasNextInt()){
+            maxWalk = scanner.nextInt();
+            scanner.nextLine();
+            return true;
+        }
+
+        else{
+            scanner.nextLine();
+            System.out.println("");
+            System.out.println("Error! Please enter an int");
+            System.out.println("");
+            System.out.println("Maximum walking distance in meters?");
+            return false;
+        }
+
+    }
+
+    private boolean askYesOrNo(String yesorno){
+
+        if(scanner.hasNextLine()){
+            yesorno = scanner.nextLine();
+            scanner.nextLine();
+            if((yesorno.equalsIgnoreCase("no") || yesorno.equalsIgnoreCase("yes"))){
+                scanner.nextLine();
+                return true;
+            }
+            else{
+
+                scanner.nextLine();
+                System.out.println("");
+                System.out.println("Error! you must enter yes or no!");
+                System.out.println("");
+                System.out.println("Want to create a new location? (yes/no)");
+                return false;
+
+            }
+        }
+
+        else{
+            scanner.nextLine();
+            System.out.println("");
+            System.out.println("Error! you must enter yes or no!");
+            System.out.println("");
+            System.out.println("Want to create a new location? (yes/no)");
+            return false;
+        }
+
+    }
+
 
     private double distanceInKmBetweenEarthCoordinates(double[] long_lat1, double[] long_lat2) {
         int earthRadiusM = 6371000;
@@ -639,6 +809,8 @@ public class Logic {
             System.out.println();
         }
     }
+
+
 
    /*
 
