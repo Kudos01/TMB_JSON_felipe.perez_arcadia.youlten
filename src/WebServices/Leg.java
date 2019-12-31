@@ -11,9 +11,9 @@ public abstract class Leg {
 
     public Leg(JsonObject partial_leg){
 
-        this.start_time = start_time;
-        this.end_time = end_time;
-        this.mode = mode;
+        this.start_time = partial_leg.get("startTime").getAsDouble();
+        this.end_time = partial_leg.get("endTime").getAsDouble();
+        this.mode =partial_leg.get("mode").getAsString();
 
     }
 

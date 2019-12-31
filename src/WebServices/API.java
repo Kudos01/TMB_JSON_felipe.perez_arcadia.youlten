@@ -118,8 +118,8 @@ public class API {
 
             for (int i = 0; i <plan.size() ; i++) {
 
-                if(maxWalkDistance <= plan.get(i).getAsJsonObject().get("duration").getAsDouble()){
-
+                //TODO: fix if none are true --> add flags
+                if(maxWalkDistance <= plan.get(i).getAsJsonObject().get("walkDistance").getAsDouble()){
                     if(shortest > plan.get(i).getAsJsonObject().get("duration").getAsInt() ){
                         shortest = plan.get(i).getAsJsonObject().get("duration").getAsInt();
                         pos = i;
@@ -146,7 +146,6 @@ public class API {
 
             Route fastest = new Route(plan.get(pos).getAsJsonObject(),legs, date, time, maxWalkDistance,origin,destination);
 
-            /*
             System.out.println(fastest);
             System.out.println(fastest.getDestination());
             System.out.println(fastest.getMaxWalkingDistance());
@@ -175,7 +174,7 @@ public class API {
 
             }
 
-             */
+
 
 
 

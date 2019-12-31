@@ -23,6 +23,7 @@ public class Route {
         this.date = date;
         this.time = time;
         this.timeTaken = timeTaken;
+        this.maxWalkingDistance = maxWalkDistance;
 
         this.routeLegs = legs;
 
