@@ -671,61 +671,9 @@ public class Logic {
 
     }
 
-    private boolean checkifDepOrArrivalValid(String doa){
-        if(scanner.hasNextLine() && ((doa.equalsIgnoreCase("a") || (doa.equalsIgnoreCase("d")))) ){
-            doa = scanner.nextLine();
-            return true;
-        }
-
-        else{
-            scanner.nextLine();
-            System.out.println("");
-            System.out.println("Error! You must enter \"d\" or \"a\"!");
-            System.out.println("");
-            System.out.println("Departure or arrival? (d/a)");
-            return false;
-        }
-
-    }
-
-    private boolean checkifDayValid(String day){
-        if(scanner.hasNextLine()){
-            day = scanner.nextLine();
-            scanner.nextLine();
-            return true;
-        }
-
-        else{
-            scanner.nextLine();
-            System.out.println("");
-            System.out.println("Error! Please enter a string");
-            System.out.println("");
-            System.out.println("Day? (MM-DD-YYYY)");
-            return false;
-        }
-
-    }
-
-    private boolean checkifHourValid(String hour){
-        if(scanner.hasNextLine()){
-            hour = scanner.nextLine();
-            return true;
-        }
-
-        else{
-            scanner.nextLine();
-            System.out.println("");
-            System.out.println("Error! Please enter a string");
-            System.out.println("");
-            System.out.println("Hour? (HH:MMam/HH:MMpm)");
-            return false;
-        }
-
-    }
-
-    private boolean checkifMaxWalkValid(int maxWalk){
+    private boolean checkNextInt(int nextInt){
         if(scanner.hasNextInt()){
-            maxWalk = scanner.nextInt();
+            nextInt = scanner.nextInt();
             scanner.nextLine();
             return true;
         }
@@ -734,8 +682,6 @@ public class Logic {
             scanner.nextLine();
             System.out.println("");
             System.out.println("Error! Please enter an int");
-            System.out.println("");
-            System.out.println("Maximum walking distance in meters?");
             return false;
         }
 

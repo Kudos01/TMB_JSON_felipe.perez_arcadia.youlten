@@ -81,7 +81,6 @@ public class API {
 
     public void testAPI(String origin, String destination, String date, String time, boolean dep_or_arrival, int maxWalkDistance){
 
-
         StringBuilder sb = new StringBuilder();
         sb.append("https://api.tmb.cat/v1/planner/plan?app_id=41936f32&app_key=3c5639afc8280c17cb4f633b78de717b&");
         sb.append("fromPlace=").append(origin).append("&");
@@ -117,43 +116,38 @@ public class API {
 
 
             for (int i = 0; i <plan.size() ; i++) {
-
-                if(maxWalkDistance <= plan.get(i).getAsJsonObject().get("duration").getAsDouble()){
-
+                if(maxWalkDistance <= plan.get(i).getAsJsonObject().get("walkDistance").getAsDouble()){
                     if(shortest > plan.get(i).getAsJsonObject().get("duration").getAsInt() ){
                         shortest = plan.get(i).getAsJsonObject().get("duration").getAsInt();
                         pos = i;
                     }
-
                 }
-
             }
 
             for (int i = 0; i <plan.get(pos).getAsJsonObject().get("legs").getAsJsonArray().size() ; i++) {
 
                 if("WALK".equalsIgnoreCase(plan.get(pos).getAsJsonObject().get("legs").getAsJsonArray().get(i).getAsJsonObject().get("mode").getAsString())){
-
                     Walk walk = new Walk(plan.get(pos).getAsJsonObject().get("legs").getAsJsonArray().get(i).getAsJsonObject());
                     legs.add(walk);
-
                 }
+
                 else{
                     Transit transit = new Transit(plan.get(pos).getAsJsonObject().get("legs").getAsJsonArray().get(i).getAsJsonObject());
                     legs.add(transit);
                 }
-
             }
 
             Route fastest = new Route(plan.get(pos).getAsJsonObject(),legs, date, time, maxWalkDistance,origin,destination);
 
-            /*
+
             System.out.println(fastest);
             System.out.println(fastest.getDestination());
-            System.out.println(fastest.getMaxWalkingDistance());
+            System.out.println(fastest.getMaxWalkingDistance()); //doesn't
             System.out.println(fastest.getDate());
             System.out.println(fastest.getOrigin());
             System.out.println(fastest.getTime());
-            for (int i = 0; i <fastest.getRouteLegs().size() ; i++) {
+
+            for (int i = 0; i < fastest.getRouteLegs().size() ; i++) {
 
                 if(fastest.getRouteLegs().get(i) instanceof Walk){
                     System.out.println(fastest.getRouteLegs().get(i).getMode());
@@ -169,15 +163,8 @@ public class API {
                     System.out.println((((Transit) fastest.getRouteLegs().get(i)).getTo_name()));
                     System.out.println((((Transit) fastest.getRouteLegs().get(i)).getTo_stopcode()));
                     System.out.println((((Transit) fastest.getRouteLegs().get(i)).getLine_name()));
-
                 }
-
-
             }
-
-             */
-
-
 
         }catch (IOException e) {
             e.printStackTrace();

@@ -10,11 +10,9 @@ public abstract class Leg {
 
 
     public Leg(JsonObject partial_leg){
-
         this.start_time = start_time;
         this.end_time = end_time;
         this.mode = mode;
-
     }
 
 
