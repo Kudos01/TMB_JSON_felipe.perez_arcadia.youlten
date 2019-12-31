@@ -8,6 +8,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import java.io.IOException;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 
  /*
@@ -144,6 +145,39 @@ public class API {
             }
 
             Route fastest = new Route(plan.get(pos).getAsJsonObject(),legs, date, time, maxWalkDistance,origin,destination);
+
+            /*
+            System.out.println(fastest);
+            System.out.println(fastest.getDestination());
+            System.out.println(fastest.getMaxWalkingDistance());
+            System.out.println(fastest.getDate());
+            System.out.println(fastest.getOrigin());
+            System.out.println(fastest.getTime());
+            for (int i = 0; i <fastest.getRouteLegs().size() ; i++) {
+
+                if(fastest.getRouteLegs().get(i) instanceof Walk){
+                    System.out.println(fastest.getRouteLegs().get(i).getMode());
+                    System.out.println(fastest.getRouteLegs().get(i).getStart_time());
+                    System.out.println(fastest.getRouteLegs().get(i).getEnd_time());
+                }
+                else if(fastest.getRouteLegs().get(i) instanceof Transit){
+                    System.out.println(fastest.getRouteLegs().get(i).getMode());
+                    System.out.println(fastest.getRouteLegs().get(i).getStart_time());
+                    System.out.println(fastest.getRouteLegs().get(i).getEnd_time());
+                    System.out.println((((Transit) fastest.getRouteLegs().get(i)).getFrom_name()));
+                    System.out.println((((Transit) fastest.getRouteLegs().get(i)).getFrom_stopcode()));
+                    System.out.println((((Transit) fastest.getRouteLegs().get(i)).getTo_name()));
+                    System.out.println((((Transit) fastest.getRouteLegs().get(i)).getTo_stopcode()));
+                    System.out.println((((Transit) fastest.getRouteLegs().get(i)).getLine_name()));
+
+                }
+
+
+            }
+
+             */
+
+
 
         }catch (IOException e) {
             e.printStackTrace();

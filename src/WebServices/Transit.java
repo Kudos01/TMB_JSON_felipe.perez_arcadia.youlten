@@ -23,7 +23,6 @@ public class Transit extends Leg {
 
     }
 
-
     public String getTransit_mode() {
         return transit_mode;
     }
