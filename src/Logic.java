@@ -83,13 +83,14 @@ public class Logic {
         }
 
         System.out.println("Want to create a new location? (yes/no)");
-
+        /*
         yon = askYesOrNo(yesorno);
         while(!yon){
             yon = askYesOrNo(yesorno);
         }
 
-        //yesorno = scanner.nextLine();
+         */
+        yesorno = scanner.nextLine();
 
         if(yesorno.equalsIgnoreCase("yes")){
             userCreateLocation();
@@ -258,10 +259,7 @@ public class Logic {
             System.out.println("Do you want to set the found location as your favorite? (yes/no)");
             String yesorno = scanner.nextLine();
 
-            while(!yesorno.equalsIgnoreCase("no") && !yesorno.equalsIgnoreCase("yes")){
-                System.out.println("");
-                System.out.println("Error! you must enter yes or no!");
-                System.out.println("");
+            while(!checkYesOrNo(yesorno)){
                 System.out.println("Do you want to set the found location as your favorite? (yes/no)");
                 yesorno = scanner.nextLine();
             }
@@ -270,9 +268,6 @@ public class Logic {
                 userSetFaveLocation(allLocations.get(pos));
             }
 
-            else if(yesorno.equalsIgnoreCase("no")) {
-
-            }
 
         } catch (locationNotFoundException e) {
             e.printErrorMessage();
@@ -623,6 +618,7 @@ public class Logic {
     private boolean checkIfOriginOrDestValid(String name){
         if(scanner.hasNextLine() && (validLocationName(name, allLocations))){
             name = scanner.nextLine();
+            scanner.nextLine();
             return true;
         }
 
@@ -640,7 +636,6 @@ public class Logic {
     private boolean checkifDepOrArrivalValid(String doa){
         if(scanner.hasNextLine() && ((doa.equalsIgnoreCase("a") || (doa.equalsIgnoreCase("d")))) ){
             doa = scanner.nextLine();
-            scanner.nextLine();
             return true;
         }
 
@@ -676,7 +671,6 @@ public class Logic {
     private boolean checkifHourValid(String hour){
         if(scanner.hasNextLine()){
             hour = scanner.nextLine();
-            scanner.nextLine();
             return true;
         }
 
@@ -709,29 +703,17 @@ public class Logic {
 
     }
 
-    private boolean askYesOrNo(String yesorno){
+    private boolean checkYesOrNo(String yesorno){
 
-        if(scanner.hasNextLine()){
-            yesorno = scanner.nextLine();
-            if((yesorno.equalsIgnoreCase("no") || yesorno.equalsIgnoreCase("yes"))){
-                return true;
-            }
-            else{
-
-                return false;
-
-            }
-        }
-
-        else{
-            scanner.nextLine();
+        if(!yesorno.equalsIgnoreCase("no") && !yesorno.equalsIgnoreCase("yes")){
             System.out.println("");
             System.out.println("Error! you must enter yes or no!");
-            System.out.println("");
-            System.out.println("Want to create a new location? (yes/no)");
             return false;
         }
 
+        else{
+            return true;
+        }
     }
 
 
