@@ -83,14 +83,13 @@ public class Logic {
         }
 
         System.out.println("Want to create a new location? (yes/no)");
-        /*
+
         yon = askYesOrNo(yesorno);
         while(!yon){
             yon = askYesOrNo(yesorno);
         }
 
-         */
-        yesorno = scanner.nextLine();
+        //yesorno = scanner.nextLine();
 
         if(yesorno.equalsIgnoreCase("yes")){
             userCreateLocation();
@@ -624,7 +623,6 @@ public class Logic {
     private boolean checkIfOriginOrDestValid(String name){
         if(scanner.hasNextLine() && (validLocationName(name, allLocations))){
             name = scanner.nextLine();
-            scanner.nextLine();
             return true;
         }
 
@@ -715,18 +713,11 @@ public class Logic {
 
         if(scanner.hasNextLine()){
             yesorno = scanner.nextLine();
-            scanner.nextLine();
             if((yesorno.equalsIgnoreCase("no") || yesorno.equalsIgnoreCase("yes"))){
-                scanner.nextLine();
                 return true;
             }
             else{
 
-                scanner.nextLine();
-                System.out.println("");
-                System.out.println("Error! you must enter yes or no!");
-                System.out.println("");
-                System.out.println("Want to create a new location? (yes/no)");
                 return false;
 
             }
