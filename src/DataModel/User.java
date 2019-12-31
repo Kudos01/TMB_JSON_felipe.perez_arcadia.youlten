@@ -1,5 +1,6 @@
 package DataModel;
 
+import java.sql.Array;
 import java.sql.Date;
 import java.util.ArrayList;
 
@@ -11,6 +12,7 @@ public class User {
 
     public ArrayList<Location> userLocations = new ArrayList<>();
     public ArrayList<FavLocation> favoriteLocations = new ArrayList<>();
+    public ArrayList<Route> pastRoutes = new ArrayList<>();
 
     public User(String username, String email, int birthyear){
         this.username = username;

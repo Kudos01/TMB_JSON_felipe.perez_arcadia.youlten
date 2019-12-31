@@ -609,9 +609,47 @@ public class Logic {
 
         System.out.println("Fastest Combination");
         //System.out.println("\t" +"Time Taken:" + );
-        System.out.println("Origin");
-        System.out.println("\t" + "|");
-        System.out.println("Destination");
+
+    }
+
+    public void userRoutes(){
+
+        if(user.pastRoutes.isEmpty()){
+            System.out.println("You have not made any route :(");
+            System.out.println("To search for one, access option 3 on the principal menu.");
+        }
+        else{
+
+            for (int i = 0; i < user.pastRoutes.size(); i++) {
+                System.out.println("");
+                System.out.println("->Route "+(++i)+":");
+                System.out.println("\t-Origin: "+user.pastRoutes.get(i).getOrigin());
+                System.out.println("\t-Destination: "+user.pastRoutes.get(i).getDestination());
+                System.out.println("\t-Date and Time: "+user.pastRoutes.get(i).getDate()+" at "+user.pastRoutes.get(i).getTime());
+                System.out.println("\t-Max Walking Distance: "+user.pastRoutes.get(i).getMaxWalkingDistance());
+                System.out.println("\t-Fastest Combination: ");
+                System.out.println("\t\tTime Taken: " +user.pastRoutes.get(i).getTimeTaken());
+
+                for (int j = 0; j <user.pastRoutes.get(i).getRouteInformation().size(); j++) {
+
+                    if(j == user.pastRoutes.get(i).getRouteInformation().size()-1 ){
+
+                        System.out.println("\t\t"+user.pastRoutes.get(i).getRouteInformation().get(j));
+                    }
+                    else{
+                        System.out.println("\t\t"+user.pastRoutes.get(i).getRouteInformation().get(j));
+                        System.out.println("\t\t|");
+                    }
+
+                }
+
+                System.out.println("");
+
+            }
+
+        }
+
+
 
     }
 
@@ -767,6 +805,8 @@ public class Logic {
 
         }
         else if(option.equalsIgnoreCase("c")){
+
+            userRoutes();
 
         }
 
