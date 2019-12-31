@@ -81,7 +81,6 @@ public class API {
 
     public void testAPI(String origin, String destination, String date, String time, boolean dep_or_arrival, int maxWalkDistance){
 
-
         StringBuilder sb = new StringBuilder();
         sb.append("https://api.tmb.cat/v1/planner/plan?app_id=41936f32&app_key=3c5639afc8280c17cb4f633b78de717b&");
         sb.append("fromPlace=").append(origin).append("&");

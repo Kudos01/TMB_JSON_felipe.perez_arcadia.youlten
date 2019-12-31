@@ -14,10 +14,9 @@ public class Route {
     String time;
     int maxWalkingDistance;
     int timeTaken;
-    ArrayList<Leg> routeLegs = new ArrayList<>();
+    ArrayList<Leg> routeLegs;
 
     public Route (JsonObject fastestRoute, ArrayList<Leg> legs,String date, String time, int maxWalkDistance, String origin, String destination){
-
         this.origin = origin;
         this.destination = destination;
         this.date = date;
