@@ -456,18 +456,10 @@ public class Logic {
     private void checkIfStopIsFavorite(int stop_code){
 
         double distanceToFaveLocation=0;
-        BusStation currentStop = new BusStation();
 
-        for (int i = 0; i < busStations.size(); i++) {
-
-            if (stop_code == busStations.get(i).getStopCode()){
-                currentStop = busStations.get(i);
-
-            }
-        }
             for (int j = 0; j < user.favoriteLocations.size() ; j++) {
 
-                distanceToFaveLocation =  distanceInKmBetweenEarthCoordinates(currentStop.getCoordinates(), user.favoriteLocations.get(j).getLocation().getCoordinates());
+                distanceToFaveLocation =  distanceInKmBetweenEarthCoordinates(busStations.get(stop_code).getCoordinates(), user.favoriteLocations.get(j).getLocation().getCoordinates());
 
                 if(distanceToFaveLocation < 500){
                     System.out.println("Favourite stop!");

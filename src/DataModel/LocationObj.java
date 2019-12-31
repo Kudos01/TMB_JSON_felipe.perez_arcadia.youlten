@@ -10,7 +10,4 @@ public class LocationObj {
         return locations;
     }
 
-    //public void setLocations(JsonArray locations) {
-        //this.locations = locations;
-    //}
 }
