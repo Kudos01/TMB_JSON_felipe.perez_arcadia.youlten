@@ -79,7 +79,7 @@ public class API {
         return metroStations;
     }
 
-    public void testAPI(String origin, String destination, String date, String time, boolean dep_or_arrival, int maxWalkDistance){
+    public Route testAPI(String origin, String destination, String date, String time, boolean dep_or_arrival, int maxWalkDistance){
 
         StringBuilder sb = new StringBuilder();
         sb.append("https://api.tmb.cat/v1/planner/plan?app_id=41936f32&app_key=3c5639afc8280c17cb4f633b78de717b&");
@@ -98,6 +98,8 @@ public class API {
 
         Request request = new Request.Builder().url(url).build();
 
+        Route fastest = new Route();
+
         try{
             Response response = client.newCall(request).execute();
             String jsonData = null;
@@ -114,18 +116,14 @@ public class API {
             int pos = 0;
             ArrayList<Leg> legs = new ArrayList<>();
 
-
             for (int i = 0; i <plan.size() ; i++) {
-
                 //TODO: fix if none are true --> add flags
                 if(maxWalkDistance <= plan.get(i).getAsJsonObject().get("walkDistance").getAsDouble()){
                     if(shortest > plan.get(i).getAsJsonObject().get("duration").getAsInt() ){
                         shortest = plan.get(i).getAsJsonObject().get("duration").getAsInt();
                         pos = i;
                     }
-
                 }
-
             }
 
             for (int i = 0; i <plan.get(pos).getAsJsonObject().get("legs").getAsJsonArray().size() ; i++) {
@@ -143,44 +141,12 @@ public class API {
 
             }
 
-            Route fastest = new Route(plan.get(pos).getAsJsonObject(),legs, date, time, maxWalkDistance,origin,destination);
-
-            System.out.println(fastest);
-            System.out.println(fastest.getDestination());
-            System.out.println(fastest.getMaxWalkingDistance());
-            System.out.println(fastest.getDate());
-            System.out.println(fastest.getOrigin());
-            System.out.println(fastest.getTime());
-            for (int i = 0; i <fastest.getRouteLegs().size() ; i++) {
-
-                if(fastest.getRouteLegs().get(i) instanceof Walk){
-                    System.out.println(fastest.getRouteLegs().get(i).getMode());
-                    System.out.println(fastest.getRouteLegs().get(i).getStart_time());
-                    System.out.println(fastest.getRouteLegs().get(i).getEnd_time());
-                }
-                else if(fastest.getRouteLegs().get(i) instanceof Transit){
-                    System.out.println(fastest.getRouteLegs().get(i).getMode());
-                    System.out.println(fastest.getRouteLegs().get(i).getStart_time());
-                    System.out.println(fastest.getRouteLegs().get(i).getEnd_time());
-                    System.out.println((((Transit) fastest.getRouteLegs().get(i)).getFrom_name()));
-                    System.out.println((((Transit) fastest.getRouteLegs().get(i)).getFrom_stopcode()));
-                    System.out.println((((Transit) fastest.getRouteLegs().get(i)).getTo_name()));
-                    System.out.println((((Transit) fastest.getRouteLegs().get(i)).getTo_stopcode()));
-                    System.out.println((((Transit) fastest.getRouteLegs().get(i)).getLine_name()));
-
-                }
-                //h
-
-
-            }
-
-
-
-
+            fastest = new Route(plan.get(pos).getAsJsonObject(), legs, date, time, maxWalkDistance, origin, destination);
 
         }catch (IOException e) {
             e.printStackTrace();
         }
+        return fastest;
     }
 
     public ArrayList<iBus> getBusWaitTime(int stopCode){

@@ -648,9 +648,6 @@ public class Logic {
             }
 
         }
-
-
-
     }
 
     private boolean checkIfOriginOrDestValid(String name){
@@ -668,7 +665,6 @@ public class Logic {
             System.out.println("Origin? (lat,long / destination)");
             return false;
         }
-
     }
 
     private boolean checkNextInt(int nextInt){
@@ -684,7 +680,6 @@ public class Logic {
             System.out.println("Error! Please enter an int");
             return false;
         }
-
     }
 
     private boolean checkYesOrNo(String yesorno){
@@ -789,7 +784,35 @@ public class Logic {
         hour = "06:45pm";
         maxWalkingDist = 500;
 
-        api.testAPI(origin,destination,day, hour ,boolDepOrA,maxWalkingDist);
+        Route fastest = api.testAPI(origin,destination,day, hour ,boolDepOrA,maxWalkingDist);
+
+        System.out.println(fastest);
+        System.out.println(fastest.getDestination());
+        System.out.println(fastest.getMaxWalkingDistance());
+        System.out.println(fastest.getDate());
+        System.out.println(fastest.getOrigin());
+        System.out.println(fastest.getTime());
+
+        for (int i = 0; i <fastest.getRouteLegs().size() ; i++) {
+
+            if(fastest.getRouteLegs().get(i) instanceof Walk){
+                System.out.println(fastest.getRouteLegs().get(i).getMode());
+                System.out.println(fastest.getRouteLegs().get(i).getStart_time());
+                System.out.println(fastest.getRouteLegs().get(i).getEnd_time());
+            }
+            else if(fastest.getRouteLegs().get(i) instanceof Transit){
+                System.out.println(fastest.getRouteLegs().get(i).getMode());
+                System.out.println(fastest.getRouteLegs().get(i).getStart_time());
+                System.out.println(fastest.getRouteLegs().get(i).getEnd_time());
+                System.out.println((((Transit) fastest.getRouteLegs().get(i)).getFrom_name()));
+                System.out.println((((Transit) fastest.getRouteLegs().get(i)).getFrom_stopcode()));
+                System.out.println((((Transit) fastest.getRouteLegs().get(i)).getTo_name()));
+                System.out.println((((Transit) fastest.getRouteLegs().get(i)).getTo_stopcode()));
+                System.out.println((((Transit) fastest.getRouteLegs().get(i)).getLine_name()));
+
+            }
+
+        }
 
     }
 
