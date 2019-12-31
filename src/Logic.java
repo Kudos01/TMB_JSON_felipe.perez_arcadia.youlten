@@ -572,57 +572,6 @@ public class Logic {
 
         }
         else if(option.equalsIgnoreCase("c")){
-            double min_long = 0;
-            double min_lat = 0;
-
-            double max_long = 999999;
-            double max_lat = 999999;
-
-            for (int i = 0; i < busStations.size(); i++) {
-                if(min_long < busStations.get(i).getCoordinates()[0]){
-                    min_long = busStations.get(i).getCoordinates()[0];
-                }
-
-                if(min_lat < busStations.get(i).getCoordinates()[1]){
-                    min_lat = busStations.get(i).getCoordinates()[1];
-                }
-            }
-
-            for (int i = 0; i < metroStations.size(); i++) {
-                if(min_long < metroStations.get(i).getCoordinates()[0]){
-                    min_long = metroStations.get(i).getCoordinates()[0];
-                }
-
-                if(min_lat < metroStations.get(i).getCoordinates()[1]){
-                    min_lat = metroStations.get(i).getCoordinates()[1];
-                }
-            }
-
-            System.out.println(min_long);
-            System.out.println(min_lat);
-
-            for (int i = 0; i < busStations.size(); i++) {
-                if(max_long > busStations.get(i).getCoordinates()[0]){
-                    max_long = busStations.get(i).getCoordinates()[0];
-                }
-
-                if(max_lat > busStations.get(i).getCoordinates()[1]){
-                    max_lat = busStations.get(i).getCoordinates()[1];
-                }
-            }
-
-            for (int i = 0; i < metroStations.size(); i++) {
-                if(max_long > metroStations.get(i).getCoordinates()[0]){
-                    max_long = metroStations.get(i).getCoordinates()[0];
-                }
-
-                if(max_lat > metroStations.get(i).getCoordinates()[1]){
-                    max_lat = metroStations.get(i).getCoordinates()[1];
-                }
-            }
-
-            System.out.println(max_long);
-            System.out.println(max_lat);
 
         }
 
