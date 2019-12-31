@@ -1,5 +1,5 @@
 import DataModel.*;
-import Exceptions.invalidStopCodeException;
+import Exceptions.stopCodeInvalidException;
 import Exceptions.locationNotFoundException;
 import Exceptions.stationNotFoundByYearException;
 import WebServices.*;
@@ -30,7 +30,6 @@ public class Logic {
 
     public ArrayList<Location> allLocations;
     private ArrayList<Location> searchedLocations = new ArrayList<>();
-    //private static ArrayList<Location> searchedLocations;
 
     public ArrayList<BusStation> busStations = new ArrayList<>();
     public ArrayList<MetroStation> metroStations = new ArrayList<>();
@@ -43,16 +42,8 @@ public class Logic {
         //Loading all of the bus lines from the API
         busStations = api.loadBusStations();
 
-        /*
-        for (int i = 0; i < busStations.size(); i++) {
-            System.out.println(busStations.get(i).getCoordinates()[0]);
-            System.out.println(busStations.get(i).getCoordinates()[1]);
-        }
-
-         */
-
         //loading all of the metro lines from the API
-        //metroStations = api.loadMetroStations();
+        metroStations = api.loadMetroStations();
     }
 
     public void Intro(){
@@ -382,7 +373,7 @@ public class Logic {
             birthyear_stations = findStationsByYear(user.getBirthyear());
 
             for (int i = 0; i < birthyear_stations.size(); i++) {
-                StringBuilder sb = new StringBuilder(birthyear_stations.get(i).getName());
+                StringBuilder sb = new StringBuilder(birthyear_stations.get(i).getStationName());
                 sb.append(" ");
                 sb.append(birthyear_stations.get(i).getLineName());
                 System.out.println(sb);
@@ -398,7 +389,7 @@ public class Logic {
         int stopCode;
         boolean exists = false;
 
-        //check if it exists HERE
+        //check if it exists
         while(!exists){
             System.out.println("");
             System.out.println("Enter the stop code:");
@@ -406,7 +397,7 @@ public class Logic {
             scanner.nextLine();
             try {
                 exists = checkStopCodeIfExists(stopCode, busStations);
-            } catch (invalidStopCodeException e) {
+            } catch (stopCodeInvalidException e) {
                 e.printErrorMessage();
             }finally {
                 if(exists){
@@ -430,14 +421,13 @@ public class Logic {
                         }
 
                         System.out.println(sb);
-
                     }
                 }
             }
         }
     }
 
-    public boolean checkStopCodeIfExists(int stopcode, ArrayList<BusStation> stations) throws invalidStopCodeException {
+    public boolean checkStopCodeIfExists(int stopcode, ArrayList<BusStation> stations) throws stopCodeInvalidException {
 
         boolean exists = false;
 
@@ -448,7 +438,7 @@ public class Logic {
         }
 
         if(!exists){
-            throw new invalidStopCodeException();
+            throw new stopCodeInvalidException();
         }
         return exists;
     }
@@ -457,47 +447,51 @@ public class Logic {
 
         double distanceToFaveLocation=0;
 
-            for (int j = 0; j < user.favoriteLocations.size() ; j++) {
+        int index =0;
 
-                distanceToFaveLocation =  distanceInKmBetweenEarthCoordinates(busStations.get(stop_code).getCoordinates(), user.favoriteLocations.get(j).getLocation().getCoordinates());
-
-                if(distanceToFaveLocation < 500){
-                    System.out.println("Favourite stop!");
-                }
-
+        for (int i = 0; i < busStations.size(); i++) {
+            if(stop_code == busStations.get(i).getStopCode()){
+                index = i;
+                break;
             }
+        }
+
+        for (int j = 0; j < user.favoriteLocations.size() ; j++) {
+
+            distanceToFaveLocation =  distanceInKmBetweenEarthCoordinates(busStations.get(index).getCoordinates(), user.favoriteLocations.get(j).getLocation().getCoordinates());
+
+            if(distanceToFaveLocation <= 500){
+                System.out.println("Favourite stop!");
+            }
+
+        }
 
     }
 
     private void showCloseStations() {
-        if(user.favoriteLocations.isEmpty()){
+        if (user.favoriteLocations.isEmpty()) {
             System.out.println("In order to have favourite stops and stations it is necessary to create a favourite location previously.");
-        }
-
-        else{
-            ArrayList<BusStation> bs = new ArrayList<>(busStations);
-            ArrayList<MetroStation> ms = new ArrayList<>(metroStations);
-
-            int counter = 0;
+        } else {
 
             boolean flag = false;
 
             for (int j = 0; j < user.favoriteLocations.size(); j++) {
 
                 System.out.println("-" + user.favoriteLocations.get(j).getLocation().getName());
+                int counter = 0;
 
-                for (int i = 0; i < bs.size(); i++) {
+                for (int i = 0; i < busStations.size(); i++) {
 
-                    if (500 >= distanceInKmBetweenEarthCoordinates(bs.get(i).getCoordinates(), user.favoriteLocations.get(j).getLocation().getCoordinates())) {
+                    if (500 >= distanceInKmBetweenEarthCoordinates(busStations.get(i).getCoordinates(), user.favoriteLocations.get(j).getLocation().getCoordinates())) {
 
                         StringBuilder sb = new StringBuilder();
 
                         sb.append("(");
                         sb.append(++counter);
                         sb.append(" ");
-                        sb.append(bs.get(i).getStopName());
+                        sb.append(busStations.get(i).getStopName());
                         sb.append(" (");
-                        sb.append(bs.get(i).getStopCode());
+                        sb.append(busStations.get(i).getStopCode());
                         sb.append(") ");
                         sb.append("BUS");
 
@@ -507,20 +501,20 @@ public class Logic {
                     }
                 }
 
-                for (int i = 0; i < ms.size(); i++) {
+                for (int i = 0; i < metroStations.size(); i++) {
 
-                    if (500 >= distanceInKmBetweenEarthCoordinates(ms.get(i).getCoordinates(), user.favoriteLocations.get(j).getLocation().getCoordinates())) {
+                    if (500 >= distanceInKmBetweenEarthCoordinates(metroStations.get(i).getCoordinates(), user.favoriteLocations.get(j).getLocation().getCoordinates())) {
 
                         StringBuilder sb = new StringBuilder();
 
                         sb.append("(");
                         sb.append(++counter);
                         sb.append(" ");
-                        sb.append(ms.get(i).getStationCode());
+                        sb.append(metroStations.get(i).getStationName());
                         sb.append(" (");
-                        sb.append(ms.get(i).getStationCode());
+                        sb.append(metroStations.get(i).getStationCode());
                         sb.append(") ");
-                        sb.append("METRO");
+                        sb.append(" METRO");
 
                         System.out.println(sb);
 
@@ -529,7 +523,7 @@ public class Logic {
                 }
             }
 
-            if(!flag){
+            if (!flag) {
                 System.out.println("TMB is doing its best to make the bus and subway arrive here.");
             }
         }
@@ -588,6 +582,16 @@ public class Logic {
         }
         else if(option.equalsIgnoreCase("d")){
             showCloseStations();
+            /*
+            for (int i = 0; i < busStations.size()-1; i++) {
+
+                if(busStations.get(i+1).getStopName().equalsIgnoreCase(busStations.get(i).getStopName())){
+                    System.out.println(busStations.get(i).getStopName());
+                    System.out.println(i + "<------");
+                }
+            }
+
+             */
         }
         else if(option.equalsIgnoreCase("e")){
 

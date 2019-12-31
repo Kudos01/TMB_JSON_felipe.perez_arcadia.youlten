@@ -21,7 +21,7 @@ public class API {
 
     public ArrayList<BusStation> loadBusStations(){
 
-        Request request = new Request.Builder().url("https://api.tmb.cat/v1/transit/linies/bus/parades?app_id=41936f32&app_key=3c5639afc8280c17cb4f633b78de717b").build();
+        Request request = new Request.Builder().url("https://api.tmb.cat/v1/transit/parades?app_id=41936f32&app_key=3c5639afc8280c17cb4f633b78de717b").build();
         ArrayList<BusStation> busStations = new ArrayList<>();
 
         try{

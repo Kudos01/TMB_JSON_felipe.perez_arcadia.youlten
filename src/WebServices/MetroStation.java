@@ -13,7 +13,7 @@ public class MetroStation {
 
 
 
-    public MetroStation(JsonObject metroStation){
+    MetroStation(JsonObject metroStation){
         this.coordinates[0] = metroStation.get("geometry").getAsJsonObject().get("coordinates").getAsJsonArray().get(0).getAsDouble();
         this.coordinates[1] = metroStation.get("geometry").getAsJsonObject().get("coordinates").getAsJsonArray().get(1).getAsDouble();
         this.station_id = metroStation.get("properties").getAsJsonObject().get("ID_ESTACIO").getAsInt();
@@ -31,7 +31,7 @@ public class MetroStation {
         return station_code;
     }
 
-    public String getName() {
+    public String getStationName() {
         return station_name;
     }
 
