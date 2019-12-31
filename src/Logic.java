@@ -3,6 +3,7 @@ import Exceptions.stopCodeInvalidException;
 import Exceptions.locationNotFoundException;
 import Exceptions.stationNotFoundByYearException;
 import WebServices.*;
+import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -599,7 +600,9 @@ public class Logic {
 
          */
 
-        api.plannerAPI(origin,destination, day,  hour, boolDepOrA, maxWalkingDist);
+        Route possibleRoutes = api.plannerAPI(origin,destination, day,  hour, boolDepOrA, maxWalkingDist);
+
+
 
         System.out.println("Fastest Combination");
         //System.out.println("\t" +"Time Taken:" + );
@@ -624,6 +627,7 @@ public class Logic {
                 System.out.println("\t-Fastest Combination: ");
                 System.out.println("\t\tTime Taken: " +user.pastRoutes.get(i).getTimeTaken());
 
+                /*
                 for (int j = 0; j <user.pastRoutes.get(i).getRouteInformation().size(); j++) {
 
                     if(j == user.pastRoutes.get(i).getRouteInformation().size()-1 ){
@@ -636,10 +640,11 @@ public class Logic {
                     }
 
                 }
-                //
 
                 System.out.println("");
 
+
+                 */
             }
 
         }
@@ -816,6 +821,30 @@ public class Logic {
         else if(option.equalsIgnoreCase("f")){
             System.out.println();
         }
+    }
+
+
+    public void testapi(){
+
+        String origin = null;
+        String destination = null;
+        String depOrArrival = null;
+        boolean boolDepOrA = false;
+        boolean tof = false;
+        String day = null;
+        String hour = null;
+        int maxWalkingDist = 0;
+
+
+        origin = "41.403475,2.174400";
+        destination = "41.386878,2.170079";
+        boolDepOrA = false;
+        day = "12-31-2019";
+        hour = "06:45pm";
+        maxWalkingDist = 500;
+
+        api.testAPI(origin,destination,day, hour ,boolDepOrA,maxWalkingDist);
+
     }
 
 

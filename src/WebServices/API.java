@@ -1,6 +1,7 @@
 package WebServices;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -77,17 +78,25 @@ public class API {
         return metroStations;
     }
 
-    public void testAPI(){
+    public void testAPI(String origin, String destination, String date, String time, boolean dep_or_arrival, int maxWalkDistance){
 
 
         StringBuilder sb = new StringBuilder();
         sb.append("https://api.tmb.cat/v1/planner/plan?app_id=41936f32&app_key=3c5639afc8280c17cb4f633b78de717b&");
-        //sb.append(stopCode);
-        sb.append("?app_id=41936f32&app_key=3c5639afc8280c17cb4f633b78de717b");
+        sb.append("fromPlace=").append(origin).append("&");
+        sb.append("toPlace=").append(destination).append("&");
+        sb.append("date=").append(date).append("&");
+        sb.append("time=").append(time).append("&");
+        sb.append("arriveBy=").append(dep_or_arrival).append("&");
+        sb.append("mode=TRANSIT,WALK&");
+        sb.append("maxWalkDistance=").append(maxWalkDistance).append("&");
+        sb.append("showIntermediateStops=TRUE");
+
+        //String aaaa = https://api.tmb.cat/v1/planner/plan?app_id=41936f32&app_key=3c5639afc8280c17cb4f633b78de717b&fromPlace=41.403475,2.174400&toPlace=41.386878,2.159704&date=12-31-2019&time=03:45pm&arriveBy=false&mode=TRANSIT,WALK&maxWalkDistance=500&showIntermediateStops=true
         String url = sb.toString();
-        ArrayList<iBus> closeBuses = new ArrayList<>();
+        System.out.println(url);
+
         Request request = new Request.Builder().url(url).build();
-        ArrayList<BusStation> busStations = new ArrayList<>();
 
         try{
             Response response = client.newCall(request).execute();
@@ -98,19 +107,47 @@ public class API {
 
             Gson gson = new Gson();
 
-            JsonObject busStationTemp = gson.fromJson(jsonData, JsonObject.class);
+            JsonObject routePlans = gson.fromJson(jsonData, JsonObject.class);
+            JsonArray plan = gson.fromJson(routePlans.get("plan").getAsJsonObject().get("itineraries").getAsJsonArray(), JsonArray.class);
 
-            //System.out.println(metroStation.get("features").getAsJsonArray().get(0).getAsJsonObject().get("properties").getAsJsonObject().get("ID_PARADA"));
+            int shortest = plan.get(0).getAsJsonObject().get("duration").getAsInt();
+            int pos = 0;
+            ArrayList<Leg> legs = new ArrayList<>();
 
-            for (int i = 0; i < busStationTemp.get("features").getAsJsonArray().size(); i++) {
-                BusStation bus = new BusStation(busStationTemp.get("features").getAsJsonArray().get(i).getAsJsonObject());
-                busStations.add(bus);
+
+            for (int i = 0; i <plan.size() ; i++) {
+
+                if(maxWalkDistance <= plan.get(i).getAsJsonObject().get("duration").getAsDouble()){
+
+                    if(shortest > plan.get(i).getAsJsonObject().get("duration").getAsInt() ){
+                        shortest = plan.get(i).getAsJsonObject().get("duration").getAsInt();
+                        pos = i;
+                    }
+
+                }
+
             }
 
-        }catch (IOException e){
+            for (int i = 0; i <plan.get(pos).getAsJsonObject().get("legs").getAsJsonArray().size() ; i++) {
+
+                if("WALK".equalsIgnoreCase(plan.get(pos).getAsJsonObject().get("legs").getAsJsonArray().get(i).getAsJsonObject().get("mode").getAsString())){
+
+                    Walk walk = new Walk(plan.get(pos).getAsJsonObject().get("legs").getAsJsonArray().get(i).getAsJsonObject());
+                    legs.add(walk);
+
+                }
+                else{
+                    Transit transit = new Transit(plan.get(pos).getAsJsonObject().get("legs").getAsJsonArray().get(i).getAsJsonObject());
+                    legs.add(transit);
+                }
+
+            }
+
+            Route fastest = new Route(plan.get(pos).getAsJsonObject(),legs, date, time, maxWalkDistance,origin,destination);
+
+        }catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     public ArrayList<iBus> getBusWaitTime(int stopCode){
@@ -150,7 +187,8 @@ public class API {
         return closeBuses;
     }
 
-    public void plannerAPI(String origin, String destination, String date, String time, boolean dep_or_arrival, int maxWalkDistance){
+    public Route plannerAPI(String origin, String destination, String date, String time, boolean dep_or_arrival, int maxWalkDistance){
+
 
         StringBuilder sb = new StringBuilder();
         sb.append("https://api.tmb.cat/v1/planner/plan?app_id=41936f32&app_key=3c5639afc8280c17cb4f633b78de717b&");
@@ -162,17 +200,65 @@ public class API {
         sb.append("mode=TRANSIT,WALK&");
         sb.append("maxWalkDistance=").append(maxWalkDistance).append("&");
         sb.append("showIntermediateStops=TRUE");
-        //
 
         //String aaaa = https://api.tmb.cat/v1/planner/plan?app_id=41936f32&app_key=3c5639afc8280c17cb4f633b78de717b&fromPlace=41.403475,2.174400&toPlace=41.386878,2.159704&date=12-31-2019&time=03:45pm&arriveBy=false&mode=TRANSIT,WALK&maxWalkDistance=500&showIntermediateStops=true
         String url = sb.toString();
         System.out.println(url);
-        //ArrayList<iBus> closeBuses = new ArrayList<>();
+
         Request request = new Request.Builder().url(url).build();
 
-        //System.out.println(request);
+        try{
+            Response response = client.newCall(request).execute();
+            String jsonData = null;
+            if(response.body() != null){
+                jsonData = response.body().string();
+            }
 
-        //"https://api.tmb.cat/v1/planner/plan?app_id=41936f32&app_key=3c5639afc8280c17cb4f633b78de717b&origin"
+            Gson gson = new Gson();
 
+            JsonObject routePlans = gson.fromJson(jsonData, JsonObject.class);
+            JsonArray plan = gson.fromJson(routePlans.get("plan").getAsJsonObject().get("itineraries").getAsJsonArray(), JsonArray.class);
+
+            int shortest = plan.get(0).getAsJsonObject().get("duration").getAsInt();
+            int pos = 0;
+            ArrayList<Leg> legs = new ArrayList<>();
+
+
+            for (int i = 0; i <plan.size() ; i++) {
+
+                if(maxWalkDistance <= plan.get(i).getAsJsonObject().get("duration").getAsDouble()){
+
+                    if(shortest > plan.get(i).getAsJsonObject().get("duration").getAsInt() ){
+                        shortest = plan.get(i).getAsJsonObject().get("duration").getAsInt();
+                        pos = i;
+                    }
+
+                }
+
+            }
+
+            for (int i = 0; i <plan.get(pos).getAsJsonObject().get("legs").getAsJsonArray().size() ; i++) {
+
+                if("WALK".equalsIgnoreCase(plan.get(pos).getAsJsonObject().get("legs").getAsJsonArray().get(i).getAsJsonObject().get("mode").getAsString())){
+
+                    Walk walk = new Walk(plan.get(pos).getAsJsonObject().get("legs").getAsJsonArray().get(i).getAsJsonObject());
+                    legs.add(walk);
+
+                }
+                else{
+                    Transit transit = new Transit(plan.get(pos).getAsJsonObject().get("legs").getAsJsonArray().get(i).getAsJsonObject());
+                    legs.add(transit);
+                }
+
+            }
+
+            Route fastest = new Route(plan.get(pos).getAsJsonObject(),legs, date, time, maxWalkDistance,origin,destination);
+
+            System.out.println(fastest);
+
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

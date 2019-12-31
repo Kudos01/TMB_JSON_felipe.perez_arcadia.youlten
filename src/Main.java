@@ -20,6 +20,10 @@ public class Main {
         logic.loadData();
         logic.Intro();
 
+        logic.testapi();
+
+        /*
+
         do{
             menu.printMenu1();
             menu.askForOption();
@@ -48,5 +52,9 @@ public class Main {
             }
         }while(!menu.exitMenu1());
 
+
+         */
         }
+
+
     }
