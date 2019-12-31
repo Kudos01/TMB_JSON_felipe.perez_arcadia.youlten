@@ -14,11 +14,6 @@ public class Main {
 
         //TODO: EXCEPTION PREVENTION
 
-        //love u <3 :kiss:
-        //Love u too babe :KISSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS & Hug & CUUUUUDDDLEEEEE:
-
-        //parse the json file localizations
-
         Logic logic = new Logic();
         Menu menu = new Menu();
 

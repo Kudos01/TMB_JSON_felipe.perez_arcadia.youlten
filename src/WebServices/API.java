@@ -154,14 +154,15 @@ public class API {
 
         StringBuilder sb = new StringBuilder();
         sb.append("https://api.tmb.cat/v1/planner/plan?app_id=41936f32&app_key=3c5639afc8280c17cb4f633b78de717b&");
-        sb.append("fromPlace="+origin+"&");
-        sb.append("toPlace="+destination+"&");
-        sb.append("date="+date+"&");
-        sb.append("time="+time+"&");
-        sb.append("arriveBy="+dep_or_arrival+"&");
+        sb.append("fromPlace=").append(origin).append("&");
+        sb.append("toPlace=").append(destination).append("&");
+        sb.append("date=").append(date).append("&");
+        sb.append("time=").append(time).append("&");
+        sb.append("arriveBy=").append(dep_or_arrival).append("&");
         sb.append("mode=TRANSIT,WALK&");
-        sb.append("maxWalkDistance="+maxWalkDistance+"&");
-        sb.append("showIntermediateStops="+true);
+        sb.append("maxWalkDistance=").append(maxWalkDistance).append("&");
+        sb.append("showIntermediateStops=TRUE");
+        //
 
         //String aaaa = https://api.tmb.cat/v1/planner/plan?app_id=41936f32&app_key=3c5639afc8280c17cb4f633b78de717b&fromPlace=41.403475,2.174400&toPlace=41.386878,2.159704&date=12-31-2019&time=03:45pm&arriveBy=false&mode=TRANSIT,WALK&maxWalkDistance=500&showIntermediateStops=true
         String url = sb.toString();

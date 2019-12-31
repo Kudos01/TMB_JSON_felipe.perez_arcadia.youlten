@@ -67,8 +67,7 @@ public class Logic {
 
         ArrayList<Location> userLocations = new ArrayList<>(user.userLocations);
 
-        String yesorno = null;
-        boolean yon;
+        String yesorno;
 
         if(!userLocations.isEmpty()){
             for (int i = 0; i < userLocations.size(); i++) {
@@ -83,25 +82,20 @@ public class Logic {
         }
 
         System.out.println("Want to create a new location? (yes/no)");
-        /*
-        yon = askYesOrNo(yesorno);
-        while(!yon){
-            yon = askYesOrNo(yesorno);
-        }
 
-         */
         yesorno = scanner.nextLine();
+
+        while(!checkYesOrNo(yesorno)){
+            System.out.println("Want to create a new location? (yes/no)");
+            yesorno = scanner.nextLine();
+        }
 
         if(yesorno.equalsIgnoreCase("yes")){
             userCreateLocation();
         }
-
-        else if(yesorno.equalsIgnoreCase("no")) {
-
-        }
     }
 
-    void userCreateLocation(){
+    private void userCreateLocation(){
 
         String name;
         double[] coordinates = new double[2];
