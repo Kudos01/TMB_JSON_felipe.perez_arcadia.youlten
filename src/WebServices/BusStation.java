@@ -20,6 +20,10 @@ public class BusStation {
         this.line_name = busStation.get("properties").getAsJsonObject().get("NOM_LINIA").getAsString();
     }
 
+    public BusStation() {
+
+    }
+
 
     public double[] getCoordinates() {
         return coordinates;

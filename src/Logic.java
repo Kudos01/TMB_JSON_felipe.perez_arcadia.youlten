@@ -414,6 +414,7 @@ public class Logic {
 
                     for (int i = 0; i < closeBus.size() ; i++) {
                         StringBuilder sb = new StringBuilder();
+                        checkIfStopIsFavorite(stopCode);
                         //System.out.println(closeBus.get(i).getLine() + "" + "-" + "" + closeBus.get(i).getDestination() + "" + "-" + "" + closeBus.get(i).getTime_in_min() + " min");
                         sb.append(closeBus.get(i).getLine());
                         sb.append(" - ");
@@ -451,6 +452,31 @@ public class Logic {
             throw new invalidStopCodeException();
         }
         return exists;
+    }
+
+    private void checkIfStopIsFavorite(int stop_code){
+
+        double distanceToFaveLocation=0;
+        BusStation currentStop = new BusStation();
+
+        for (int i = 0; i < busStations.size(); i++) {
+
+            if (stop_code == busStations.get(i).getStopCode()){
+                currentStop = busStations.get(i);
+
+            }
+        }
+
+            for (int j = 0; j < user.favoriteLocations.size() ; j++) {
+
+                distanceToFaveLocation =  distanceInKmBetweenEarthCoordinates(currentStop.getCoordinates(), user.favoriteLocations.get(j).getLocation().getCoordinates());
+
+                //if(distanceToFaveLocation > 500){
+                    System.out.println("Favourite stop!");
+                //}
+
+            }
+
     }
 
     private void showCloseStations() {
