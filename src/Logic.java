@@ -612,6 +612,7 @@ public class Logic {
     private boolean checkIfOriginOrDestValid(String name){
         if(scanner.hasNextLine() && (validLocationName(name, allLocations))){
             name = scanner.nextLine();
+            scanner.nextLine();
             return true;
         }
 

@@ -162,9 +162,10 @@ public class API {
         sb.append("mode=TRANSIT,WALK&");
         sb.append("maxWalkDistance=").append(maxWalkDistance).append("&");
         sb.append("showIntermediateStops=TRUE");
+        //
 
         //String aaaa = "https://api.tmb.cat/v1/planner/plan?app_id=41936f32&app_key=3c5639afc8280c17cb4f633b78de717b&";
-
+        //whattuheck = "https://api.tmb.cat/v1/planner/plan?app_id=41936f32&app_key=3c5639afc8280c17cb4f633b78de717b&fromPlace=2.174400,41.403475&toPlace=2.170079,41.386878&date=12-31-2019&time=02:40pm&arriveBy=false&mode=TRANSIT,WALK&maxWalkDistance=500&showIntermediateStops=TRUE"
         String url = sb.toString();
         System.out.println(url);
         //ArrayList<iBus> closeBuses = new ArrayList<>();
