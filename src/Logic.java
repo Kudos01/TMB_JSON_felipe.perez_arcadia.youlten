@@ -171,7 +171,7 @@ public class Logic {
     }
 
     private boolean askForLongitude(double[] coordinates){
-        if(scanner.hasNextDouble()){
+        if(scanner.hasNextDouble()&& minlong > coordinates[0] && maxlong < coordinates[0] ){
             coordinates[0] = scanner.nextDouble();
             scanner.nextLine();
             return true;
@@ -188,7 +188,7 @@ public class Logic {
     }
 
     private boolean askForLatitude(double[] coordinates){
-        if(scanner.hasNextDouble()){
+        if(scanner.hasNextDouble() && minlat > coordinates[1] && maxlat < coordinates[1] ){
             coordinates[1] = scanner.nextDouble();
             scanner.nextLine();
             return true;
@@ -523,6 +523,57 @@ public class Logic {
         }
     }
 
+    public void planRoute(){
+
+        String origin;
+        String destination = null;
+        String depOrArrival;
+        String day;
+        String hour;
+        int maxWalkingDist;
+
+
+        System.out.println("");
+        System.out.println("Origin? (lat,long / destination)");
+        origin = scanner.nextLine();
+        //checkIfOriginOrDestValid();
+
+        System.out.println("");
+        System.out.println("Destination? (lat, lon / location name)");
+        origin = scanner.nextLine();
+        //checkIfOriginOrDestValid();
+
+        System.out.println("");
+        System.out.println("Departure or arrival? (d/a)");
+        depOrArrival = scanner.nextLine();
+
+        System.out.println("");
+        System.out.println("Day? (MM-DD-YYYY)");
+        day = scanner.nextLine();
+
+        System.out.println("");
+        System.out.println("Hour? (HH:MMam/HH:MMpm)");
+        hour = scanner.nextLine();
+
+        System.out.println("");
+        System.out.println("Maximum walking distance in meters?");
+        maxWalkingDist =  scanner.nextInt();
+
+        api.plannerAPI(origin,destination, depOrArrival, day, hour, maxWalkingDist);
+
+        System.out.println("Fastest Combination");
+        //System.out.println("\t" +"Time Taken:" + );
+        System.out.println("Origin");
+        System.out.println("\t" + "|");
+        System.out.println("Destination");
+
+    }
+
+    private boolean checkIfOriginValid(){
+
+        return true;
+    }
+
     private double distanceInKmBetweenEarthCoordinates(double[] long_lat1, double[] long_lat2) {
         int earthRadiusM = 6371000;
 
@@ -548,6 +599,7 @@ public class Logic {
         }
 
         else if(option == 3){
+            planRoute();
 
         }
         else if(option == 4){

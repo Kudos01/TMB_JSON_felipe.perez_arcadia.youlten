@@ -78,15 +78,18 @@ public class API {
     }
 
     public void testAPI(){
-        /*
 
-        String url = "https://api.tmb.cat/v1/ibus/stops/3369?app_id=41936f32&app_key=3c5639afc8280c17cb4f633b78de717b";
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("https://api.tmb.cat/v1/planner/plan?app_id=41936f32&app_key=3c5639afc8280c17cb4f633b78de717b&");
+        //sb.append(stopCode);
+        sb.append("?app_id=41936f32&app_key=3c5639afc8280c17cb4f633b78de717b");
+        String url = sb.toString();
+        ArrayList<iBus> closeBuses = new ArrayList<>();
         Request request = new Request.Builder().url(url).build();
-
+        ArrayList<BusStation> busStations = new ArrayList<>();
 
         try{
-            ArrayList<iBus> closeBuses = new ArrayList<>();
-
             Response response = client.newCall(request).execute();
             String jsonData = null;
             if(response.body() != null){
@@ -95,21 +98,19 @@ public class API {
 
             Gson gson = new Gson();
 
-            ArrayList<iBus> buuu = new ArrayList<>();
-            Type iBusListType = new TypeToken<ArrayList<iBus>>() {}.getType();
-            //temp temps = new temp();
-            ArrayList<temp> temps = new ArrayList<>();
+            JsonObject busStationTemp = gson.fromJson(jsonData, JsonObject.class);
 
-            JsonObject ibus = gson.fromJson(jsonData, JsonObject.class);
-            //if you run locOb.getLocations() you get the json list of locations
-            buuu = gson.fromJson(ibus.get("data").getAsJsonObject().get("ibus").getAsJsonArray(),iBusListType);
+            //System.out.println(metroStation.get("features").getAsJsonArray().get(0).getAsJsonObject().get("properties").getAsJsonObject().get("ID_PARADA"));
 
+            for (int i = 0; i < busStationTemp.get("features").getAsJsonArray().size(); i++) {
+                BusStation bus = new BusStation(busStationTemp.get("features").getAsJsonArray().get(i).getAsJsonObject());
+                busStations.add(bus);
+            }
 
         }catch (IOException e){
             e.printStackTrace();
         }
 
-         */
     }
 
     public ArrayList<iBus> getBusWaitTime(int stopCode){
@@ -147,5 +148,19 @@ public class API {
 
         }
         return closeBuses;
+    }
+
+    public void plannerAPI(String origin, String destination, String date, String time, String arriveBy, int maxWalkDistance){
+
+        StringBuilder sb = new StringBuilder();
+        sb.append("https://api.tmb.cat/v1/planner/plan?app_id=41936f32&app_key=3c5639afc8280c17cb4f633b78de717b&");
+        //sb.append(stopCode);
+        sb.append("?app_id=41936f32&app_key=3c5639afc8280c17cb4f633b78de717b");
+        String url = sb.toString();
+        ArrayList<iBus> closeBuses = new ArrayList<>();
+        Request request = new Request.Builder().url(url).build();
+        ArrayList<BusStation> busStations = new ArrayList<>();
+
+
     }
 }
