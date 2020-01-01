@@ -18,13 +18,14 @@ public class Route {
 
     public Route(){};
 
-    public Route (JsonObject fastestRoute, ArrayList<Leg> legs,String date, String time, int maxWalkDistance, String origin, String destination){
+    public Route (JsonObject fastestRoute, ArrayList<Leg> legs,String date, String time, int maxWalkDistance, String origin, String destination, int timeTaken){
         this.origin = origin;
         this.destination = destination;
         this.date = date;
         this.time = time;
         this.maxWalkingDistance = maxWalkDistance;
         this.routeLegs = legs;
+        this.timeTaken = timeTaken;
     }
 
     public int getTimeTaken() {

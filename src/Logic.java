@@ -601,11 +601,39 @@ public class Logic {
          */
 
         Route possibleRoutes = api.plannerAPI(origin,destination, day,  hour, boolDepOrA, maxWalkingDist);
+        user.pastRoutes.add(possibleRoutes);
+
+        System.out.println("");
+        System.out.println("Fastest Combination:");
+        System.out.println("\tTime taken: " + possibleRoutes.getTimeTaken()/60);
+        System.out.println("\tOrigin");
+        System.out.println("\t|");
+        for (int i = 0; i <possibleRoutes.getRouteLegs().size() ; i++) {
+            if(user.pastRoutes.get(i).getRouteLegs().get(i) instanceof Transit){
+
+                int timeMin = calculateTimeInMinutes(user.pastRoutes.get(i).getRouteLegs().get(i));
+                System.out.println("\t\t"+ ((Transit) user.pastRoutes.get(i).getRouteLegs().get(i)).getLine_name()
+                        +" " + ((Transit) user.pastRoutes.get(i).getRouteLegs().get(i)).getFrom_name()+" "+ "("+
+                        ((Transit) user.pastRoutes.get(i).getRouteLegs().get(i)).getFrom_stopcode()+")"+"->"
+                        +" " + ((Transit) user.pastRoutes.get(i).getRouteLegs().get(i)).getTo_name()+" "+ "("+
+                        ((Transit) user.pastRoutes.get(i).getRouteLegs().get(i)).getTo_stopcode()+")"+" "
+                        +timeMin+" min");
+
+                System.out.println("\t\t|");
+
+            }
+            else{
+
+                int timeMin = calculateTimeInMinutes(user.pastRoutes.get(i).getRouteLegs().get(i));
+                System.out.println("\t\t"+user.pastRoutes.get(i).getRouteLegs().get(i).getMode()+" "+timeMin+" min");
+                System.out.println("\t\t|");
+            }
+        }
+
+        System.out.println("\t\tDestination");
+        System.out.println("");
 
 
-
-        System.out.println("Fastest Combination");
-        //System.out.println("\t" +"Time Taken:" + );
 
     }
 
@@ -618,36 +646,57 @@ public class Logic {
         else{
 
             for (int i = 0; i < user.pastRoutes.size(); i++) {
+                int num = i+1;
                 System.out.println("");
-                System.out.println("->Route "+(++i)+":");
+                System.out.println("->Route "+num+":");
                 System.out.println("\t-Origin: "+user.pastRoutes.get(i).getOrigin());
                 System.out.println("\t-Destination: "+user.pastRoutes.get(i).getDestination());
                 System.out.println("\t-Date and Time: "+user.pastRoutes.get(i).getDate()+" at "+user.pastRoutes.get(i).getTime());
                 System.out.println("\t-Max Walking Distance: "+user.pastRoutes.get(i).getMaxWalkingDistance());
                 System.out.println("\t-Fastest Combination: ");
-                System.out.println("\t\tTime Taken: " +user.pastRoutes.get(i).getTimeTaken());
+                System.out.println("\t\tTime Taken: " + user.pastRoutes.get(i).getTimeTaken()/60 + " min");
+                System.out.println("\t\tOrigin");
+                System.out.println("\t\t|");
 
-                /*
-                for (int j = 0; j <user.pastRoutes.get(i).getRouteInformation().size(); j++) {
+                for (int j = 0; j <user.pastRoutes.get(i).getRouteLegs().size(); j++) {
+                    if(user.pastRoutes.get(i).getRouteLegs().get(j) instanceof Transit){
 
-                    if(j == user.pastRoutes.get(i).getRouteInformation().size()-1 ){
+                        int timeMin = calculateTimeInMinutes(user.pastRoutes.get(i).getRouteLegs().get(j));
+                        System.out.println("\t\t"+ ((Transit) user.pastRoutes.get(i).getRouteLegs().get(j)).getLine_name()
+                                +" " + ((Transit) user.pastRoutes.get(i).getRouteLegs().get(j)).getFrom_name()+" "+ "("+
+                                ((Transit) user.pastRoutes.get(i).getRouteLegs().get(j)).getFrom_stopcode()+")"+"->"
+                                +" " + ((Transit) user.pastRoutes.get(i).getRouteLegs().get(j)).getTo_name()+" "+ "("+
+                                ((Transit) user.pastRoutes.get(i).getRouteLegs().get(j)).getTo_stopcode()+")"+" "
+                                +timeMin+" min");
 
-                        System.out.println("\t\t"+user.pastRoutes.get(i).getRouteInformation().get(j));
+                        System.out.println("\t\t|");
+
                     }
                     else{
-                        System.out.println("\t\t"+user.pastRoutes.get(i).getRouteInformation().get(j));
+
+                        int timeMin = calculateTimeInMinutes(user.pastRoutes.get(i).getRouteLegs().get(j));
+                        System.out.println("\t\t"+user.pastRoutes.get(i).getRouteLegs().get(j).getMode()+" "+timeMin+" min");
                         System.out.println("\t\t|");
+
                     }
+
 
                 }
 
+                System.out.println("\t\tDestination");
                 System.out.println("");
 
-
-                 */
             }
 
         }
+    }
+
+    private int calculateTimeInMinutes(Leg leg){
+        int total_time=0;
+
+        total_time = (int) (((leg.getEnd_time() -leg.getStart_time())/1000)/60);
+
+        return total_time;
     }
 
     private boolean checkIfOriginOrDestValid(String name){
@@ -728,6 +777,7 @@ public class Logic {
 
             getBusWaitTime();
 
+
         }
         else if(option == 5){
             System.out.println("Thanks for using our program!");
@@ -762,58 +812,6 @@ public class Logic {
         else if(option.equalsIgnoreCase("f")){
             System.out.println();
         }
-    }
-
-
-    public void testapi(){
-
-        String origin = null;
-        String destination = null;
-        String depOrArrival = null;
-        boolean boolDepOrA = false;
-        boolean tof = false;
-        String day = null;
-        String hour = null;
-        int maxWalkingDist = 0;
-
-
-        origin = "41.403475,2.174400";
-        destination = "41.386878,2.170079";
-        boolDepOrA = false;
-        day = "12-31-2019";
-        hour = "06:45pm";
-        maxWalkingDist = 500;
-
-        Route fastest = api.testAPI(origin,destination,day, hour ,boolDepOrA,maxWalkingDist);
-
-        System.out.println(fastest);
-        System.out.println(fastest.getDestination());
-        System.out.println(fastest.getMaxWalkingDistance());
-        System.out.println(fastest.getDate());
-        System.out.println(fastest.getOrigin());
-        System.out.println(fastest.getTime());
-
-        for (int i = 0; i <fastest.getRouteLegs().size() ; i++) {
-
-            if(fastest.getRouteLegs().get(i) instanceof Walk){
-                System.out.println(fastest.getRouteLegs().get(i).getMode());
-                System.out.println(fastest.getRouteLegs().get(i).getStart_time());
-                System.out.println(fastest.getRouteLegs().get(i).getEnd_time());
-            }
-            else if(fastest.getRouteLegs().get(i) instanceof Transit){
-                System.out.println(fastest.getRouteLegs().get(i).getMode());
-                System.out.println(fastest.getRouteLegs().get(i).getStart_time());
-                System.out.println(fastest.getRouteLegs().get(i).getEnd_time());
-                System.out.println((((Transit) fastest.getRouteLegs().get(i)).getFrom_name()));
-                System.out.println((((Transit) fastest.getRouteLegs().get(i)).getFrom_stopcode()));
-                System.out.println((((Transit) fastest.getRouteLegs().get(i)).getTo_name()));
-                System.out.println((((Transit) fastest.getRouteLegs().get(i)).getTo_stopcode()));
-                System.out.println((((Transit) fastest.getRouteLegs().get(i)).getLine_name()));
-
-            }
-
-        }
-
     }
 
 
