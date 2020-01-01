@@ -216,7 +216,16 @@ public class Logic {
         if(scanner.hasNextDouble()){
             coordinates[0] = scanner.nextDouble();
             scanner.nextLine();
-            return true;
+
+            if(!checkIfLongitudeCorrect(coordinates[0])){
+                System.out.println("");
+                System.out.println("Error! The longitude is not valid (Outside range of allowed values)");
+                System.out.println("");
+                System.out.println("Longitude: ");
+                return false;
+            }else {
+                return true;
+            }
         }
 
         else{
@@ -234,12 +243,20 @@ public class Logic {
     }
 
     private boolean askForLatitude(double[] coordinates){
-        if(scanner.hasNextDouble()){
+        if(scanner.hasNextDouble()) {
             coordinates[1] = scanner.nextDouble();
             scanner.nextLine();
-            return true;
-        }
 
+            if (!checkIfLatitudeCorrect(coordinates[1])) {
+                System.out.println("");
+                System.out.println("Error! The latitude is not valid (Outside range of allowed values)");
+                System.out.println("");
+                System.out.println("Latitude: ");
+                return false;
+            } else {
+                return true;
+            }
+        }
         else{
             scanner.nextLine();
             System.out.println("");
@@ -496,32 +513,38 @@ public class Logic {
                     //make api request with stopcode to find buses that are nearby
                     ArrayList<iBus> closeBus = new ArrayList<>(api.getBusWaitTime(stopCode));
 
-                    //for all close buses
-                    for (int i = 0; i < closeBus.size() ; i++) {
-                        StringBuilder sb = new StringBuilder();
+                    if(closeBus.size() == 0){
+                        System.out.println("There are no busses circulating through this stop at this moment");
+                    }else {
+
                         //check if the stop is a fave stop
                         checkIfStopIsFavorite(stopCode);
-                        //get the line name
-                        sb.append(closeBus.get(i).getLine());
-                        sb.append(" - ");
-                        //get the destination
-                        sb.append(closeBus.get(i).getDestination());
-                        sb.append(" - ");
 
-                        //if the time until arrival is 0
-                        if(closeBus.get(i).getTime_in_min() == 0){
-                            sb.append("Imminient");
+                        //for all close buses
+                        for (int i = 0; i < closeBus.size(); i++) {
+                            StringBuilder sb = new StringBuilder();
+                            //get the line name
+                            sb.append(closeBus.get(i).getLine());
+                            sb.append(" - ");
+                            //get the destination
+                            sb.append(closeBus.get(i).getDestination());
+                            sb.append(" - ");
+
+                            //if the time until arrival is 0
+                            if (closeBus.get(i).getTime_in_min() == 0) {
+                                sb.append("Imminient");
+                            }
+
+                            //else
+                            else {
+                                //display the time in minutes
+                                sb.append(closeBus.get(i).getTime_in_min());
+                                sb.append(" min");
+                            }
+
+                            //print total string
+                            System.out.println(sb);
                         }
-
-                        //else
-                        else{
-                            //display the time in minutes
-                            sb.append(closeBus.get(i).getTime_in_min());
-                            sb.append(" min");
-                        }
-
-                        //print total string
-                        System.out.println(sb);
                     }
                 }
             }
@@ -580,10 +603,13 @@ public class Logic {
             System.out.println("In order to have favourite stops and stations it is necessary to create a favourite location previously.");
         } else {
 
-            boolean flag = false;
+            //flag to know if there are any stops near the favourite location
+            boolean flag;
 
             //for all of the user's fave locations
             for (int j = 0; j < user.favoriteLocations.size(); j++) {
+                //reset the flag for every user favourite location
+                flag = false;
 
                 //get the name of their favorite location
                 System.out.println("-" + user.favoriteLocations.get(j).getLocation().getName());
@@ -597,6 +623,7 @@ public class Logic {
                         StringBuilder sb = new StringBuilder();
 
                         //display the stop code and name with a counter
+                        sb.append("\t");
                         sb.append(++counter);
                         sb.append(")");
                         sb.append(" ");
@@ -608,7 +635,7 @@ public class Logic {
 
                         System.out.println(sb);
 
-                        //TODO: what does this do?
+                        //set to true if we found a stop near the selected location
                         flag = true;
                     }
                 }
@@ -622,6 +649,7 @@ public class Logic {
                         StringBuilder sb = new StringBuilder();
 
                         //display the station name, station code, and a counter number
+                        sb.append("\t");
                         sb.append(++counter);
                         sb.append(")");
                         sb.append(" ");
@@ -636,10 +664,9 @@ public class Logic {
                         flag = true;
                     }
                 }
-            }
-
-            if (!flag) {
-                System.out.println("TMB is doing its best to make the bus and subway arrive here.");
+                if (!flag) {
+                    System.out.println("TMB is doing its best to make the bus and subway arrive here.");
+                }
             }
         }
     }
@@ -942,22 +969,21 @@ public class Logic {
     public void whichOptionM2(String option){
 
         if(option.equalsIgnoreCase("a")){
-            listLocations(); //no
+            listLocations();
         }
 
         else if(option.equalsIgnoreCase("b")){
 
-            locationHistory(); //error handling ok
+            locationHistory();
 
         }
         else if(option.equalsIgnoreCase("c")){
 
-            userRoutes(); //error handling ok
-
+            userRoutes();
         }
 
         else if(option.equalsIgnoreCase("d")){
-            showCloseStations(); //??
+            showCloseStations();
         }
 
         else if(option.equalsIgnoreCase("e")){
