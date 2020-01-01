@@ -5,6 +5,7 @@ import Exceptions.stationNotFoundByYearException;
 import WebServices.*;
 import com.google.gson.JsonObject;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -121,7 +122,15 @@ public class Logic {
 
         while(!b){
             b = askForLongitude(coordinates);
+            if(!checkIfLongitudeCorrect(coordinates[0]) && b){
+                System.out.println("Error! The longitude is out of range");
+                System.out.println("");
+                System.out.println("Longitude: ");
+                b = false;
+            }
         }
+
+
 
         System.out.println("");
         System.out.println("Latitude: ");
@@ -129,7 +138,15 @@ public class Logic {
 
         while(!b){
             b = askForLatitude(coordinates);
+            if(!checkIfLongitudeCorrect(coordinates[1]) && b){
+                System.out.println("Error! The longitude is out of range");
+                System.out.println("");
+                System.out.println("Longitude: ");
+                b = false;
+            }
         }
+
+
 
         System.out.println("");
         System.out.println("Description: ");
@@ -166,7 +183,7 @@ public class Logic {
     }
 
     private boolean askForLongitude(double[] coordinates){
-        if(scanner.hasNextDouble()&& minlong > coordinates[0] && maxlong < coordinates[0] ){
+        if(scanner.hasNextDouble()){
             coordinates[0] = scanner.nextDouble();
             scanner.nextLine();
             return true;
@@ -182,8 +199,12 @@ public class Logic {
         }
     }
 
+    private boolean checkIfLongitudeCorrect(double longitude){
+        return longitude >= minlong && longitude <= maxlong;
+    }
+
     private boolean askForLatitude(double[] coordinates){
-        if(scanner.hasNextDouble() && minlat > coordinates[1] && maxlat < coordinates[1] ){
+        if(scanner.hasNextDouble()){
             coordinates[1] = scanner.nextDouble();
             scanner.nextLine();
             return true;
@@ -197,6 +218,10 @@ public class Logic {
             System.out.println("Latitude: ");
             return false;
         }
+    }
+
+    private boolean checkIfLatitudeCorrect(double latitude){
+        return latitude >= minlat && latitude <= maxlat;
     }
 
     public void searchLocation(){
@@ -515,6 +540,9 @@ public class Logic {
     public void planRoute(){
 
         String origin = null;
+        double[] coordsOrigin = new double[2];
+        double[] coordsDestination = new double[2];
+
         String destination = null;
         String depOrArrival = null;
         boolean boolDepOrA = false;
@@ -523,30 +551,91 @@ public class Logic {
         String hour = null;
         int maxWalkingDist = 0;
 
+        boolean flag = false;
+
 
         System.out.println("");
-        System.out.println("Origin? (lat,long / destination)");
-        origin = scanner.nextLine();
+        System.out.println("Origin? (lat,long / location name)");
 
-        /*
-        tof = checkIfOriginOrDestValid(origin);
-        while(!tof){
-            tof = checkIfOriginOrDestValid(origin);
+        while(!flag){
+
+            if(scanner.hasNext()){
+                origin = scanner.nextLine();
+                if(validLocationName(origin, allLocations)){
+                    flag = true;
+                }
+            }
+
+            else if(scanner.hasNext(",")) {
+                origin = scanner.nextLine();
+                String tempLat = origin.substring(0, origin.indexOf(","));
+                String tempLong = origin.substring(origin.indexOf(",") + 1, origin.length());
+
+                coordsOrigin[0] = Double.parseDouble(tempLat);
+                coordsOrigin[1] = Double.parseDouble(tempLong);
+
+                if(checkIfLatitudeCorrect(coordsOrigin[0]) && checkIfLongitudeCorrect(coordsOrigin[1])){
+                    flag = true;
+                }
+            }
+
+            else{
+                scanner.next();
+                scanner.nextLine();
+                flag = false;
+            }
+
+            if(!flag){
+                System.out.println("Sorry, this location is not valid :(");
+                System.out.println("");
+                System.out.println("Origin? (lat,long / location name)");
+            }
+
         }
-
-         */
 
         System.out.println("");
         System.out.println("Destination? (lat,lon / location name)");
-        destination = scanner.nextLine();
-        /*
-        TODO: IF LOCATION NAME INPUT, GET COORDINATES
-        tof = checkIfOriginOrDestValid(destination);
-        while(!tof){
-            tof = checkIfOriginOrDestValid(destination);
+
+        flag = false;
+
+        while(!flag){
+
+            if(scanner.hasNextLine()){
+                destination = scanner.nextLine();
+                if(validLocationName(destination, allLocations)){
+                    flag = true;
+                }
+            }
+
+            else if(scanner.hasNext(",")) {
+                destination = scanner.nextLine();
+                String tempLat = origin.substring(0, origin.indexOf(","));
+                String tempLong = origin.substring(origin.indexOf(",") + 1, origin.length());
+
+                coordsDestination[0] = Double.parseDouble(tempLat);
+                coordsDestination[1] = Double.parseDouble(tempLong);
+
+                if(checkIfLatitudeCorrect(coordsDestination[0]) && checkIfLongitudeCorrect(coordsDestination[1])){
+                    flag = true;
+                }
+            }
+
+            else{
+                scanner.next();
+                scanner.nextLine();
+                flag = false;
+            }
+
+            if(!flag){
+                System.out.println("Sorry, this location is not valid :(");
+                System.out.println("");
+                System.out.println("Origin? (lat,long / location name)");
+            }
         }
 
-         */
+        /*
+        TODO: IF LOCATION NAME INPUT, GET COORDINATES
+
 
         System.out.println("");
         System.out.println("Departure or arrival? (d/a)");
@@ -601,6 +690,7 @@ public class Logic {
          */
 
         Route possibleRoutes = api.plannerAPI(origin,destination, day,  hour, boolDepOrA, maxWalkingDist);
+        System.out.println(possibleRoutes.getRouteLegs().size());
         user.pastRoutes.add(possibleRoutes);
 
         System.out.println("");
@@ -608,7 +698,7 @@ public class Logic {
         System.out.println("\tTime taken: " + possibleRoutes.getTimeTaken()/60);
         System.out.println("\tOrigin");
         System.out.println("\t|");
-        for (int i = 0; i <possibleRoutes.getRouteLegs().size() ; i++) {
+        for (int i = 0; i < possibleRoutes.getRouteLegs().size() ; i++) {
             if(user.pastRoutes.get(i).getRouteLegs().get(i) instanceof Transit){
 
                 int timeMin = calculateTimeInMinutes(user.pastRoutes.get(i).getRouteLegs().get(i));
@@ -632,9 +722,6 @@ public class Logic {
 
         System.out.println("\t\tDestination");
         System.out.println("");
-
-
-
     }
 
     public void userRoutes(){
@@ -673,21 +760,15 @@ public class Logic {
 
                     }
                     else{
-
                         int timeMin = calculateTimeInMinutes(user.pastRoutes.get(i).getRouteLegs().get(j));
                         System.out.println("\t\t"+user.pastRoutes.get(i).getRouteLegs().get(j).getMode()+" "+timeMin+" min");
                         System.out.println("\t\t|");
-
                     }
-
-
                 }
 
                 System.out.println("\t\tDestination");
                 System.out.println("");
-
             }
-
         }
     }
 
@@ -697,23 +778,6 @@ public class Logic {
         total_time = (int) (((leg.getEnd_time() -leg.getStart_time())/1000)/60);
 
         return total_time;
-    }
-
-    private boolean checkIfOriginOrDestValid(String name){
-        if(scanner.hasNextLine() && (validLocationName(name, allLocations))){
-            name = scanner.nextLine();
-            scanner.nextLine();
-            return true;
-        }
-
-        else{
-            scanner.nextLine();
-            System.out.println("");
-            System.out.println("Sorry, this location is not valid :(");
-            System.out.println("");
-            System.out.println("Origin? (lat,long / destination)");
-            return false;
-        }
     }
 
     private boolean checkNextInt(int nextInt){
