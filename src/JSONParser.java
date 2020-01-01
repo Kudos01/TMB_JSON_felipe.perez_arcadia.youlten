@@ -63,8 +63,6 @@ public class JSONParser implements Parse{
             System.out.println("Error! Could not read JSON file.");
             allLocations = null;
         }
-
         return allLocations;
     }
-
 }

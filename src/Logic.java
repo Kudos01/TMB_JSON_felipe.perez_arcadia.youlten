@@ -340,12 +340,9 @@ public class Logic {
         } catch (locationNotFoundException e) {
             e.printErrorMessage();
         }
-
-
     }
 
     private int checkLocationExist(String name, ArrayList<Location> locations) throws locationNotFoundException{
-
         int pos = -1;
 
         //for all of the locations
@@ -414,9 +411,7 @@ public class Logic {
             System.out.println("");
             System.out.println("You have not searched for any locations!");
             System.out.println("To search for one, access option 2 in the principal menu.");
-
         }
-
     }
 
     private ArrayList<MetroStation> findStationsByYear(int year) throws stationNotFoundByYearException {
@@ -468,28 +463,32 @@ public class Logic {
 
     public void getBusWaitTime(){
         int stopCode=0;
-        boolean tof;
         boolean exists = false;
 
-        //check if it exists
+        //run the loop while the return from the checkStopCodeExists method is false
         while(!exists){
             System.out.println("");
             //ask the user for the stop code they want to check
             System.out.println("Enter the stop code:");
 
-            //check if a number is input
-            tof = checkNextInt(stopCode);
-            while(!tof){
-                //if not, keep checking until they do
-                System.out.println("");
-                System.out.println("Enter the stop code:");
-                tof = checkNextInt(stopCode);
+            boolean ok = false;
+
+            while(!ok){
+                if(scanner.hasNextInt()){
+                    stopCode = scanner.nextInt();
+                    scanner.nextLine();
+                    ok = true;
+                }else{
+                    scanner.nextLine();
+                    System.out.println("Error, please enter an integer");
+                }
             }
+
             try {
                 //check if the stop code correlates to another station
                 exists = checkStopCodeIfExists(stopCode, busStations);
             } catch (stopCodeInvalidException e) {
-                //if nnot, print an error message
+                //if not, print an error message
                 e.printErrorMessage();
             }finally {
                 if(exists){
@@ -572,9 +571,7 @@ public class Logic {
                 //if it is within 500m, display message
                 System.out.println("Favourite stop!");
             }
-
         }
-
     }
 
     private void showCloseStations() {
@@ -690,10 +687,8 @@ public class Logic {
                         }
                     }
                     flag = true;
-                    origin = null;
                     double[] cords= allLocations.get(pos).getCoordinates();
                     origin = cords[1]+ "," + cords[0];
-
 
                 } else if (origin.contains(",")) {
                     String tempLat = origin.substring(origin.indexOf(",") + 1, origin.length());
@@ -724,7 +719,6 @@ public class Logic {
                 destination = scanner.nextLine();
 
                 if (validLocationName(destination, allLocations)) {
-                    flag = true;
                     int pos=0;
                     for (int i = 0; i < allLocations.size(); i++) {
                         if(destination.equalsIgnoreCase(allLocations.get(i).getName())){
@@ -733,13 +727,11 @@ public class Logic {
                         }
                     }
                     flag = true;
-                    destination = null;
                     double[] cords= allLocations.get(pos).getCoordinates();
-                    destination = cords[1]+ "," + cords[0];
+                    destination = cords[1] + "," + cords[0];
                 } else if (destination.contains(",")) {
                     String tempLat = destination.substring(destination.indexOf(",") + 1, destination.length());
                     String tempLong = destination.substring(0, destination.indexOf(","));
-
 
                     coordsDestination[0] = Double.parseDouble(tempLat);
                     coordsDestination[1] = Double.parseDouble(tempLong);
@@ -759,55 +751,33 @@ public class Logic {
 
         System.out.println("");
         System.out.println("Departure or arrival? (d/a)");
-        /*
-        tof = checkifDepOrArrivalValid(depOrArrival);
-        while(!tof){
-            tof = checkifDepOrArrivalValid(depOrArrival);
-        }
 
-         */
         depOrArrival = scanner.nextLine();
+
+        while (!(depOrArrival.equalsIgnoreCase("a") || depOrArrival.equalsIgnoreCase("d"))){
+            System.out.println("Error, please enter a or d");
+            System.out.println("");
+            System.out.println("Departure or arrival? (d/a)");
+
+            depOrArrival = scanner.nextLine();
+        }
 
         if(depOrArrival.equalsIgnoreCase("a")){
             boolDepOrA = true;
-        }
-        else{
-            boolDepOrA = false;
         }
 
         System.out.println("");
         System.out.println("Day? (MM-DD-YYYY)");
         day = scanner.nextLine();
-        /*
-        tof = checkifDayValid(day);
-        while(!tof){
-            tof = checkifDayValid(day);
-        }
-
-         */
 
         System.out.println("");
         System.out.println("Hour? (HH:MMam/HH:MMpm)");
         hour = scanner.nextLine();
 
-        /*
-        tof = checkifHourValid(hour);
-        while(!tof){
-            tof = checkifHourValid(hour);
-        }
-
-         */
-
         System.out.println("");
         System.out.println("Maximum walking distance in meters?");
         maxWalkingDist = scanner.nextInt();
-        /*
-        tof = checkifMaxWalkValid(maxWalkingDist);
-        while(!tof){
-            tof = checkifMaxWalkValid(maxWalkingDist);
-        }
-
-         */
+        scanner.nextLine();
 
         Route possibleRoutes = api.plannerAPI(origin,destination, day,  hour, boolDepOrA, maxWalkingDist);
         if (possibleRoutes != null){
@@ -844,7 +814,6 @@ public class Logic {
         System.out.println("\tDestination");
         System.out.println("");
         }
-
     }
 
 
@@ -899,15 +868,12 @@ public class Logic {
                         System.out.println("\t\t|");
 
                     }
-
-
                 }
 
                 System.out.println("\t\tDestination");
                 System.out.println("");
 
             }
-
         }
     }
 
@@ -919,40 +885,6 @@ public class Logic {
         total_time = (int) (((leg.getEnd_time() -leg.getStart_time())/1000)/60);
 
         return total_time;
-    }
-
-    private boolean checkIfOriginOrDestValid(String name){
-        if(scanner.hasNextLine() && (validLocationName(name, allLocations))){
-            name = scanner.nextLine();
-            scanner.nextLine();
-            return true;
-        }
-
-        else{
-            scanner.nextLine();
-            System.out.println("");
-            System.out.println("Sorry, this location is not valid :(");
-            System.out.println("");
-            System.out.println("Origin? (lat,long / destination)");
-            return false;
-        }
-    }
-
-    private boolean checkNextInt(int nextInt){
-        //check if an int is being input on the next line
-        if(scanner.hasNextInt()){
-            nextInt = scanner.nextInt();
-            scanner.nextLine();
-            return true;
-        }
-
-        else{
-            //if not, print an error
-            scanner.nextLine();
-            System.out.println("");
-            System.out.println("Error! Please enter an int");
-            return false;
-        }
     }
 
     private boolean checkYesOrNo(String yesorno){
@@ -989,7 +921,7 @@ public class Logic {
     }
 
 
-    //a function to run a given function depending on user inptu
+    //a function to run a given function depending on user input
     public void whichOptionM1(int option){
 
         if(option == 2){
@@ -997,14 +929,10 @@ public class Logic {
         }
 
         else if(option == 3){
-            planRoute(); //somewhat okay --> checking if return error is okay, but not individually input information
-
+            planRoute();
         }
         else if(option == 4){
-
-            getBusWaitTime();//error handling ok
-
-
+            getBusWaitTime(); //error handling ok
         }
         else if(option == 5){
             System.out.println("Thanks for using our program!");
