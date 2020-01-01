@@ -5,7 +5,6 @@ import Exceptions.stationNotFoundByYearException;
 import WebServices.*;
 import com.google.gson.JsonObject;
 
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -122,15 +121,7 @@ public class Logic {
 
         while(!b){
             b = askForLongitude(coordinates);
-            if(!checkIfLongitudeCorrect(coordinates[0]) && b){
-                System.out.println("Error! The longitude is out of range");
-                System.out.println("");
-                System.out.println("Longitude: ");
-                b = false;
-            }
         }
-
-
 
         System.out.println("");
         System.out.println("Latitude: ");
@@ -138,15 +129,7 @@ public class Logic {
 
         while(!b){
             b = askForLatitude(coordinates);
-            if(!checkIfLongitudeCorrect(coordinates[1]) && b){
-                System.out.println("Error! The longitude is out of range");
-                System.out.println("");
-                System.out.println("Longitude: ");
-                b = false;
-            }
         }
-
-
 
         System.out.println("");
         System.out.println("Description: ");
@@ -689,38 +672,41 @@ public class Logic {
          */
 
         Route possibleRoutes = api.plannerAPI(origin,destination, day,  hour, boolDepOrA, maxWalkingDist);
-        System.out.println(possibleRoutes.getRouteLegs().size());
+        if (possibleRoutes != null){
+
         user.pastRoutes.add(possibleRoutes);
 
         System.out.println("");
         System.out.println("Fastest Combination:");
-        System.out.println("\tTime taken: " + possibleRoutes.getTimeTaken()/60);
+        System.out.println("\tTime taken: " + possibleRoutes.getTimeTaken()/60 + " min");
         System.out.println("\tOrigin");
         System.out.println("\t|");
-        for (int i = 0; i < possibleRoutes.getRouteLegs().size() ; i++) {
-            if(user.pastRoutes.get(i).getRouteLegs().get(i) instanceof Transit){
+        for (int i = 0; i <possibleRoutes.getRouteLegs().size() ; i++) {
+            if(possibleRoutes.getRouteLegs().get(i) instanceof Transit){
 
-                int timeMin = calculateTimeInMinutes(user.pastRoutes.get(i).getRouteLegs().get(i));
-                System.out.println("\t\t"+ ((Transit) user.pastRoutes.get(i).getRouteLegs().get(i)).getLine_name()
-                        +" " + ((Transit) user.pastRoutes.get(i).getRouteLegs().get(i)).getFrom_name()+" "+ "("+
-                        ((Transit) user.pastRoutes.get(i).getRouteLegs().get(i)).getFrom_stopcode()+")"+"->"
-                        +" " + ((Transit) user.pastRoutes.get(i).getRouteLegs().get(i)).getTo_name()+" "+ "("+
-                        ((Transit) user.pastRoutes.get(i).getRouteLegs().get(i)).getTo_stopcode()+")"+" "
+                int timeMin = calculateTimeInMinutes(possibleRoutes.getRouteLegs().get(i));
+                System.out.println("\t"+ ((Transit) possibleRoutes.getRouteLegs().get(i)).getLine_name()
+                        +" " + ((Transit)possibleRoutes.getRouteLegs().get(i)).getFrom_name()+" "+ "("+
+                        ((Transit) possibleRoutes.getRouteLegs().get(i)).getFrom_stopcode()+")"+"->"
+                        +" " + ((Transit) possibleRoutes.getRouteLegs().get(i)).getTo_name()+" "+ "("+
+                        ((Transit) possibleRoutes.getRouteLegs().get(i)).getTo_stopcode()+")"+" "
                         +timeMin+" min");
 
-                System.out.println("\t\t|");
+                System.out.println("\t|");
 
             }
             else{
 
-                int timeMin = calculateTimeInMinutes(user.pastRoutes.get(i).getRouteLegs().get(i));
-                System.out.println("\t\t"+user.pastRoutes.get(i).getRouteLegs().get(i).getMode()+" "+timeMin+" min");
-                System.out.println("\t\t|");
+                int timeMin = calculateTimeInMinutes(possibleRoutes.getRouteLegs().get(i));
+                System.out.println("\t"+possibleRoutes.getRouteLegs().get(i).getMode()+" "+timeMin+" min");
+                System.out.println("\t|");
             }
         }
 
-        System.out.println("\t\tDestination");
+        System.out.println("\tDestination");
         System.out.println("");
+        }
+
     }
 
     public void userRoutes(){
