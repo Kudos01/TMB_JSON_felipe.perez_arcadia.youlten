@@ -569,38 +569,20 @@ public class Logic {
         System.out.println("");
         System.out.println("Day? (MM-DD-YYYY)");
         day = scanner.nextLine();
-        /*
-        tof = checkifDayValid(day);
-        while(!tof){
-            tof = checkifDayValid(day);
-        }
 
-         */
 
         System.out.println("");
         System.out.println("Hour? (HH:MMam/HH:MMpm)");
         hour = scanner.nextLine();
 
-        /*
-        tof = checkifHourValid(hour);
-        while(!tof){
-            tof = checkifHourValid(hour);
-        }
-
-         */
-
         System.out.println("");
         System.out.println("Maximum walking distance in meters?");
         maxWalkingDist = scanner.nextInt();
-        /*
-        tof = checkifMaxWalkValid(maxWalkingDist);
-        while(!tof){
-            tof = checkifMaxWalkValid(maxWalkingDist);
-        }
 
-         */
 
         Route possibleRoutes = api.plannerAPI(origin,destination, day,  hour, boolDepOrA, maxWalkingDist);
+        if (possibleRoutes != null){
+
         user.pastRoutes.add(possibleRoutes);
 
         System.out.println("");
@@ -632,8 +614,7 @@ public class Logic {
 
         System.out.println("\tDestination");
         System.out.println("");
-
-
+        }
 
     }
 

@@ -140,45 +140,53 @@ public class API {
                 }
 
                 Gson gson = new Gson();
-
                 JsonObject routePlans = gson.fromJson(jsonData, JsonObject.class);
-                JsonArray plan = gson.fromJson(routePlans.get("plan").getAsJsonObject().get("itineraries").getAsJsonArray(), JsonArray.class);
 
-                int shortest = plan.get(0).getAsJsonObject().get("duration").getAsInt();
-                int pos = 0;
-                ArrayList<Leg> legs = new ArrayList<>();
+                if(routePlans.has("error")){
+                    System.out.println("Error! one of the parameters is incorrect :(");
+                    fastest = null;
+                }
+                else {
 
 
-                for (int i = 0; i < plan.size(); i++) {
+                    JsonArray plan = gson.fromJson(routePlans.get("plan").getAsJsonObject().get("itineraries").getAsJsonArray(), JsonArray.class);
 
-                    //TODO: fix if none are true --> add flags
-                    if (maxWalkDistance <= plan.get(i).getAsJsonObject().get("walkDistance").getAsDouble()) {
-                        if (shortest > plan.get(i).getAsJsonObject().get("duration").getAsInt()) {
-                            shortest = plan.get(i).getAsJsonObject().get("duration").getAsInt();
-                            pos = i;
+                    int shortest = plan.get(0).getAsJsonObject().get("duration").getAsInt();
+                    int pos = 0;
+                    ArrayList<Leg> legs = new ArrayList<>();
+
+
+                    for (int i = 0; i < plan.size(); i++) {
+
+                        //TODO: fix if none are true --> add flags
+                        if (maxWalkDistance <= plan.get(i).getAsJsonObject().get("walkDistance").getAsDouble()) {
+                            if (shortest > plan.get(i).getAsJsonObject().get("duration").getAsInt()) {
+                                shortest = plan.get(i).getAsJsonObject().get("duration").getAsInt();
+                                pos = i;
+                            }
+
                         }
 
                     }
 
-                }
+                    for (int i = 0; i < plan.get(pos).getAsJsonObject().get("legs").getAsJsonArray().size(); i++) {
 
-                for (int i = 0; i < plan.get(pos).getAsJsonObject().get("legs").getAsJsonArray().size(); i++) {
+                        if ("WALK".equalsIgnoreCase(plan.get(pos).getAsJsonObject().get("legs").getAsJsonArray().get(i).getAsJsonObject().get("mode").getAsString())) {
 
-                    if ("WALK".equalsIgnoreCase(plan.get(pos).getAsJsonObject().get("legs").getAsJsonArray().get(i).getAsJsonObject().get("mode").getAsString())) {
+                            Walk walk = new Walk(plan.get(pos).getAsJsonObject().get("legs").getAsJsonArray().get(i).getAsJsonObject());
+                            legs.add(walk);
 
-                        Walk walk = new Walk(plan.get(pos).getAsJsonObject().get("legs").getAsJsonArray().get(i).getAsJsonObject());
-                        legs.add(walk);
+                        } else {
+                            Transit transit = new Transit(plan.get(pos).getAsJsonObject().get("legs").getAsJsonArray().get(i).getAsJsonObject());
+                            legs.add(transit);
+                        }
 
-                    } else {
-                        Transit transit = new Transit(plan.get(pos).getAsJsonObject().get("legs").getAsJsonArray().get(i).getAsJsonObject());
-                        legs.add(transit);
                     }
+                    int timeTaken = plan.get(pos).getAsJsonObject().get("duration").getAsInt();
+
+                    fastest = new Route(plan.get(pos).getAsJsonObject(), legs, date, time, maxWalkDistance, origin, destination, timeTaken);
 
                 }
-                int timeTaken = plan.get(pos).getAsJsonObject().get("duration").getAsInt();
-
-                fastest = new Route(plan.get(pos).getAsJsonObject(), legs, date, time, maxWalkDistance, origin, destination, timeTaken);
-
 
             } catch (IOException e) {
                 e.printStackTrace();
