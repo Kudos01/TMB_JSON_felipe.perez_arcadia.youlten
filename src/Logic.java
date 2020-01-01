@@ -676,8 +676,8 @@ public class Logic {
                 if (validLocationName(origin, allLocations)) {
                     flag = true;
                 } else if (origin.contains(",")) {
-                    String tempLat = origin.substring(0, origin.indexOf(","));
-                    String tempLong = origin.substring(origin.indexOf(",") + 1, origin.length());
+                    String tempLat = origin.substring(origin.indexOf(",") + 1, origin.length());
+                    String tempLong = origin.substring(0, origin.indexOf(","));
 
                     coordsOrigin[0] = Double.parseDouble(tempLat);
                     coordsOrigin[1] = Double.parseDouble(tempLong);
@@ -706,8 +706,9 @@ public class Logic {
                 if (validLocationName(destination, allLocations)) {
                     flag = true;
                 } else if (destination.contains(",")) {
-                    String tempLat = destination.substring(0, destination.indexOf(","));
-                    String tempLong = destination.substring(destination.indexOf(",") + 1, destination.length());
+                    String tempLat = destination.substring(destination.indexOf(",") + 1, destination.length());
+                    String tempLong = destination.substring(0, destination.indexOf(","));
+
 
                     coordsDestination[0] = Double.parseDouble(tempLat);
                     coordsDestination[1] = Double.parseDouble(tempLong);

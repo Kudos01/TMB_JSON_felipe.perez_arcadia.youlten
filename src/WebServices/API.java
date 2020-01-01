@@ -137,6 +137,7 @@ public class API {
             sb.append("showIntermediateStops=TRUE");
             String url = sb.toString();
 
+            System.out.println(url);
             //request with url generated from user input
             Request request = new Request.Builder().url(url).build();
 
@@ -165,12 +166,12 @@ public class API {
                     int shortest = plan.get(0).getAsJsonObject().get("duration").getAsInt();
                     int pos = 0;
                     ArrayList<Leg> legs = new ArrayList<>();
-
+                    int flag=0;
 
                     for (int i = 0; i < plan.size(); i++) {
 
-                        //TODO: fix if none are true --> add flags
                         if (maxWalkDistance <= plan.get(i).getAsJsonObject().get("walkDistance").getAsDouble()) {
+                            flag =1;
                             if (shortest > plan.get(i).getAsJsonObject().get("duration").getAsInt()) {
                                 shortest = plan.get(i).getAsJsonObject().get("duration").getAsInt();
                                 pos = i;
@@ -179,6 +180,18 @@ public class API {
                         }
 
                     }
+                    /*
+                    if(flag == 0){
+                        System.out.println("Error! all routes exceed max walk distance. Saving shortest time instead...");
+                    }
+                    for (int i = 0; i < plan.size(); i++) {
+                        if (shortest > plan.get(i).getAsJsonObject().get("duration").getAsInt()) {
+                            shortest = plan.get(i).getAsJsonObject().get("duration").getAsInt();
+                            pos = i;
+                        }
+                    }
+
+                     */
 
                     for (int i = 0; i < plan.get(pos).getAsJsonObject().get("legs").getAsJsonArray().size(); i++) {
 
