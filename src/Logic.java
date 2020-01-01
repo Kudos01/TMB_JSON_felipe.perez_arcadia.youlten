@@ -39,32 +39,34 @@ public class Logic {
     //store all metro Stations from API - used to check information related to metro
     public ArrayList<MetroStation> metroStations = new ArrayList<>();
 
-
+    /**
+     * Method to load the location data from the JSON file provided and load the bus stops and metro stations from the API
+     * @return boolean. Indicates if the data has been loaded correctly. Returns true if the data has been loaded correctly
+     *                  and false if there was an error loading the data.
+     */
     public boolean loadData(){
         //Loading locations from the JSON file
-        boolean endProg;
         allLocations = parser.parseLocations();
-        if(allLocations != null){
 
-            //Loading all of the bus lines from the API
-            busStations = api.loadBusStations();
+        //Loading all of the bus lines from the API
+        busStations = api.loadBusStations();
 
-            //loading all of the metro lines from the API
-            metroStations = api.loadMetroStations();
-            return false;
+        //loading all of the metro lines from the API
+        metroStations = api.loadMetroStations();
 
-        }
-        else{
-            return true;
-        }
+        return busStations == null || metroStations == null || allLocations == null;
+
     }
+
+    /**
+     * Method for asking the user for their information (username, email and birthyear) and saving it.
+     */
 
     public void Intro(){
         String username;
         String email;
         int birthyear;
 
-        //
         System.out.println("");
         //display all printed information from the menu
         System.out.println(Menu.intro);
@@ -79,13 +81,19 @@ public class Logic {
         birthyear = scanner.nextInt();
         scanner.nextLine();
 
-        //TODO: what does this do?
+        //print out a message saying the data has been saved correclty
         System.out.println(Menu.flagvalid);
         System.out.println("");
 
         //create a new user with the given information
         user = new User(username, email, birthyear);
     }
+
+    /**
+     * Method for listing the location a user has created. If no locations have been created, displays a message saying that in
+     * order to list the locations, they need to be created first. Will also ask the user if they want to create a new location.
+     * If they respond yes, we call the userCreateLocationMethod. Otherwise, exit this option.
+     */
 
     public void listLocations(){
 
@@ -123,6 +131,8 @@ public class Logic {
             userCreateLocation();
         }
     }
+
+
 
     private void userCreateLocation(){
 

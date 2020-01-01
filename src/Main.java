@@ -13,15 +13,16 @@ public class Main {
 
     public static void main(String[] args){
 
-        boolean endProg;
+        //boolean to know if the data was loaded correctly
+        boolean allGood;
         //create a new logic object so we can get the user information properly
         Logic logic = new Logic();
         //create a new menu object so we can display the correct options
         Menu menu = new Menu();
 
         //load the json information so we can use it later in the program
-        endProg = logic.loadData();
-        if(!endProg){
+        allGood = logic.loadData();
+        if(allGood){
 
             //ask the user for their information so we can use it later
             logic.Intro();
