@@ -369,15 +369,21 @@ public class Logic {
 
 
     public void getBusWaitTime(){
-        int stopCode;
+        int stopCode=0;
+        boolean tof;
         boolean exists = false;
 
         //check if it exists
         while(!exists){
             System.out.println("");
             System.out.println("Enter the stop code:");
-            stopCode = scanner.nextInt();
-            scanner.nextLine();
+
+            tof = checkNextInt(stopCode);
+            while(!tof){
+                System.out.println("");
+                System.out.println("Enter the stop code:");
+                tof = checkNextInt(stopCode);
+            }
             try {
                 exists = checkStopCodeIfExists(stopCode, busStations);
             } catch (stopCodeInvalidException e) {
@@ -747,16 +753,16 @@ public class Logic {
     public void whichOptionM1(int option){
 
         if(option == 2){
-            searchLocation();
+            searchLocation(); //error handling ok
         }
 
         else if(option == 3){
-            planRoute();
+            planRoute(); //somewhat okay --> checking if return error is okay, but not individually input information
 
         }
         else if(option == 4){
 
-            getBusWaitTime();
+            getBusWaitTime();//error handling ok
 
 
         }
@@ -768,26 +774,26 @@ public class Logic {
     public void whichOptionM2(String option){
 
         if(option.equalsIgnoreCase("a")){
-            listLocations();
+            listLocations(); //error handling ok
         }
 
         else if(option.equalsIgnoreCase("b")){
 
-            locationHistory();
+            locationHistory(); //error handling ok
 
         }
         else if(option.equalsIgnoreCase("c")){
 
-            userRoutes();
+            userRoutes(); //error handling ok
 
         }
 
         else if(option.equalsIgnoreCase("d")){
-            showCloseStations();
+            showCloseStations(); //??
         }
 
         else if(option.equalsIgnoreCase("e")){
-            stationsInauguratedByBirthYear();
+            stationsInauguratedByBirthYear(); //?
         }
 
         else if(option.equalsIgnoreCase("f")){
