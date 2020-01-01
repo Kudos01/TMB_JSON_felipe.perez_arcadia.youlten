@@ -636,7 +636,6 @@ public class Logic {
         /*
         TODO: IF LOCATION NAME INPUT, GET COORDINATES
 
-
         System.out.println("");
         System.out.println("Departure or arrival? (d/a)");
         /*
