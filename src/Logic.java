@@ -548,38 +548,38 @@ public class Logic {
 
         while(!flag){
 
-            if(scanner.hasNext()){
-                origin = scanner.nextLine();
-                if(validLocationName(origin, allLocations)){
-                    flag = true;
-                }
-            }
-
-            else if(scanner.hasNext(",")) {
-                origin = scanner.nextLine();
-                String tempLat = origin.substring(0, origin.indexOf(","));
-                String tempLong = origin.substring(origin.indexOf(",") + 1, origin.length());
-
-                coordsOrigin[0] = Double.parseDouble(tempLat);
-                coordsOrigin[1] = Double.parseDouble(tempLong);
-
-                if(checkIfLatitudeCorrect(coordsOrigin[0]) && checkIfLongitudeCorrect(coordsOrigin[1])){
-                    flag = true;
-                }
-            }
-
-            else{
-                scanner.next();
+            if(scanner.hasNextInt()){
+                scanner.nextInt();
                 scanner.nextLine();
                 flag = false;
-            }
-
-            if(!flag){
                 System.out.println("Sorry, this location is not valid :(");
                 System.out.println("");
                 System.out.println("Origin? (lat,long / location name)");
             }
 
+            else {
+                origin = scanner.nextLine();
+
+                if (validLocationName(origin, allLocations)) {
+                    flag = true;
+                } else if (origin.contains(",")) {
+                    String tempLat = origin.substring(0, origin.indexOf(","));
+                    String tempLong = origin.substring(origin.indexOf(",") + 1, origin.length());
+
+                    coordsOrigin[0] = Double.parseDouble(tempLat);
+                    coordsOrigin[1] = Double.parseDouble(tempLong);
+
+                    if (checkIfLatitudeCorrect(coordsOrigin[0]) && checkIfLongitudeCorrect(coordsOrigin[1])) {
+                        flag = true;
+                    }
+                }
+
+                if (!flag) {
+                    System.out.println("Sorry, this location is not valid :(");
+                    System.out.println("");
+                    System.out.println("Origin? (lat,long / location name)");
+                }
+            }
         }
 
         System.out.println("");
@@ -588,42 +588,29 @@ public class Logic {
         flag = false;
 
         while(!flag){
-
-            if(scanner.hasNextLine()){
                 destination = scanner.nextLine();
-                if(validLocationName(destination, allLocations)){
+
+                if (validLocationName(destination, allLocations)) {
                     flag = true;
+                } else if (destination.contains(",")) {
+                    String tempLat = destination.substring(0, destination.indexOf(","));
+                    String tempLong = destination.substring(destination.indexOf(",") + 1, destination.length());
+
+                    coordsDestination[0] = Double.parseDouble(tempLat);
+                    coordsDestination[1] = Double.parseDouble(tempLong);
+
+                    if (checkIfLatitudeCorrect(coordsDestination[0]) && checkIfLongitudeCorrect(coordsDestination[1])) {
+                        flag = true;
+                    }
                 }
-            }
 
-            else if(scanner.hasNext(",")) {
-                destination = scanner.nextLine();
-                String tempLat = origin.substring(0, origin.indexOf(","));
-                String tempLong = origin.substring(origin.indexOf(",") + 1, origin.length());
-
-                coordsDestination[0] = Double.parseDouble(tempLat);
-                coordsDestination[1] = Double.parseDouble(tempLong);
-
-                if(checkIfLatitudeCorrect(coordsDestination[0]) && checkIfLongitudeCorrect(coordsDestination[1])){
-                    flag = true;
+                if (!flag) {
+                    System.out.println("Sorry, this location is not valid :(");
+                    System.out.println("");
+                    System.out.println("Destination? (lat,long / location name)");
                 }
-            }
 
-            else{
-                scanner.next();
-                scanner.nextLine();
-                flag = false;
-            }
-
-            if(!flag){
-                System.out.println("Sorry, this location is not valid :(");
-                System.out.println("");
-                System.out.println("Origin? (lat,long / location name)");
-            }
         }
-
-        /*
-        TODO: IF LOCATION NAME INPUT, GET COORDINATES
 
         System.out.println("");
         System.out.println("Departure or arrival? (d/a)");

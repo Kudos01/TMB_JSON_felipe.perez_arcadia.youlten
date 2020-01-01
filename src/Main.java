@@ -14,8 +14,6 @@ public class Main {
     public static void main(String[] args){
 
         //TODO: EXCEPTION PREVENTION
-        //TODO: fix option a
-        //TODO:
 
         Logic logic = new Logic();
         Menu menu = new Menu();
