@@ -13,10 +13,10 @@ import java.util.Scanner;
 
 public class Logic {
 
-    private static final double minlat = 2.244097;
-    private static final double maxlat = 41.5;
-    private static final double minlong = 2.046171;
-    private static final double maxlong = 41.287565;
+    private static final double minlat = 2.046171;
+    private static final double maxlat =  2.244097;
+    private static final double minlong = 41.287565;
+    private static final double maxlong = 41.5;
 
     private User user;
     private API api = new API();
@@ -377,15 +377,21 @@ public class Logic {
 
 
     public void getBusWaitTime(){
-        int stopCode;
+        int stopCode=0;
+        boolean tof;
         boolean exists = false;
 
         //check if it exists
         while(!exists){
             System.out.println("");
             System.out.println("Enter the stop code:");
-            stopCode = scanner.nextInt();
-            scanner.nextLine();
+
+            tof = checkNextInt(stopCode);
+            while(!tof){
+                System.out.println("");
+                System.out.println("Enter the stop code:");
+                tof = checkNextInt(stopCode);
+            }
             try {
                 exists = checkStopCodeIfExists(stopCode, busStations);
             } catch (stopCodeInvalidException e) {
@@ -477,8 +483,8 @@ public class Logic {
 
                         StringBuilder sb = new StringBuilder();
 
-                        sb.append("(");
                         sb.append(++counter);
+                        sb.append(")");
                         sb.append(" ");
                         sb.append(busStations.get(i).getStopName());
                         sb.append(" (");
@@ -498,8 +504,8 @@ public class Logic {
 
                         StringBuilder sb = new StringBuilder();
 
-                        sb.append("(");
                         sb.append(++counter);
+                        sb.append(")");
                         sb.append(" ");
                         sb.append(metroStations.get(i).getStationName());
                         sb.append(" (");
@@ -815,16 +821,16 @@ public class Logic {
     public void whichOptionM1(int option){
 
         if(option == 2){
-            searchLocation();
+            searchLocation(); //error handling ok
         }
 
         else if(option == 3){
-            planRoute();
+            planRoute(); //somewhat okay --> checking if return error is okay, but not individually input information
 
         }
         else if(option == 4){
 
-            getBusWaitTime();
+            getBusWaitTime();//error handling ok
 
 
         }
@@ -836,26 +842,26 @@ public class Logic {
     public void whichOptionM2(String option){
 
         if(option.equalsIgnoreCase("a")){
-            listLocations();
+            listLocations(); //error handling ok
         }
 
         else if(option.equalsIgnoreCase("b")){
 
-            locationHistory();
+            locationHistory(); //error handling ok
 
         }
         else if(option.equalsIgnoreCase("c")){
 
-            userRoutes();
+            userRoutes(); //error handling ok
 
         }
 
         else if(option.equalsIgnoreCase("d")){
-            showCloseStations();
+            showCloseStations(); //??
         }
 
         else if(option.equalsIgnoreCase("e")){
-            stationsInauguratedByBirthYear();
+            stationsInauguratedByBirthYear(); //?
         }
 
         else if(option.equalsIgnoreCase("f")){
@@ -863,24 +869,4 @@ public class Logic {
         }
     }
 
-
-
-   /*
-
-    private Route planRoute(Location origin, Location destination, String date, String hour, int max_dist_walking){
-
-    return null;
-    }
-
-    private Route planRoute(String origin, String, char dest_or_arrival, Date date, String hour, int max_dist_walking){
-
-    return null;
-    }
-
-    private void checkUserData(String username,String email,int birthday){
-
-
-    }
-
-    */
 }
