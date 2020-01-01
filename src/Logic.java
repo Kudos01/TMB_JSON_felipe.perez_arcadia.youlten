@@ -605,32 +605,32 @@ public class Logic {
 
         System.out.println("");
         System.out.println("Fastest Combination:");
-        System.out.println("\tTime taken: " + possibleRoutes.getTimeTaken()/60);
+        System.out.println("\tTime taken: " + possibleRoutes.getTimeTaken()/60 + " min");
         System.out.println("\tOrigin");
         System.out.println("\t|");
         for (int i = 0; i <possibleRoutes.getRouteLegs().size() ; i++) {
-            if(user.pastRoutes.get(i).getRouteLegs().get(i) instanceof Transit){
+            if(possibleRoutes.getRouteLegs().get(i) instanceof Transit){
 
-                int timeMin = calculateTimeInMinutes(user.pastRoutes.get(i).getRouteLegs().get(i));
-                System.out.println("\t\t"+ ((Transit) user.pastRoutes.get(i).getRouteLegs().get(i)).getLine_name()
-                        +" " + ((Transit) user.pastRoutes.get(i).getRouteLegs().get(i)).getFrom_name()+" "+ "("+
-                        ((Transit) user.pastRoutes.get(i).getRouteLegs().get(i)).getFrom_stopcode()+")"+"->"
-                        +" " + ((Transit) user.pastRoutes.get(i).getRouteLegs().get(i)).getTo_name()+" "+ "("+
-                        ((Transit) user.pastRoutes.get(i).getRouteLegs().get(i)).getTo_stopcode()+")"+" "
+                int timeMin = calculateTimeInMinutes(possibleRoutes.getRouteLegs().get(i));
+                System.out.println("\t"+ ((Transit) possibleRoutes.getRouteLegs().get(i)).getLine_name()
+                        +" " + ((Transit)possibleRoutes.getRouteLegs().get(i)).getFrom_name()+" "+ "("+
+                        ((Transit) possibleRoutes.getRouteLegs().get(i)).getFrom_stopcode()+")"+"->"
+                        +" " + ((Transit) possibleRoutes.getRouteLegs().get(i)).getTo_name()+" "+ "("+
+                        ((Transit) possibleRoutes.getRouteLegs().get(i)).getTo_stopcode()+")"+" "
                         +timeMin+" min");
 
-                System.out.println("\t\t|");
+                System.out.println("\t|");
 
             }
             else{
 
-                int timeMin = calculateTimeInMinutes(user.pastRoutes.get(i).getRouteLegs().get(i));
-                System.out.println("\t\t"+user.pastRoutes.get(i).getRouteLegs().get(i).getMode()+" "+timeMin+" min");
-                System.out.println("\t\t|");
+                int timeMin = calculateTimeInMinutes(possibleRoutes.getRouteLegs().get(i));
+                System.out.println("\t"+possibleRoutes.getRouteLegs().get(i).getMode()+" "+timeMin+" min");
+                System.out.println("\t|");
             }
         }
 
-        System.out.println("\t\tDestination");
+        System.out.println("\tDestination");
         System.out.println("");
 
 
