@@ -18,23 +18,28 @@ public class API {
 
     public ArrayList<BusStation> loadBusStations(){
 
+        //request information from tmb with the following url
         Request request = new Request.Builder().url("https://api.tmb.cat/v1/transit/parades?app_id=41936f32&app_key=3c5639afc8280c17cb4f633b78de717b").build();
         ArrayList<BusStation> busStations = new ArrayList<>();
 
         try{
+            //get the response from the API
             Response response = client.newCall(request).execute();
             String jsonData = null;
+            //if the information is not null
             if(response.body() != null){
+                //store the information from the response in a string
                 jsonData = response.body().string();
             }
 
             Gson gson = new Gson();
 
+            //convert the JSON string to a json object
             JsonObject busStationTemp = gson.fromJson(jsonData, JsonObject.class);
 
-            //System.out.println(metroStation.get("features").getAsJsonArray().get(0).getAsJsonObject().get("properties").getAsJsonObject().get("ID_PARADA"));
-
+            //for all of the features
             for (int i = 0; i < busStationTemp.get("features").getAsJsonArray().size(); i++) {
+                //store all of the bus objects into an arraylist of objects
                 BusStation bus = new BusStation(busStationTemp.get("features").getAsJsonArray().get(i).getAsJsonObject());
                 busStations.add(bus);
             }
@@ -42,17 +47,21 @@ public class API {
         }catch (IOException e){
             e.printStackTrace();
         }
+        //return all buses
         return busStations;
     }
 
 
     public ArrayList<MetroStation> loadMetroStations() {
+        //request information from tmb with the following url
         Request request = new Request.Builder().url("https://api.tmb.cat/v1/transit/linies/metro/estacions?app_id=41936f32&app_key=3c5639afc8280c17cb4f633b78de717b").build();
         ArrayList<MetroStation> metroStations = new ArrayList<>();
 
         try{
+            //get the response from the API
             Response response = client.newCall(request).execute();
             String jsonData = null;
+            //if the information is not null
             if(response.body() != null){
                 jsonData = response.body().string();
             }
@@ -61,9 +70,8 @@ public class API {
 
             JsonObject metroStationTemp = gson.fromJson(jsonData, JsonObject.class);
 
-            //System.out.println(metroStation.get("features").getAsJsonArray().get(0).getAsJsonObject().get("properties").getAsJsonObject().get("ID_PARADA"));
-
             for (int i = 0; i < metroStationTemp.get("features").getAsJsonArray().size(); i++) {
+                //add all metro stations to an arraylist
                 MetroStation ms = new MetroStation(metroStationTemp.get("features").getAsJsonArray().get(i).getAsJsonObject());
                 metroStations.add(ms);
             }
@@ -77,6 +85,7 @@ public class API {
     public ArrayList<iBus> getBusWaitTime(int stopCode){
 
 
+        //build the url from the user request
         StringBuilder sb = new StringBuilder();
         sb.append("https://api.tmb.cat/v1/ibus/stops/");
         sb.append(stopCode);
@@ -98,8 +107,10 @@ public class API {
 
             JsonObject ibus = gson.fromJson(jsonData, JsonObject.class);
 
+
             for (int i = 0; i < ibus.get("data").getAsJsonObject().get("ibus").getAsJsonArray().size(); i++) {
                 iBus ib = new iBus(ibus.get("data").getAsJsonObject().get("ibus").getAsJsonArray().get(i).getAsJsonObject());
+                //get all information about all close buses, and store it an arraylist of close busses
                 closeBuses.add(ib);
             }
 
@@ -113,6 +124,7 @@ public class API {
 
     public Route plannerAPI(String origin, String destination, String date, String time, boolean dep_or_arrival, int maxWalkDistance){
 
+            //build the url of the request with the user input information
             StringBuilder sb = new StringBuilder();
             sb.append("https://api.tmb.cat/v1/planner/plan?app_id=41936f32&app_key=3c5639afc8280c17cb4f633b78de717b&");
             sb.append("fromPlace=").append(origin).append("&");
@@ -123,11 +135,9 @@ public class API {
             sb.append("mode=TRANSIT,WALK&");
             sb.append("maxWalkDistance=").append(maxWalkDistance).append("&");
             sb.append("showIntermediateStops=TRUE");
-
-            //String aaaa = https://api.tmb.cat/v1/planner/plan?app_id=41936f32&app_key=3c5639afc8280c17cb4f633b78de717b&fromPlace=41.403475,2.174400&toPlace=41.386878,2.159704&date=12-31-2019&time=03:45pm&arriveBy=false&mode=TRANSIT,WALK&maxWalkDistance=500&showIntermediateStops=true
             String url = sb.toString();
-            System.out.println(url);
 
+            //request with url generated from user input
             Request request = new Request.Builder().url(url).build();
 
             Route fastest = new Route();
@@ -142,13 +152,14 @@ public class API {
                 Gson gson = new Gson();
                 JsonObject routePlans = gson.fromJson(jsonData, JsonObject.class);
 
+                //if the api returns a json object that has an error
                 if(routePlans.has("error")){
+                    //print an error
                     System.out.println("Error! one of the parameters is incorrect :(");
                     fastest = null;
                 }
                 else {
-
-
+                    //get the json array with the information that we need
                     JsonArray plan = gson.fromJson(routePlans.get("plan").getAsJsonObject().get("itineraries").getAsJsonArray(), JsonArray.class);
 
                     int shortest = plan.get(0).getAsJsonObject().get("duration").getAsInt();
@@ -171,19 +182,25 @@ public class API {
 
                     for (int i = 0; i < plan.get(pos).getAsJsonObject().get("legs").getAsJsonArray().size(); i++) {
 
+                        //if the method of transit is 'walk
                         if ("WALK".equalsIgnoreCase(plan.get(pos).getAsJsonObject().get("legs").getAsJsonArray().get(i).getAsJsonObject().get("mode").getAsString())) {
 
+                            //create a new walking object
                             Walk walk = new Walk(plan.get(pos).getAsJsonObject().get("legs").getAsJsonArray().get(i).getAsJsonObject());
+                            //add this part of the journey to steps
                             legs.add(walk);
 
                         } else {
+                            //create a new transit object
                             Transit transit = new Transit(plan.get(pos).getAsJsonObject().get("legs").getAsJsonArray().get(i).getAsJsonObject());
                             legs.add(transit);
                         }
 
                     }
+                    //get the time taken as it's own information
                     int timeTaken = plan.get(pos).getAsJsonObject().get("duration").getAsInt();
 
+                    //store it in the route
                     fastest = new Route(plan.get(pos).getAsJsonObject(), legs, date, time, maxWalkDistance, origin, destination, timeTaken);
 
                 }
