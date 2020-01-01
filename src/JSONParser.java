@@ -17,7 +17,6 @@ public class JSONParser implements Parse{
         ArrayList<Location> allLocations = new ArrayList<>();
 
         Gson gson = new Gson();
-        //TODO: check if this is sufficient for checking and exiting program with error message
         try (Reader reader = new FileReader("resources/localizations.json")) {
 
             //make a new type token of type teams, so that we can parse all the teams from the json to an arraylist of type Team
@@ -60,7 +59,9 @@ public class JSONParser implements Parse{
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
+            System.out.println("Error! Could not read JSON file.");
+            allLocations = null;
         }
 
         return allLocations;

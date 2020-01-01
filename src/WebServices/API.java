@@ -157,6 +157,7 @@ public class API {
                 if(routePlans.has("error")){
                     //print an error
                     System.out.println("Error! one of the parameters is incorrect :(");
+                    System.out.println(routePlans.get("error").getAsString());
                     fastest = null;
                 }
                 else {
@@ -170,7 +171,7 @@ public class API {
 
                     for (int i = 0; i < plan.size(); i++) {
 
-                        if (maxWalkDistance <= plan.get(i).getAsJsonObject().get("walkDistance").getAsDouble()) {
+                        if (plan.get(i).getAsJsonObject().get("walkDistance").getAsDouble() <= maxWalkDistance ) {
                             flag =1;
                             if (shortest > plan.get(i).getAsJsonObject().get("duration").getAsInt()) {
                                 shortest = plan.get(i).getAsJsonObject().get("duration").getAsInt();
@@ -180,7 +181,6 @@ public class API {
                         }
 
                     }
-                    /*
                     if(flag == 0){
                         System.out.println("Error! all routes exceed max walk distance. Saving shortest time instead...");
                     }
@@ -191,7 +191,6 @@ public class API {
                         }
                     }
 
-                     */
 
                     for (int i = 0; i < plan.get(pos).getAsJsonObject().get("legs").getAsJsonArray().size(); i++) {
 

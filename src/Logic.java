@@ -40,15 +40,23 @@ public class Logic {
     public ArrayList<MetroStation> metroStations = new ArrayList<>();
 
 
-    public void loadData(){
+    public boolean loadData(){
         //Loading locations from the JSON file
+        boolean endProg;
         allLocations = parser.parseLocations();
+        if(allLocations != null){
 
-        //Loading all of the bus lines from the API
-        busStations = api.loadBusStations();
+            //Loading all of the bus lines from the API
+            busStations = api.loadBusStations();
 
-        //loading all of the metro lines from the API
-        metroStations = api.loadMetroStations();
+            //loading all of the metro lines from the API
+            metroStations = api.loadMetroStations();
+            return false;
+
+        }
+        else{
+            return true;
+        }
     }
 
     public void Intro(){
@@ -674,7 +682,19 @@ public class Logic {
                 origin = scanner.nextLine();
 
                 if (validLocationName(origin, allLocations)) {
+                    int pos=0;
+                    for (int i = 0; i < allLocations.size(); i++) {
+                        if(origin.equalsIgnoreCase(allLocations.get(i).getName())){
+                            pos = i;
+                            break;
+                        }
+                    }
                     flag = true;
+                    origin = null;
+                    double[] cords= allLocations.get(pos).getCoordinates();
+                    origin = cords[1]+ "," + cords[0];
+
+
                 } else if (origin.contains(",")) {
                     String tempLat = origin.substring(origin.indexOf(",") + 1, origin.length());
                     String tempLong = origin.substring(0, origin.indexOf(","));
@@ -705,6 +725,17 @@ public class Logic {
 
                 if (validLocationName(destination, allLocations)) {
                     flag = true;
+                    int pos=0;
+                    for (int i = 0; i < allLocations.size(); i++) {
+                        if(destination.equalsIgnoreCase(allLocations.get(i).getName())){
+                            pos = i;
+                            break;
+                        }
+                    }
+                    flag = true;
+                    destination = null;
+                    double[] cords= allLocations.get(pos).getCoordinates();
+                    destination = cords[1]+ "," + cords[0];
                 } else if (destination.contains(",")) {
                     String tempLat = destination.substring(destination.indexOf(",") + 1, destination.length());
                     String tempLong = destination.substring(0, destination.indexOf(","));
