@@ -1,3 +1,5 @@
+package Parsing;
+
 import DataModel.*;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -7,9 +9,18 @@ import java.io.IOException;
 import java.io.Reader;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Arrays;
 
-public class JSONParser implements Parse{
+/**
+ * Represents the way we parse the locations JSON file and load the data into an ArrayList of type Location.
+ * Implements the Parse interface, that defines the functionalities to parse the file.
+ */
+
+public class JSONParser implements Parse {
+
+    /**
+     *
+     * @return
+     */
 
     @Override
     public ArrayList<Location> parseLocations() {

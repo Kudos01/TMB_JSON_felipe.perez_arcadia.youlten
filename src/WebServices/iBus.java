@@ -2,6 +2,12 @@ package WebServices;
 
 import com.google.gson.JsonObject;
 
+/**
+ * Represents the a bus line that circulates through a particular stop, including how long it will take to reach that stop.
+ * Notice that the stop is not a field in the class,
+ * because when we request this type of data from the API, we must specify the stop code there.
+ */
+
 public class iBus {
 
     private int route_id;
@@ -10,6 +16,13 @@ public class iBus {
     private int time_in_sec;
     private String destination;
     private int time_in_min;
+
+    /**
+     * Constructor method to build the iBus object using the API call response.
+     * The most important information we save are the line name and the time for a bus to reach this stop.
+     *
+     * @param ibus The API JSONObject with the iBus response data.
+     */
 
     public iBus(JsonObject ibus){
         this.route_id = ibus.get("routeId").getAsInt();

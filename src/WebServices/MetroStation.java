@@ -2,6 +2,10 @@ package WebServices;
 
 import com.google.gson.JsonObject;
 
+/**
+ * Represents a metro station, with the different fields that are needed to identify it and its information
+ */
+
 public class MetroStation {
 
     private double[] coordinates = new double[2];
@@ -11,7 +15,11 @@ public class MetroStation {
     private String line_name;
     private String date_inaugurated;
 
-
+    /**
+     * Constructor for the metro station. Takes the JSONObject from the API response and extracts the different fields
+     * that are necessary to make a new metro station object.
+     * @param metroStation  The API JSONObject representing a metro station
+     */
 
     MetroStation(JsonObject metroStation){
         this.coordinates[0] = metroStation.get("geometry").getAsJsonObject().get("coordinates").getAsJsonArray().get(0).getAsDouble();

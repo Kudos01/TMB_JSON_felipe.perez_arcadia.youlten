@@ -2,22 +2,33 @@ package WebServices;
 
 import com.google.gson.JsonObject;
 
-public class Transit extends Leg {
+/**
+ * Represents a Transit type of section (going by bus, metro, rail, etc.)
+ */
 
-    String line_name;
-    int from_stopcode;
-    int to_stopcode;
-    String from_name;
-    String to_name;
+public class Transit extends Section {
 
-    public Transit(JsonObject partial_leg){
-        super(partial_leg);
+    private String line_name;
+    private int from_stopcode;
+    private int to_stopcode;
+    private String from_name;
+    private String to_name;
 
-        this.line_name= partial_leg.get("route").getAsString();
-        this.from_name=partial_leg.get("from").getAsJsonObject().get("name").getAsString();
-        this.from_stopcode=partial_leg.get("from").getAsJsonObject().get("stopCode").getAsInt();
-        this.to_name = partial_leg.get("to").getAsJsonObject().get("name").getAsString() ;
-        this.to_stopcode=partial_leg.get("to").getAsJsonObject().get("stopCode").getAsInt();
+    /**
+     * Constructor method for a section of type Transit. First sets the base fields using the super class constructor,
+     * and then adds the fields unique to a transit type of section
+     *
+     * @param json_section API JSONObject response with the different section fields
+     */
+
+    public Transit(JsonObject json_section){
+        super(json_section);
+
+        this.line_name= json_section.get("route").getAsString();
+        this.from_name=json_section.get("from").getAsJsonObject().get("name").getAsString();
+        this.from_stopcode=json_section.get("from").getAsJsonObject().get("stopCode").getAsInt();
+        this.to_name = json_section.get("to").getAsJsonObject().get("name").getAsString() ;
+        this.to_stopcode=json_section.get("to").getAsJsonObject().get("stopCode").getAsInt();
 
     }
 

@@ -1,13 +1,4 @@
-//package com.company;
-
-import WebServices.API;
-import WebServices.Route;
-
-import java.io.IOException;
-
-// APP ID AND APP KEY
-// app_id=41936f32&
-// app_key=3c5639afc8280c17cb4f633b78de717b
+import System.*;
 
 public class Main {
 
@@ -23,7 +14,6 @@ public class Main {
         //load the json information so we can use it later in the program
         allGood = logic.loadData();
         if(allGood){
-
             //ask the user for their information so we can use it later
             logic.Intro();
 

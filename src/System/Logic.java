@@ -1,9 +1,11 @@
+package System;
+
 import DataModel.*;
 import Exceptions.stopCodeInvalidException;
 import Exceptions.locationNotFoundException;
 import Exceptions.stationNotFoundByYearException;
+import Parsing.JSONParser;
 import WebServices.*;
-import org.jetbrains.annotations.Contract;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,7 +37,7 @@ public class Logic {
     public ArrayList<Location> allLocations;
 
     //store all busStations from API - used to check information related to buses
-    public ArrayList<BusStation> busStations = new ArrayList<>();
+    public ArrayList<BusStop> busStops = new ArrayList<>();
     //store all metro Stations from API - used to check information related to metro
     public ArrayList<MetroStation> metroStations = new ArrayList<>();
 
@@ -49,13 +51,12 @@ public class Logic {
         allLocations = parser.parseLocations();
 
         //Loading all of the bus lines from the API
-        busStations = api.loadBusStations();
+        busStops = api.loadBusStations();
 
         //loading all of the metro lines from the API
         metroStations = api.loadMetroStations();
 
-        return busStations == null || metroStations == null || allLocations == null;
-
+        return !(busStops == null || metroStations == null || allLocations == null);
     }
 
     /**
@@ -136,6 +137,7 @@ public class Logic {
      * Method that asks the user for different parameters (Location name, Longitude, Latitude and description) to create a new location.
      * Object creation handled by the {@link #createNewLocation(String, double[], String)} method.
      */
+
     private void userCreateLocation(){
 
         String name;
@@ -237,7 +239,6 @@ public class Logic {
             if(name.equalsIgnoreCase(allLocations.get(i).getName())){
                 tof = true;
             }
-
         }
         return tof;
     }
@@ -332,7 +333,7 @@ public class Logic {
     }
 
     /**
-     * Method to
+     * Method to search for a specific Location. Asks the user for the name of the Location to be searched inside the method.
      */
 
     public void searchLocation(){
@@ -351,8 +352,8 @@ public class Logic {
 
             boolean alreadySearched = false;
 
-            //for all of the locations that the user searched
-            //TODO: what's happening here
+            //for all of the locations that the user searched, we check if this location has already been searched
+            //if this is the case, we remove it from the searched locations, and re-add it as the most recent one
             for (int i = 0; i < user.searchedLocations.size(); i++) {
                 if(user.searchedLocations.get(i) == allLocations.get(pos)){
                     alreadySearched = true;
@@ -381,8 +382,8 @@ public class Logic {
                     System.out.println("Characteristics: ");
                     System.out.print(((Restaurant) allLocations.get(pos)).getCharacteristics());
                 }
-
             }
+
             //if the searched location is a hotel
             else if(allLocations.get(pos) instanceof Hotel){
 
@@ -423,6 +424,15 @@ public class Logic {
         }
     }
 
+    /**
+     * Method to check if a location exists given its name and an ArrayList of Locations containing all of them.
+     *
+     * @param name      the name of the location to be searched for
+     * @param locations the locations to be searched from
+     * @return          returns the location of the found location in the ArrayList. If it is not found, this value becomes -1.
+     * @throws locationNotFoundException Thrown if the location is not found
+     */
+
     private int checkLocationExist(String name, ArrayList<Location> locations) throws locationNotFoundException{
         int pos = -1;
 
@@ -445,8 +455,14 @@ public class Logic {
         return pos;
     }
 
-    private void userSetFaveLocation(Location location){
+    /**
+     * Method to set a location as favourite. Asks the user what type of location they want it to be set as and gets the current date.
+     * Adds it to the favouriteLocations ArrayList.
+     *
+     * @param location Location to be set as favourite
+     */
 
+    private void userSetFaveLocation(Location location){
 
         System.out.println("");
         //ask the user what type of location they want to set it as
@@ -474,6 +490,11 @@ public class Logic {
         System.out.println(location.getName() + " has been added as a new favorite location");
     }
 
+    /**
+     * Method to print out all of the locations the user has searched for before.
+     * Prints a message if there have been no locations searched for yet
+     */
+
     private void locationHistory() {
 
         //if the user has searched previous locations
@@ -494,6 +515,15 @@ public class Logic {
             System.out.println("To search for one, access option 2 in the principal menu.");
         }
     }
+
+    /**
+     * Method to find the stations given an inauguration year. If no station is found,
+     * a stationNotFoundByYearException will be thrown and an error message printed.
+     *
+     * @param year  year of inauguration to compare with
+     * @return      the locations that have been found. I none have been found, it will be empty.
+     * @throws stationNotFoundByYearException
+     */
 
     private ArrayList<MetroStation> findStationsByYear(int year) throws stationNotFoundByYearException {
         //create an arraylist of stations inaugurated in that year
@@ -520,6 +550,10 @@ public class Logic {
         return birthyear_stations;
     }
 
+    /**
+     * Method to print out the stations inaugurated in the user's birth year. If there are none, will print a message stating so
+     */
+
     public void stationsInauguratedByBirthYear(){
 
         ArrayList<MetroStation> birthyear_stations = new ArrayList<>();
@@ -541,6 +575,11 @@ public class Logic {
         }
     }
 
+    /**
+     * Asks the user for a stop code, checks if the input is an integer (asks the user for the input until it is),
+     * checks if it exists, and prints out the corresponding information.
+     * (if the input correct, if the station existed, if and what buses go through that stop and in how much time)
+     */
 
     public void getBusWaitTime(){
         int stopCode=0;
@@ -567,7 +606,7 @@ public class Logic {
 
             try {
                 //check if the stop code correlates to another station
-                exists = checkStopCodeIfExists(stopCode, busStations);
+                exists = checkStopCodeIfExists(stopCode, busStops);
             } catch (stopCodeInvalidException e) {
                 //if not, print an error message
                 e.printErrorMessage();
@@ -582,7 +621,7 @@ public class Logic {
                     }else {
 
                         //check if the stop is a fave stop
-                        checkIfStopIsFavorite(stopCode);
+                        checkIfStopIsFavorite(stopCode, busStops);
 
                         //for all close buses
                         for (int i = 0; i < closeBus.size(); i++) {
@@ -615,13 +654,23 @@ public class Logic {
         }
     }
 
-    public boolean checkStopCodeIfExists(int stopcode, ArrayList<BusStation> stations) throws stopCodeInvalidException {
+    /**
+     * Checks if a particular stop code exists from the given stop code and the ArrayList of stops.
+     * If the stop is not fund, throws stopCodeInvalidException
+     *
+     * @param stopcode  the stop code to be searched for
+     * @param stops     the stops to be searched from
+     * @return          returns if found or not
+     * @throws stopCodeInvalidException
+     */
+
+    public boolean checkStopCodeIfExists(int stopcode, ArrayList<BusStop> stops) throws stopCodeInvalidException {
 
         boolean exists = false;
 
         //compare stopcode input to stop code of all stations
-        for (int i = 0; i < stations.size(); i++) {
-            if(stopcode == stations.get(i).getStopCode()){
+        for (int i = 0; i < stops.size(); i++) {
+            if(stopcode == stops.get(i).getStopCode()){
                 exists = true;
             }
         }
@@ -633,15 +682,23 @@ public class Logic {
         return exists;
     }
 
-    private void checkIfStopIsFavorite(int stop_code){
+    /**
+     * Checks if a stop is favourite given a stop code and an ArrayList of bus stops.
+     * Finds the stop and then checks if it is close to a favourite location.
+     *
+     * @param stop_code Stop code to be checked
+     * @param busStops  Stops to find the index of the stop we want, and be able to compare all of the information in them
+     */
+
+    private void checkIfStopIsFavorite(int stop_code, ArrayList<BusStop> busStops){
 
         double distanceToFaveLocation=0;
 
         int index =0;
 
-        //check if the stop code exists
-        for (int i = 0; i < busStations.size(); i++) {
-            if(stop_code == busStations.get(i).getStopCode()){
+        //get the index of the stop. (we assume it exists, since we check before using this method)
+        for (int i = 0; i < busStops.size(); i++) {
+            if(stop_code == busStops.get(i).getStopCode()){
                 //if it does, get the index and then break
                 index = i;
                 break;
@@ -652,7 +709,7 @@ public class Logic {
         for (int j = 0; j < user.favoriteLocations.size() ; j++) {
 
             //check the distance by comparing the bus stop to the location
-            distanceToFaveLocation =  distanceInKmBetweenEarthCoordinates(busStations.get(index).getCoordinates(), user.favoriteLocations.get(j).getLocation().getCoordinates());
+            distanceToFaveLocation =  distanceInKmBetweenEarthCoordinates(busStops.get(index).getCoordinates(), user.favoriteLocations.get(j).getLocation().getCoordinates());
 
             if(distanceToFaveLocation <= 500){
                 //if it is within 500m, display message
@@ -660,6 +717,10 @@ public class Logic {
             }
         }
     }
+
+    /**
+     * Shows the stations and stops close to the favourite locations the user has set. Prints a message if there is no favourite locations.
+     */
 
     private void showCloseStations() {
         //if the user does not have any fave locations
@@ -680,9 +741,9 @@ public class Logic {
                 int counter = 0;
 
                 //display the bus stations nearby
-                for (int i = 0; i < busStations.size(); i++) {
+                for (int i = 0; i < busStops.size(); i++) {
 
-                    if (500 >= distanceInKmBetweenEarthCoordinates(busStations.get(i).getCoordinates(), user.favoriteLocations.get(j).getLocation().getCoordinates())) {
+                    if (500 >= distanceInKmBetweenEarthCoordinates(busStops.get(i).getCoordinates(), user.favoriteLocations.get(j).getLocation().getCoordinates())) {
 
                         StringBuilder sb = new StringBuilder();
 
@@ -691,9 +752,9 @@ public class Logic {
                         sb.append(++counter);
                         sb.append(")");
                         sb.append(" ");
-                        sb.append(busStations.get(i).getStopName());
+                        sb.append(busStops.get(i).getStopName());
                         sb.append(" (");
-                        sb.append(busStations.get(i).getStopCode());
+                        sb.append(busStops.get(i).getStopCode());
                         sb.append(") ");
                         sb.append("BUS");
 
@@ -734,6 +795,13 @@ public class Logic {
             }
         }
     }
+
+    /**
+     * Plans a route. Asks the user for the different parameters to plan the route with (Origin location, destination location,
+     * departure or arrival, date, time of day and maximum walking distance) Once the parameters have been entered,
+     * the route will be saved in the user (if nothing went wrong {@link WebServices.API#plannerAPI(String, String, String, String, boolean, int)})
+     * and the route displayed.
+     */
 
     public void planRoute(){
 
@@ -880,15 +948,15 @@ public class Logic {
         System.out.println("\tTime taken: " + possibleRoutes.getTimeTaken()/60 + " min");
         System.out.println("\tOrigin");
         System.out.println("\t|");
-        for (int i = 0; i <possibleRoutes.getRouteLegs().size() ; i++) {
-            if(possibleRoutes.getRouteLegs().get(i) instanceof Transit){
+        for (int i = 0; i <possibleRoutes.getRouteSections().size() ; i++) {
+            if(possibleRoutes.getRouteSections().get(i) instanceof Transit){
 
-                int timeMin = calculateTimeInMinutes(possibleRoutes.getRouteLegs().get(i));
-                System.out.println("\t"+ ((Transit) possibleRoutes.getRouteLegs().get(i)).getLine_name()
-                        +" " + ((Transit)possibleRoutes.getRouteLegs().get(i)).getFrom_name()+" "+ "("+
-                        ((Transit) possibleRoutes.getRouteLegs().get(i)).getFrom_stopcode()+")"+"->"
-                        +" " + ((Transit) possibleRoutes.getRouteLegs().get(i)).getTo_name()+" "+ "("+
-                        ((Transit) possibleRoutes.getRouteLegs().get(i)).getTo_stopcode()+")"+" "
+                int timeMin = calculateTimeInMinutes(possibleRoutes.getRouteSections().get(i));
+                System.out.println("\t"+ ((Transit) possibleRoutes.getRouteSections().get(i)).getLine_name()
+                        +" " + ((Transit)possibleRoutes.getRouteSections().get(i)).getFrom_name()+" "+ "("+
+                        ((Transit) possibleRoutes.getRouteSections().get(i)).getFrom_stopcode()+")"+"->"
+                        +" " + ((Transit) possibleRoutes.getRouteSections().get(i)).getTo_name()+" "+ "("+
+                        ((Transit) possibleRoutes.getRouteSections().get(i)).getTo_stopcode()+")"+" "
                         +timeMin+" min");
 
                 System.out.println("\t|");
@@ -896,8 +964,8 @@ public class Logic {
             }
             else{
 
-                int timeMin = calculateTimeInMinutes(possibleRoutes.getRouteLegs().get(i));
-                System.out.println("\t"+possibleRoutes.getRouteLegs().get(i).getMode()+" "+timeMin+" min");
+                int timeMin = calculateTimeInMinutes(possibleRoutes.getRouteSections().get(i));
+                System.out.println("\t"+possibleRoutes.getRouteSections().get(i).getMode()+" "+timeMin+" min");
                 System.out.println("\t|");
             }
         }
@@ -907,6 +975,9 @@ public class Logic {
         }
     }
 
+    /**
+     * Prints the routes the user has saved. If there are none, prints a message stating so.
+     */
 
     public void userRoutes(){
 
@@ -933,18 +1004,18 @@ public class Logic {
                 System.out.println("\t\t|");
 
                 //get step-by-step guidance of the route for each part of the route
-                for (int j = 0; j <user.pastRoutes.get(i).getRouteLegs().size(); j++) {
+                for (int j = 0; j <user.pastRoutes.get(i).getRouteSections().size(); j++) {
 
                     //if this part of the route takes place on some form of transit
-                    if(user.pastRoutes.get(i).getRouteLegs().get(j) instanceof Transit){
+                    if(user.pastRoutes.get(i).getRouteSections().get(j) instanceof Transit){
 
                         //display the information (line name, stop name, and stop code) for origin and destination, and the total time taken
-                        int timeMin = calculateTimeInMinutes(user.pastRoutes.get(i).getRouteLegs().get(j));
-                        System.out.println("\t\t"+ ((Transit) user.pastRoutes.get(i).getRouteLegs().get(j)).getLine_name()
-                                +" " + ((Transit) user.pastRoutes.get(i).getRouteLegs().get(j)).getFrom_name()+" "+ "("+
-                                ((Transit) user.pastRoutes.get(i).getRouteLegs().get(j)).getFrom_stopcode()+")"+"->"
-                                +" " + ((Transit) user.pastRoutes.get(i).getRouteLegs().get(j)).getTo_name()+" "+ "("+
-                                ((Transit) user.pastRoutes.get(i).getRouteLegs().get(j)).getTo_stopcode()+")"+" "
+                        int timeMin = calculateTimeInMinutes(user.pastRoutes.get(i).getRouteSections().get(j));
+                        System.out.println("\t\t"+ ((Transit) user.pastRoutes.get(i).getRouteSections().get(j)).getLine_name()
+                                +" " + ((Transit) user.pastRoutes.get(i).getRouteSections().get(j)).getFrom_name()+" "+ "("+
+                                ((Transit) user.pastRoutes.get(i).getRouteSections().get(j)).getFrom_stopcode()+")"+"->"
+                                +" " + ((Transit) user.pastRoutes.get(i).getRouteSections().get(j)).getTo_name()+" "+ "("+
+                                ((Transit) user.pastRoutes.get(i).getRouteSections().get(j)).getTo_stopcode()+")"+" "
                                 +timeMin+" min");
 
                         System.out.println("\t\t|");
@@ -953,9 +1024,9 @@ public class Logic {
                     else{
 
                         //if the mode is walk
-                        int timeMin = calculateTimeInMinutes(user.pastRoutes.get(i).getRouteLegs().get(j));
+                        int timeMin = calculateTimeInMinutes(user.pastRoutes.get(i).getRouteSections().get(j));
                         //display how long it takes to walk
-                        System.out.println("\t\t"+user.pastRoutes.get(i).getRouteLegs().get(j).getMode()+" "+timeMin+" min");
+                        System.out.println("\t\t"+user.pastRoutes.get(i).getRouteSections().get(j).getMode()+" "+timeMin+" min");
                         System.out.println("\t\t|");
 
                     }
@@ -968,15 +1039,29 @@ public class Logic {
         }
     }
 
-    private int calculateTimeInMinutes(Leg leg){
+    /**
+     * Calculates the time it takes for a section to be completed (to go from one place to another in a route)
+     *
+     * @param section
+     * @return time in integer minutes
+     */
+
+    private int calculateTimeInMinutes(Section section){
         int total_time=0;
         //calculate the total time for each leg of the journey
         //since the end time and start time are in epoch time, divide by 10000, and then 60 to get mintues
         //cast to an int to get approx time
-        total_time = (int) (((leg.getEnd_time() -leg.getStart_time())/1000)/60);
+        total_time = (int) (((section.getEnd_time() - section.getStart_time())/1000)/60);
 
         return total_time;
     }
+
+    /**
+     * Checks if the given string is a yes or a no. returns the result (true if it is a yes OR a no, false otherwise)
+     *
+     * @param yesorno string to be checked
+     * @return result of the operation
+     */
 
     private boolean checkYesOrNo(String yesorno){
         //check if the string input is yes or no
@@ -993,42 +1078,68 @@ public class Logic {
         }
     }
 
-    //TODO: please comment
+    /**
+     * Calculates the distance between two points on the earths surface, given their latitudes and longitudes.
+     *
+     * @param long_lat1
+     * @param long_lat2
+     * @return the distance between the two points given (in metres)
+     */
+
     private double distanceInKmBetweenEarthCoordinates(double[] long_lat1, double[] long_lat2) {
         int earthRadiusM = 6371000;
 
+        //get the difference between the longitudes and latitudes
         double latDistance = degreesToRadians(long_lat2[1]-long_lat1[1]);
         double lonDistance = degreesToRadians(long_lat2[0]-long_lat1[0]);
 
+        //Havesine formula
         double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2) +
                 Math.cos(degreesToRadians(long_lat1[1])) * Math.cos(degreesToRadians(long_lat2[1])) *
                         Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+        //return the distance between the 2 points
         return earthRadiusM * c;
     }
+
+    /**
+     * Converts to degrees to radians
+     * @param degrees
+     * @return
+     */
 
     private double degreesToRadians(double degrees) {
         return degrees * (Math.PI/180);
     }
 
 
-    //a function to run a given function depending on user input
+    /**
+     * method to run the different options for menu 1 depending on the user input.
+     * @param option integer to select the different options
+     */
+
     public void whichOptionM1(int option){
 
         if(option == 2){
-            searchLocation(); //error handling ok
+            searchLocation();
         }
 
         else if(option == 3){
             planRoute();
         }
         else if(option == 4){
-            getBusWaitTime(); //error handling ok
+            getBusWaitTime();
         }
         else if(option == 5){
             System.out.println("Thanks for using our program!");
         }
     }
+
+    /**
+     * method to run the different options for menu 2 depending on the user input.
+     * @param option string to select the different options
+     */
 
     public void whichOptionM2(String option){
 
@@ -1037,12 +1148,9 @@ public class Logic {
         }
 
         else if(option.equalsIgnoreCase("b")){
-
             locationHistory();
-
         }
         else if(option.equalsIgnoreCase("c")){
-
             userRoutes();
         }
 
@@ -1051,7 +1159,7 @@ public class Logic {
         }
 
         else if(option.equalsIgnoreCase("e")){
-            stationsInauguratedByBirthYear(); //?
+            stationsInauguratedByBirthYear();
         }
 
         else if(option.equalsIgnoreCase("f")){

@@ -1,11 +1,16 @@
-import DataModel.User;
+package System;
 
 import java.util.Scanner;
 
+/**
+ * Represents the methods to print out all the different menu options and if the inputs were correct or not
+ */
+
 public class Menu {
 
+    //Different class fields for printing and showing the user different information
+
     private static final int MIN1 = 1;
-    private static final String MIN2 = "a";
     private static final int MAX1 = 5;
     private static final String MAX2 = "f";
 
@@ -36,12 +41,19 @@ public class Menu {
     private String option2;
     private Scanner scanner;
 
+    /**
+     * Creates a new menu object with a scanner and changes the default value for option 1
+     */
+
     public Menu() {
         scanner = new Scanner(System.in);
         option1 = -1;
     }
 
-    //prints all of the information related to menu2
+    /**
+     * Prints the different options available for menu 1
+     */
+
     public void printMenu1() {
         System.out.println("");
         System.out.println(option1menu1);
@@ -53,7 +65,10 @@ public class Menu {
         System.out.println(select);
     }
 
-    //prints all of the info related to menu1
+    /**
+     * Prints the different options available for menu 2
+     */
+
     public void printMenu2() {
         System.out.println("");
         System.out.println(optionamenu2);
@@ -66,9 +81,16 @@ public class Menu {
         System.out.println(select);
     }
 
-    public boolean exitMenu1() { return option1 == MAX1; }
-    public boolean exitMenu2() { return option2.equalsIgnoreCase(MAX2); }
+    /**
+     * Checks if we should exit menu 1
+     * @return
+     */
 
+    public boolean exitMenu1() { return option1 == MAX1; }
+
+    /**
+     * Asks for an int option (for menu 1)
+     */
 
     public void askForOption() {
 
@@ -83,20 +105,46 @@ public class Menu {
         }
     }
 
+    /**
+     * Asks for an string option (for menu 2)
+     */
+
     public void askForOptionString() {
         option2 = scanner.nextLine();
     }
 
+    /**
+     * Checks if the option entered is valid for menu 1
+     * @return
+     */
+
     public boolean validOption1() {
         return option1 >= MIN1 && option1 <= MAX1;
     }
+
+    /**
+     * Checks if the option entered is valid for menu 2
+     * @return
+     */
+
     public boolean validOption2() {
         return (option2.equalsIgnoreCase("a") ||option2.equalsIgnoreCase("b")|| option2.equalsIgnoreCase("c")|| option2.equalsIgnoreCase("d")|| option2.equalsIgnoreCase("e")|| option2.equalsIgnoreCase("f"));
     }
 
+    /**
+     * getter for option 1
+     * @return
+     */
+
     public int getOption1() {
         return option1;
     }
+
+    /**
+     * getter for option 2
+     * @return
+     */
+
     public String getOption2() {
         return option2;
     }

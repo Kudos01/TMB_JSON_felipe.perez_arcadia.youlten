@@ -1,10 +1,10 @@
 package WebServices;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-
-import javax.swing.*;
 import java.util.ArrayList;
+
+/**
+ * Represents a route the user can plan and save.
+ */
 
 public class Route {
 
@@ -14,17 +14,28 @@ public class Route {
     private String time;
     private int maxWalkingDistance;
     private int timeTaken;
-    private ArrayList<Leg> routeLegs;
+    private ArrayList<Section> routeSections;
 
     public Route(){};
 
-    public Route (JsonObject fastestRoute, ArrayList<Leg> legs,String date, String time, int maxWalkDistance, String origin, String destination, int timeTaken){
+    /**
+     * Constructor for a Route. Takes all the different paramters and sets them to create a route.
+     * @param sections          The different sections of the trip
+     * @param date              The date of the trip
+     * @param time              The time of the trip
+     * @param maxWalkDistance   The max walking distance of the trip
+     * @param origin            The origin of the trip
+     * @param destination       The destination of the trip
+     * @param timeTaken         The total time to complete the trip
+     */
+
+    public Route (ArrayList<Section> sections, String date, String time, int maxWalkDistance, String origin, String destination, int timeTaken){
         this.origin = origin;
         this.destination = destination;
         this.date = date;
         this.time = time;
         this.maxWalkingDistance = maxWalkDistance;
-        this.routeLegs = legs;
+        this.routeSections = sections;
         this.timeTaken = timeTaken;
     }
 
@@ -52,11 +63,7 @@ public class Route {
         return maxWalkingDistance;
     }
 
-    public void setMaxWalkingDistance(int maxWalkingDistance) {
-        this.maxWalkingDistance = maxWalkingDistance;
-    }
-
-    public ArrayList<Leg> getRouteLegs() {
-        return routeLegs;
+    public ArrayList<Section> getRouteSections() {
+        return routeSections;
     }
 }
