@@ -41,7 +41,7 @@ public class iBus {
         return line;
     }
 
-    public String getText_ac() {
+    public String getTime_in_text() {
         return time_in_text;
     }
 

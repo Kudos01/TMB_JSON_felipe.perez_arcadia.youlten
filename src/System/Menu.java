@@ -12,7 +12,6 @@ public class Menu {
 
     private static final int MIN1 = 1;
     private static final int MAX1 = 5;
-    private static final String MAX2 = "f";
 
     private static final String select = "Select an option: ";
 

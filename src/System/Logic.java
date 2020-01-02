@@ -41,6 +41,7 @@ public class Logic {
     //store all metro Stations from API - used to check information related to metro
     public ArrayList<MetroStation> metroStations = new ArrayList<>();
 
+
     /**
      * Method to load the location data from the JSON file provided and load the bus stops and metro stations from the API
      * @return  Indicates if the data has been loaded correctly. Returns true if the data has been loaded correctly

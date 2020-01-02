@@ -17,15 +17,15 @@ public class BusStop {
      * Constructor method to build a bus stop. Takes the JSONObject from the API response and extracts the different fields
      * that are necessary to make a bus stop station object.
      *
-     * @param busStation    The API JSONObject representing a bus stop
+     * @param busStop   The API JSONObject representing a bus stop
      */
 
-    BusStop(JsonObject busStation){
-        this.coordinates[0] = busStation.get("geometry").getAsJsonObject().get("coordinates").getAsJsonArray().get(0).getAsDouble();
-        this.coordinates[1] = busStation.get("geometry").getAsJsonObject().get("coordinates").getAsJsonArray().get(1).getAsDouble();
-        this.stop_code = busStation.get("properties").getAsJsonObject().get("CODI_PARADA").getAsInt();
-        this.stop_name = busStation.get("properties").getAsJsonObject().get("NOM_PARADA").getAsString();
-        this.stop_description = busStation.get("properties").getAsJsonObject().get("DESC_PARADA").getAsString();
+    BusStop(JsonObject busStop){
+        this.coordinates[0] = busStop.get("geometry").getAsJsonObject().get("coordinates").getAsJsonArray().get(0).getAsDouble();
+        this.coordinates[1] = busStop.get("geometry").getAsJsonObject().get("coordinates").getAsJsonArray().get(1).getAsDouble();
+        this.stop_code = busStop.get("properties").getAsJsonObject().get("CODI_PARADA").getAsInt();
+        this.stop_name = busStop.get("properties").getAsJsonObject().get("NOM_PARADA").getAsString();
+        this.stop_description = busStop.get("properties").getAsJsonObject().get("DESC_PARADA").getAsString();
     }
 
     public double[] getCoordinates() {
