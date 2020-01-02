@@ -18,6 +18,8 @@ import java.util.ArrayList;
 
 public class JSONParser implements Parse {
 
+    private final String FILENAME = "resources/localizations.json";
+
     /**
      * Parses the locations from the JSON file and returns an ArrayList of type Location with all the locations loaded.
      * If the parsing fails, an error is printed and the ArrayList is set to null
@@ -31,7 +33,7 @@ public class JSONParser implements Parse {
         ArrayList<Location> allLocations = new ArrayList<>();
 
         Gson gson = new Gson();
-        try (Reader reader = new FileReader("resources/localizations.json")) {
+        try (Reader reader = new FileReader(FILENAME)) {
 
             //make a new type token of type teams, so that we can parse all the teams from the json to an arraylist of type Team
             Type tempListType = new TypeToken<ArrayList<Generic>>(){}.getType();

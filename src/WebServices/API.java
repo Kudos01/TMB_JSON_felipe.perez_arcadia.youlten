@@ -25,7 +25,7 @@ public class API {
      * @return the ArrayList of the Bus stops loaded from the webservices call
      */
 
-    public ArrayList<BusStop> loadBusStations(){
+    public ArrayList<BusStop> loadBusStops(){
 
         //request information from tmb with the following url
         Request request = new Request.Builder().url("https://api.tmb.cat/v1/transit/parades?app_id=41936f32&app_key=3c5639afc8280c17cb4f633b78de717b").build();

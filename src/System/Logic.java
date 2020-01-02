@@ -51,7 +51,7 @@ public class Logic {
         allLocations = parser.parseLocations();
 
         //Loading all of the bus lines from the API
-        busStops = api.loadBusStations();
+        busStops = api.loadBusStops();
 
         //loading all of the metro lines from the API
         metroStations = api.loadMetroStations();
@@ -709,7 +709,7 @@ public class Logic {
         for (int j = 0; j < user.favoriteLocations.size() ; j++) {
 
             //check the distance by comparing the bus stop to the location
-            distanceToFaveLocation =  distanceInKmBetweenEarthCoordinates(busStops.get(index).getCoordinates(), user.favoriteLocations.get(j).getLocation().getCoordinates());
+            distanceToFaveLocation =  distanceInMBetweenEarthCoordinates(busStops.get(index).getCoordinates(), user.favoriteLocations.get(j).getLocation().getCoordinates());
 
             if(distanceToFaveLocation <= 500){
                 //if it is within 500m, display message
@@ -743,7 +743,7 @@ public class Logic {
                 //display the bus stations nearby
                 for (int i = 0; i < busStops.size(); i++) {
 
-                    if (500 >= distanceInKmBetweenEarthCoordinates(busStops.get(i).getCoordinates(), user.favoriteLocations.get(j).getLocation().getCoordinates())) {
+                    if (500 >= distanceInMBetweenEarthCoordinates(busStops.get(i).getCoordinates(), user.favoriteLocations.get(j).getLocation().getCoordinates())) {
 
                         StringBuilder sb = new StringBuilder();
 
@@ -769,7 +769,7 @@ public class Logic {
                 for (int i = 0; i < metroStations.size(); i++) {
 
                     //if the station is within 500m of the favorite location
-                    if (500 >= distanceInKmBetweenEarthCoordinates(metroStations.get(i).getCoordinates(), user.favoriteLocations.get(j).getLocation().getCoordinates())) {
+                    if (500 >= distanceInMBetweenEarthCoordinates(metroStations.get(i).getCoordinates(), user.favoriteLocations.get(j).getLocation().getCoordinates())) {
 
                         StringBuilder sb = new StringBuilder();
 
@@ -799,7 +799,7 @@ public class Logic {
     /**
      * Plans a route. Asks the user for the different parameters to plan the route with (Origin location, destination location,
      * departure or arrival, date, time of day and maximum walking distance) Once the parameters have been entered,
-     * the route will be saved in the user (if nothing went wrong {@link WebServices.API#plannerAPI(String, String, String, String, boolean, int)})
+     * the route will be saved in the user (if nothing went wrong {@link WebServices.API#plannerAPI(String origin, String destination, String date, String time, boolean dep_or_arrival, int maxWalkDistance)})
      * and the route displayed.
      */
 
@@ -1086,7 +1086,7 @@ public class Logic {
      * @return the distance between the two points given (in metres)
      */
 
-    private double distanceInKmBetweenEarthCoordinates(double[] long_lat1, double[] long_lat2) {
+    private double distanceInMBetweenEarthCoordinates(double[] long_lat1, double[] long_lat2) {
         int earthRadiusM = 6371000;
 
         //get the difference between the longitudes and latitudes
