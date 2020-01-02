@@ -3,13 +3,16 @@ import Exceptions.stopCodeInvalidException;
 import Exceptions.locationNotFoundException;
 import Exceptions.stationNotFoundByYearException;
 import WebServices.*;
-import com.google.gson.JsonObject;
+import org.jetbrains.annotations.Contract;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Scanner;
 
+/**
+ * Represents our system. Holds all of the information regarding the user, the locations, stops and stations.
+ */
 
 public class Logic {
 
@@ -30,9 +33,6 @@ public class Logic {
 
     //store all locations in the json file
     public ArrayList<Location> allLocations;
-    //store all the searched locations from the user
-    //TODO: Should go in user?
-    private ArrayList<Location> searchedLocations = new ArrayList<>();
 
     //store all busStations from API - used to check information related to buses
     public ArrayList<BusStation> busStations = new ArrayList<>();
@@ -41,8 +41,8 @@ public class Logic {
 
     /**
      * Method to load the location data from the JSON file provided and load the bus stops and metro stations from the API
-     * @return boolean. Indicates if the data has been loaded correctly. Returns true if the data has been loaded correctly
-     *                  and false if there was an error loading the data.
+     * @return  Indicates if the data has been loaded correctly. Returns true if the data has been loaded correctly
+     *          and false if there was an error loading the data.
      */
     public boolean loadData(){
         //Loading locations from the JSON file
@@ -132,8 +132,10 @@ public class Logic {
         }
     }
 
-
-
+    /**
+     * Method that asks the user for different parameters (Location name, Longitude, Latitude and description) to create a new location.
+     * Object creation handled by the {@link #createNewLocation(String, double[], String)} method.
+     */
     private void userCreateLocation(){
 
         String name;
@@ -202,10 +204,28 @@ public class Logic {
         }
     }
 
+    /**
+     * Method to generate a new location object based on the input parameters. Uses the Constructor from class PLace
+     *
+     * @param name          name of the location
+     * @param coordinates   coordinates of the location
+     * @param description   description of the location
+     *
+     * @return {@code Place(name, coordinates, description)} Place object constructed using the input parameters
+     */
+
     private Location createNewLocation(String name, double[] coordinates, String description){
         //create a new generic location with information the user input
         return new Place(name, coordinates, description);
     }
+
+    /**
+     * Method to check if a given location exists in the provided ArrayList of locations
+     *
+     * @param name          name of the location to be searched
+     * @param allLocations  Location ArrayList that contains all of the locations to be compared with
+     * @return              {@code tof} returns the result (true if location found, false if not)
+     */
 
     private boolean validLocationName(String name, ArrayList<Location> allLocations){
 
@@ -221,6 +241,14 @@ public class Logic {
         }
         return tof;
     }
+
+    /**
+     * Method to ask the user for the Longitude of a Location. Checks if the input is a double.
+     * If input is wrong, prints message and returns false.
+     *
+     * @param coordinates   coordinates of a location.
+     * @return              result of checking the input. True if input is a double, false otherwise.
+     */
 
     private boolean askForLongitude(double[] coordinates){
         if(scanner.hasNextDouble()){
@@ -248,9 +276,24 @@ public class Logic {
         }
     }
 
+    /**
+     * Method to check if the Longitude is within the range of values {@code minlong} {@code maxlong}
+     *
+     * @param longitude longitude of a location
+     * @return          true if longitude is within the range of values. false otherwise
+     */
+
     private boolean checkIfLongitudeCorrect(double longitude){
         return longitude >= minlong && longitude <= maxlong;
     }
+
+    /**
+     * Method to ask the user for the latitude of a Location. Checks if the input is a double.
+     * If input is wrong, prints message and returns false.
+     *
+     * @param coordinates   coordinates of a location.
+     * @return              result of checking the input. True if input is a double, false otherwise.
+     */
 
     private boolean askForLatitude(double[] coordinates){
         if(scanner.hasNextDouble()) {
@@ -277,9 +320,20 @@ public class Logic {
         }
     }
 
+    /**
+     * Method to check if the latitude is within the range of values {@code minlat} {@code maxlat}
+     *
+     * @param latitude latitude of a location
+     * @return         true if latitude is within the range of values. false otherwise
+     */
+
     private boolean checkIfLatitudeCorrect(double latitude){
         return latitude >= minlat && latitude <= maxlat;
     }
+
+    /**
+     * Method to
+     */
 
     public void searchLocation(){
 
@@ -299,18 +353,18 @@ public class Logic {
 
             //for all of the locations that the user searched
             //TODO: what's happening here
-            for (int i = 0; i < searchedLocations.size(); i++) {
-                if(searchedLocations.get(i) == allLocations.get(pos)){
+            for (int i = 0; i < user.searchedLocations.size(); i++) {
+                if(user.searchedLocations.get(i) == allLocations.get(pos)){
                     alreadySearched = true;
-                    searchedLocations.remove(i);
-                    searchedLocations.add(allLocations.get(pos));
+                    user.searchedLocations.remove(i);
+                    user.searchedLocations.add(allLocations.get(pos));
                 }
             }
 
             //if the user has not already searched this location
             if(!alreadySearched){
                 //add the location to the list of searched locations
-                searchedLocations.add(allLocations.get(pos));
+                user.searchedLocations.add(allLocations.get(pos));
             }
 
             //show the coordinates of the searched location
@@ -423,14 +477,14 @@ public class Logic {
     private void locationHistory() {
 
         //if the user has searched previous locations
-        if (!searchedLocations.isEmpty()) {
+        if (!user.searchedLocations.isEmpty()) {
 
             System.out.println("Searched Locations:");
 
             //display all of the names of the locations searched by the user
-            for (int i = searchedLocations.size() -1; i >= 0; i--) {
+            for (int i = user.searchedLocations.size() -1; i >= 0; i--) {
                 System.out.println("");
-                System.out.println("\t" + "-" + searchedLocations.get(i).getName());
+                System.out.println("\t" + "-" + user.searchedLocations.get(i).getName());
             }
         }
         else{

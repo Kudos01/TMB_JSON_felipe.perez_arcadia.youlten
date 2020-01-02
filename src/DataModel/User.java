@@ -14,6 +14,9 @@ public class User {
     public ArrayList<FavLocation> favoriteLocations = new ArrayList<>();
     public ArrayList<Route> pastRoutes = new ArrayList<>();
 
+    //store all the searched locations from the user
+    public ArrayList<Location> searchedLocations = new ArrayList<>();
+
     public User(String username, String email, int birthyear){
         this.username = username;
         this.email = email;
