@@ -2,6 +2,7 @@ package Parsing;
 
 import DataModel.*;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.FileReader;
@@ -12,14 +13,16 @@ import java.util.ArrayList;
 
 /**
  * Represents the way we parse the locations JSON file and load the data into an ArrayList of type Location.
- * Implements the Parse interface, that defines the functionalities to parse the file.
+ * Implements the Parse interface, that defines the functionalities to parse the locations.
  */
 
 public class JSONParser implements Parse {
 
     /**
+     * Parses the locations from the JSON file and returns an ArrayList of type Location with all the locations loaded.
+     * If the parsing fails, an error is printed and the ArrayList is set to null
      *
-     * @return
+     * @return The Locations that have been parsed, null if process failed.
      */
 
     @Override
@@ -31,16 +34,14 @@ public class JSONParser implements Parse {
         try (Reader reader = new FileReader("resources/localizations.json")) {
 
             //make a new type token of type teams, so that we can parse all the teams from the json to an arraylist of type Team
-
-            LocationObj locOb;
             Type tempListType = new TypeToken<ArrayList<Generic>>(){}.getType();
 
             ArrayList<Generic> temp;
 
             //get the json object
-            locOb = gson.fromJson(reader, LocationObj.class);
-            //if you run locOb.getLocations() you get the json list of locations
-            temp = gson.fromJson(locOb.getLocations(), tempListType);
+            JsonObject j = gson.fromJson(reader, JsonObject.class);
+
+            temp = gson.fromJson(j.get("locations").getAsJsonArray(), tempListType);
 
             //the idea of this part is once you get here, there should be an arraylist of generics (see temp)
             for (int i = 0; i < temp.size(); i++) {

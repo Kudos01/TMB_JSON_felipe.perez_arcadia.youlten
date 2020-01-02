@@ -5,6 +5,13 @@ public class Monument extends Location{
     private String architect;
     private int inauguration;
 
+    /**
+     * Constructor for building a Monument object using a generic location
+     * (The architect and the inauguration date are set using the setters)
+     *
+     * @param g
+     */
+
     public Monument(Generic g) {
         super(g);
     }
