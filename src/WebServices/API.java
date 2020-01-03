@@ -260,7 +260,6 @@ public class API {
 
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("FAILED TO BUILD ROUTE");
         }
 
         finally {
