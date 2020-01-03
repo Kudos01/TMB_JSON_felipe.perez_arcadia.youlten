@@ -175,8 +175,6 @@ public class API {
         sb.append("maxWalkDistance=").append(maxWalkDistance).append("&");
         sb.append("showIntermediateStops=TRUE");
         String url = sb.toString();
-
-        System.out.println(url);
         //request with url generated from user input
         Request request = new Request.Builder().url(url).build();
 
