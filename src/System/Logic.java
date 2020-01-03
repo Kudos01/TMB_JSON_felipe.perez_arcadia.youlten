@@ -19,10 +19,10 @@ import java.util.Scanner;
 public class Logic {
 
     //constants for the estimated long and lat values.
-    private static final double minlat = 2.046171;
-    private static final double maxlat =  2.244097;
-    private static final double minlong = 41.287565;
-    private static final double maxlong = 41.5;
+    private static final double minlong = 1.982080;
+    private static final double maxlong =  2.244097;
+    private static final double minlat = 41.287565;
+    private static final double maxlat = 41.5;
 
     //create a new user -> singular user for all program
     private User user;
@@ -939,7 +939,8 @@ public class Logic {
         maxWalkingDist = scanner.nextInt();
         scanner.nextLine();
 
-        Route possibleRoutes = api.plannerAPI(origin,destination, day,  hour, boolDepOrA, maxWalkingDist);
+        Route possibleRoutes = api.plannerAPI(origin, destination, day,  hour, boolDepOrA, maxWalkingDist);
+
         if (possibleRoutes != null){
 
         user.pastRoutes.add(possibleRoutes);
@@ -949,7 +950,7 @@ public class Logic {
         System.out.println("\tTime taken: " + possibleRoutes.getTimeTaken()/60 + " min");
         System.out.println("\tOrigin");
         System.out.println("\t|");
-        for (int i = 0; i <possibleRoutes.getRouteSections().size() ; i++) {
+        for (int i = 0; i < possibleRoutes.getRouteSections().size() ; i++) {
             if(possibleRoutes.getRouteSections().get(i) instanceof Transit){
 
                 int timeMin = calculateTimeInMinutes(possibleRoutes.getRouteSections().get(i));

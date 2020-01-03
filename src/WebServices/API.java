@@ -175,6 +175,7 @@ public class API {
         sb.append("maxWalkDistance=").append(maxWalkDistance).append("&");
         sb.append("showIntermediateStops=TRUE");
         String url = sb.toString();
+
         //request with url generated from user input
         Request request = new Request.Builder().url(url).build();
 
@@ -203,31 +204,35 @@ public class API {
 
                 int shortest = plan.get(0).getAsJsonObject().get("duration").getAsInt();
                 int pos = 0;
+                boolean flag = false;
                 ArrayList<Section> sections = new ArrayList<>();
-                int flag=0;
 
                 for (int i = 0; i < plan.size(); i++) {
-
                     if (plan.get(i).getAsJsonObject().get("walkDistance").getAsDouble() <= maxWalkDistance ) {
-                        flag =1;
+                        flag = true;
+                    }
+                }
+
+                if(!flag){
+                    System.out.println("Error! all routes exceed max walk distance. Saving shortest time instead...");
+                    for (int i = 0; i < plan.size(); i++) {
                         if (shortest > plan.get(i).getAsJsonObject().get("duration").getAsInt()) {
                             shortest = plan.get(i).getAsJsonObject().get("duration").getAsInt();
                             pos = i;
                         }
-
-                    }
-
-                }
-                if(flag == 0){
-                    System.out.println("Error! all routes exceed max walk distance. Saving shortest time instead...");
-                }
-                for (int i = 0; i < plan.size(); i++) {
-                    if (shortest > plan.get(i).getAsJsonObject().get("duration").getAsInt()) {
-                        shortest = plan.get(i).getAsJsonObject().get("duration").getAsInt();
-                        pos = i;
                     }
                 }
 
+                else{
+                    for (int i = 0; i < plan.size(); i++) {
+                        if (plan.get(i).getAsJsonObject().get("walkDistance").getAsDouble() <= maxWalkDistance ) {
+                            if (shortest > plan.get(i).getAsJsonObject().get("duration").getAsInt()) {
+                                shortest = plan.get(i).getAsJsonObject().get("duration").getAsInt();
+                                pos = i;
+                            }
+                        }
+                    }
+                }
 
                 for (int i = 0; i < plan.get(pos).getAsJsonObject().get("legs").getAsJsonArray().size(); i++) {
 
@@ -255,6 +260,7 @@ public class API {
 
         } catch (IOException e) {
             e.printStackTrace();
+            System.out.println("FAILED TO BUILD ROUTE");
         }
 
         finally {
