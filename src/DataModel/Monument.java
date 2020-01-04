@@ -1,5 +1,7 @@
 package DataModel;
 
+
+
 public class Monument extends Location{
 
     private String architect;
